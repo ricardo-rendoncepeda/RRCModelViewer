@@ -73,7 +73,7 @@
         
         if([xmlParser parse])
         {
-            self.collada = self.geometry;
+            _collada = self.geometry;
             return YES;
         }
     }

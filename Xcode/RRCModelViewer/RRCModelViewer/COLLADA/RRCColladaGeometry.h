@@ -11,8 +11,8 @@
 
 @interface RRCColladaGeometry : RRCColladaObject
 
-@property (strong, nonatomic) NSString* identifier;
-@property (strong, nonatomic) NSString* name;
-@property (strong, nonatomic) RRCColladaMesh* mesh;
+@property (strong, nonatomic, readonly) NSString* identifier;
+@property (strong, nonatomic, readonly) NSString* name;
+@property (strong, nonatomic, readonly) RRCColladaMesh* mesh;
 
 @end

@@ -19,9 +19,9 @@ typedef NS_ENUM(NSInteger, RRCColladaInputSemantic)
     RRCColladaInputSemantic_TEXCOORD,
 };
 
-@property (strong, nonatomic) NSString* source;
-@property (readwrite) RRCColladaInputSemantic semantic;
-@property (readwrite) NSInteger offset;
+@property (strong, nonatomic, readonly) NSString* source;
+@property (assign, nonatomic, readonly) RRCColladaInputSemantic semantic;
+@property (assign, nonatomic, readonly) NSInteger offset;
 
 - (RRCColladaInputSemantic)semanticFromString:(NSString*)string;
 

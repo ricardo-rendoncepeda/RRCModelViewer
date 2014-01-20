@@ -10,6 +10,6 @@
 
 @interface RRCColladaVertices : RRCColladaInput
 
-@property (strong, nonatomic) NSString* identifier;
+@property (strong, nonatomic, readonly) NSString* identifier;
 
 @end

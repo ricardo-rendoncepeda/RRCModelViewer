@@ -13,8 +13,8 @@
 
 @interface RRCColladaMesh : RRCColladaObject
 
-@property (strong, nonatomic) RRCColladaPrimitive* primitive;
-@property (strong, nonatomic) RRCColladaVertices* vertices;
-@property (strong, nonatomic) NSArray* sources;
+@property (strong, nonatomic, readonly) RRCColladaPrimitive* primitive;
+@property (strong, nonatomic, readonly) RRCColladaVertices* vertices;
+@property (strong, nonatomic, readonly) NSArray* sources;
 
 @end

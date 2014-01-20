@@ -10,10 +10,10 @@
 
 @interface RRCOpenglesModel : NSObject
 
-@property (readonly) int count;
-@property (readonly) float* positions;
-@property (readonly) float* normals;
-@property (readonly) float* texels;
+@property (assign, nonatomic, readonly) int count;
+@property (assign, nonatomic, readonly) float* positions;
+@property (assign, nonatomic, readonly) float* normals;
+@property (assign, nonatomic, readonly) float* texels;
 
 - (instancetype)initWithCollada:(RRCColladaObject*)collada;
 - (BOOL)didConvertCollada;

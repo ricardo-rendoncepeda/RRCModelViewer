@@ -10,7 +10,7 @@
 
 @interface RRCColladaParser : NSObject
 
-@property (strong, nonatomic) RRCColladaObject* collada;
+@property (strong, nonatomic, readonly) RRCColladaObject* collada;
 
 - (instancetype)initWithXML:(NSString*)xml;
 - (BOOL)didParseXML;

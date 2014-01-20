@@ -10,10 +10,10 @@
 
 @interface RRCColladaSource : RRCColladaObject
 
-@property (strong, nonatomic) NSString* identifier;
-@property (strong, nonatomic) NSArray* floatArray;
-@property (readwrite) NSInteger size;
-@property (readwrite) NSInteger count;
-@property (readwrite) NSInteger stride;
+@property (strong, nonatomic, readonly) NSString* identifier;
+@property (strong, nonatomic, readonly) NSArray* floatArray;
+@property (assign, nonatomic, readonly) NSInteger size;
+@property (assign, nonatomic, readonly) NSInteger count;
+@property (assign, nonatomic, readonly) NSInteger stride;
 
 @end

@@ -16,8 +16,8 @@ typedef NS_ENUM(NSInteger, GLPrimitiveType)
     GLPrimitiveType_TRIANGLES,
 };
 
-@property (readwrite) GLPrimitiveType type;
-@property (strong, nonatomic) NSArray* primitives;
-@property (strong, nonatomic) NSArray* inputs;
+@property (assign, nonatomic, readonly) GLPrimitiveType type;
+@property (strong, nonatomic, readonly) NSArray* primitives;
+@property (strong, nonatomic, readonly) NSArray* inputs;
 
 @end

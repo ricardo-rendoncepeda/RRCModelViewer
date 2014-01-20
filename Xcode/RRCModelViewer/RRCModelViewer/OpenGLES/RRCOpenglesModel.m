@@ -11,7 +11,7 @@
 
 @interface RRCOpenglesModel ()
 
-@property (strong, nonatomic) RRCColladaObject* collada;
+@property (strong, nonatomic, readonly) RRCColladaObject* collada;
 
 @end
 
