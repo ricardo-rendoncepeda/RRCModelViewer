@@ -25,7 +25,7 @@ static NSString* const kRRCModel = @"Mushroom";
 {
     [super viewDidLoad];
     
-    NSLog(@"RRCiPhoneViewController:- viewDidLoad");
+    NSLog(@"%@:- viewDidLoad", [self class]);
     
     // Set up context
     EAGLContext* context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
@@ -59,7 +59,7 @@ static NSString* const kRRCModel = @"Mushroom";
     GLKTextureInfo* texture = [GLKTextureLoader textureWithContentsOfFile:path options:options error:&error];
     
     if(texture == nil)
-        NSLog(@"Error loading file: %@", [error localizedDescription]);
+        NSLog(@"%@:- Error loading texture: %@", [self class], [error localizedDescription]);
     
     self.effect.texture2d0.name = texture.name;
     self.effect.texture2d0.enabled = true;
@@ -80,21 +80,21 @@ static NSString* const kRRCModel = @"Mushroom";
     
     if([parser didParseXML])
     {
-        NSLog(@"RRCiPhoneViewController:- Successfully parsed XML");
+        NSLog(@"%@:- Successfully parsed XML", [self class]);
         self.model = [[RRCOpenglesModel alloc] initWithCollada:parser.collada];
         if([self.model didConvertCollada])
         {
-            NSLog(@"RRCiPhoneViewController:- Successfully converted COLLADA");
+            NSLog(@"%@:- Successfully converted COLLADA", [self class]);
         }
         else
         {
-            NSLog(@"RRCiPhoneViewController:- Error converting COLLADA");
+            NSLog(@"%@:- Error converting COLLADA", [self class]);
             exit(1);
         }
     }
     else
     {
-        NSLog(@"RRCiPhoneViewController:- Error parsing XML");
+        NSLog(@"%@:- Error parsing XML", [self class]);
         exit(1);
     }
 }

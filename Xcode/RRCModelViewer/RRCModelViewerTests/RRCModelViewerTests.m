@@ -30,7 +30,7 @@
 
 - (void)testParser
 {
-    NSLog(@"TEST:- Parser");
+    NSLog(@"%@:- Parser", [self class]);
     
     RRCColladaParser* parser = [[RRCColladaParser alloc] initWithXML:@"Models/Mushroom"];
     

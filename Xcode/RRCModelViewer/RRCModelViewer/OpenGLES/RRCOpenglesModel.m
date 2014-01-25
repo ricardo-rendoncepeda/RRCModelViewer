@@ -21,7 +21,7 @@
 {
     if(self = [super init])
     {
-        NSLog(@"RRCOpenglesObject:- initWithCollada: %@", collada);
+        NSLog(@"%@:- initWithCollada: %@", [self class], collada);
         _collada = collada;
     }
     return self;
@@ -106,7 +106,7 @@
 
 - (void)logOpenGLES
 {
-    NSLog(@"RRCOpenglesModel:- logOpenGLES");
+    NSLog(@"%@:- logOpenGLES", [self class]);
     NSLog(@"-count: %i", self.count);
     if(self.positions)
         NSLog(@"-positions: YES");

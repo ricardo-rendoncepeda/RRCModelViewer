@@ -49,7 +49,7 @@
 {
     if(self = [super init])
     {
-        NSLog(@"RRCColladaParser:- initWithXML: %@", xml);
+        NSLog(@"%@:- initWithXML: %@", [self class], xml);
         
         // Variables
         _verticesActive = NO;
@@ -248,7 +248,7 @@
 
 - (void)logCOLLADA
 {
-    NSLog(@"RRCColladaParser:- logCOLLADA");
+    NSLog(@"%@:- logCOLLADA", [self class]);
     NSLog(@"-GEOMETRY");
     NSLog(@"-identifier: %@", self.geometry.identifier);
     NSLog(@"-name: %@", self.geometry.name);
