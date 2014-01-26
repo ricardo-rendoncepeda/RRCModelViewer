@@ -35,6 +35,7 @@
 		80B6A175188B926C008551B4 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B6A174188B926C008551B4 /* GLKit.framework */; };
 		80B6A17D188B9805008551B4 /* RRCOpenglesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 80B6A17C188B9805008551B4 /* RRCOpenglesModel.m */; };
 		80B6A180188B9867008551B4 /* RRCiPhoneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 80B6A17F188B9867008551B4 /* RRCiPhoneViewController.m */; };
+		AE21406C189576DC00905FAB /* RRCShaderBlinnPhong.m in Sources */ = {isa = PBXBuildFile; fileRef = AE21406B189576DC00905FAB /* RRCShaderBlinnPhong.m */; };
 		AEDC3B1118944BB600C5DFC8 /* RRCiPadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AEDC3B1018944BB600C5DFC8 /* RRCiPadViewController.m */; };
 		AEDC3B1518944EE000C5DFC8 /* RRCShaderProgram.m in Sources */ = {isa = PBXBuildFile; fileRef = AEDC3B1418944EE000C5DFC8 /* RRCShaderProgram.m */; };
 		AEDC3B1918944FD600C5DFC8 /* RRCShaderLines.m in Sources */ = {isa = PBXBuildFile; fileRef = AEDC3B1818944FD600C5DFC8 /* RRCShaderLines.m */; };
@@ -93,6 +94,10 @@
 		80B6A17C188B9805008551B4 /* RRCOpenglesModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RRCOpenglesModel.m; sourceTree = "<group>"; };
 		80B6A17E188B9867008551B4 /* RRCiPhoneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RRCiPhoneViewController.h; sourceTree = "<group>"; };
 		80B6A17F188B9867008551B4 /* RRCiPhoneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RRCiPhoneViewController.m; sourceTree = "<group>"; };
+		AE21406A189576DC00905FAB /* RRCShaderBlinnPhong.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RRCShaderBlinnPhong.h; path = Shaders/RRCShaderBlinnPhong.h; sourceTree = "<group>"; };
+		AE21406B189576DC00905FAB /* RRCShaderBlinnPhong.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RRCShaderBlinnPhong.m; path = Shaders/RRCShaderBlinnPhong.m; sourceTree = "<group>"; };
+		AE21406D1895775000905FAB /* BlinnPhong.vsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = BlinnPhong.vsh; path = Shaders/BlinnPhong.vsh; sourceTree = "<group>"; };
+		AE21406E1895776D00905FAB /* BlinnPhong.fsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = BlinnPhong.fsh; path = Shaders/BlinnPhong.fsh; sourceTree = "<group>"; };
 		AEDC3B0F18944BB600C5DFC8 /* RRCiPadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RRCiPadViewController.h; sourceTree = "<group>"; };
 		AEDC3B1018944BB600C5DFC8 /* RRCiPadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RRCiPadViewController.m; sourceTree = "<group>"; };
 		AEDC3B1318944EE000C5DFC8 /* RRCShaderProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RRCShaderProgram.h; path = Shaders/RRCShaderProgram.h; sourceTree = "<group>"; };
@@ -311,11 +316,23 @@
 			path = OpenGLES;
 			sourceTree = "<group>";
 		};
+		AE2140691895768E00905FAB /* BlinnPhong */ = {
+			isa = PBXGroup;
+			children = (
+				AE21406A189576DC00905FAB /* RRCShaderBlinnPhong.h */,
+				AE21406B189576DC00905FAB /* RRCShaderBlinnPhong.m */,
+				AE21406D1895775000905FAB /* BlinnPhong.vsh */,
+				AE21406E1895776D00905FAB /* BlinnPhong.fsh */,
+			);
+			name = BlinnPhong;
+			sourceTree = "<group>";
+		};
 		AEDC3B1218944D6700C5DFC8 /* Shaders */ = {
 			isa = PBXGroup;
 			children = (
 				AEDC3B1318944EE000C5DFC8 /* RRCShaderProgram.h */,
 				AEDC3B1418944EE000C5DFC8 /* RRCShaderProgram.m */,
+				AE2140691895768E00905FAB /* BlinnPhong */,
 				AEDC3B1D1894960C00C5DFC8 /* Points */,
 				AEDC3B1618944F1700C5DFC8 /* Lines */,
 			);
@@ -456,6 +473,7 @@
 				AEDC3B1118944BB600C5DFC8 /* RRCiPadViewController.m in Sources */,
 				80B6A17D188B9805008551B4 /* RRCOpenglesModel.m in Sources */,
 				80B6A165188B9123008551B4 /* RRCColladaVertices.m in Sources */,
+				AE21406C189576DC00905FAB /* RRCShaderBlinnPhong.m in Sources */,
 				80B6A161188B9123008551B4 /* RRCColladaObject.m in Sources */,
 				80B6A162188B9123008551B4 /* RRCColladaParser.m in Sources */,
 				80B6A0D2188B7A5D008551B4 /* main.m in Sources */,

@@ -9,7 +9,6 @@
 #import "RRCShaderPoints.h"
 
 // Shaders
-#define STRINGIFY(A) #A
 #include "Points.vsh"
 #include "Points.fsh"
 

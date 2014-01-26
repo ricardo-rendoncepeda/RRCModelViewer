@@ -1,6 +1,6 @@
 // Fragment Shader
 
-static GLchar* const LinesFSH = STRINGIFY
+static char* const LinesFSH = STRINGIFY
 (
  void main(void)
  {

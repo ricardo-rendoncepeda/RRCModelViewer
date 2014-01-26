@@ -1,6 +1,6 @@
 // Vertex Shader
 
-static GLchar* const LinesVSH = STRINGIFY
+static char* const LinesVSH = STRINGIFY
 (
  // Attributes
  attribute vec3 aPosition;

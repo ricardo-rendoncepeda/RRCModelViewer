@@ -9,7 +9,6 @@
 #import "RRCShaderLines.h"
 
 // Shaders
-#define STRINGIFY(A) #A
 #include "Lines.vsh"
 #include "Lines.fsh"
 

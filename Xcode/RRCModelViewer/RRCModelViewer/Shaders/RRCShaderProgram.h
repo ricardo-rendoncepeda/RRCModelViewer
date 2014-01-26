@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 RendonCepeda. All rights reserved.
 //
 
+#define STRINGIFY(A) #A
+
 @interface RRCShaderProgram : NSObject
 
 // Program Handle
