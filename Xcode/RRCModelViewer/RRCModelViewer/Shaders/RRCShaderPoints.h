@@ -1,5 +1,5 @@
 //
-//  RRCShaderLines.h
+//  RRCShaderPoints.h
 //  RRCModelViewer
 //
 //  Created by RRC on 1/25/14.
@@ -8,7 +8,7 @@
 
 #import "RRCShaderProgram.h"
 
-@interface RRCShaderLines : RRCShaderProgram
+@interface RRCShaderPoints : RRCShaderProgram
 
 // Attribute Handles
 @property (assign, nonatomic, readonly) GLint aPosition;

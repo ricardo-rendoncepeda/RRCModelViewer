@@ -8,6 +8,9 @@
 
 @interface RRCShaderProgram : NSObject
 
+// Program Handle
+@property (assign, nonatomic, readwrite) GLuint program;
+
 - (GLuint)programWithVertexShader:(const char*)vsh fragmentShader:(const char*)fsh;
 
 @end

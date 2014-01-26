@@ -38,6 +38,7 @@
 		AEDC3B1118944BB600C5DFC8 /* RRCiPadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AEDC3B1018944BB600C5DFC8 /* RRCiPadViewController.m */; };
 		AEDC3B1518944EE000C5DFC8 /* RRCShaderProgram.m in Sources */ = {isa = PBXBuildFile; fileRef = AEDC3B1418944EE000C5DFC8 /* RRCShaderProgram.m */; };
 		AEDC3B1918944FD600C5DFC8 /* RRCShaderLines.m in Sources */ = {isa = PBXBuildFile; fileRef = AEDC3B1818944FD600C5DFC8 /* RRCShaderLines.m */; };
+		AEDC3B231894972200C5DFC8 /* RRCShaderPoints.m in Sources */ = {isa = PBXBuildFile; fileRef = AEDC3B1F1894962C00C5DFC8 /* RRCShaderPoints.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -98,6 +99,12 @@
 		AEDC3B1418944EE000C5DFC8 /* RRCShaderProgram.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RRCShaderProgram.m; path = Shaders/RRCShaderProgram.m; sourceTree = "<group>"; };
 		AEDC3B1718944FD600C5DFC8 /* RRCShaderLines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RRCShaderLines.h; path = Shaders/RRCShaderLines.h; sourceTree = "<group>"; };
 		AEDC3B1818944FD600C5DFC8 /* RRCShaderLines.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RRCShaderLines.m; path = Shaders/RRCShaderLines.m; sourceTree = "<group>"; };
+		AEDC3B1A18948D3D00C5DFC8 /* Lines.vsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = Lines.vsh; path = Shaders/Lines.vsh; sourceTree = "<group>"; };
+		AEDC3B1C1894901600C5DFC8 /* Lines.fsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = Lines.fsh; path = Shaders/Lines.fsh; sourceTree = "<group>"; };
+		AEDC3B1E1894962C00C5DFC8 /* RRCShaderPoints.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = RRCShaderPoints.h; path = Shaders/RRCShaderPoints.h; sourceTree = "<group>"; };
+		AEDC3B1F1894962C00C5DFC8 /* RRCShaderPoints.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = RRCShaderPoints.m; path = Shaders/RRCShaderPoints.m; sourceTree = "<group>"; };
+		AEDC3B211894967300C5DFC8 /* Points.vsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = Points.vsh; path = Shaders/Points.vsh; sourceTree = "<group>"; };
+		AEDC3B221894969000C5DFC8 /* Points.fsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = Points.fsh; path = Shaders/Points.fsh; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -309,6 +316,7 @@
 			children = (
 				AEDC3B1318944EE000C5DFC8 /* RRCShaderProgram.h */,
 				AEDC3B1418944EE000C5DFC8 /* RRCShaderProgram.m */,
+				AEDC3B1D1894960C00C5DFC8 /* Points */,
 				AEDC3B1618944F1700C5DFC8 /* Lines */,
 			);
 			name = Shaders;
@@ -319,8 +327,21 @@
 			children = (
 				AEDC3B1718944FD600C5DFC8 /* RRCShaderLines.h */,
 				AEDC3B1818944FD600C5DFC8 /* RRCShaderLines.m */,
+				AEDC3B1A18948D3D00C5DFC8 /* Lines.vsh */,
+				AEDC3B1C1894901600C5DFC8 /* Lines.fsh */,
 			);
 			name = Lines;
+			sourceTree = "<group>";
+		};
+		AEDC3B1D1894960C00C5DFC8 /* Points */ = {
+			isa = PBXGroup;
+			children = (
+				AEDC3B1E1894962C00C5DFC8 /* RRCShaderPoints.h */,
+				AEDC3B1F1894962C00C5DFC8 /* RRCShaderPoints.m */,
+				AEDC3B211894967300C5DFC8 /* Points.vsh */,
+				AEDC3B221894969000C5DFC8 /* Points.fsh */,
+			);
+			name = Points;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -430,6 +451,7 @@
 				80B6A15E188B9123008551B4 /* RRCColladaGeometry.m in Sources */,
 				80B6A164188B9123008551B4 /* RRCColladaSource.m in Sources */,
 				AEDC3B1518944EE000C5DFC8 /* RRCShaderProgram.m in Sources */,
+				AEDC3B231894972200C5DFC8 /* RRCShaderPoints.m in Sources */,
 				80B6A0D6188B7A5D008551B4 /* RRCAppDelegate.m in Sources */,
 				AEDC3B1118944BB600C5DFC8 /* RRCiPadViewController.m in Sources */,
 				80B6A17D188B9805008551B4 /* RRCOpenglesModel.m in Sources */,

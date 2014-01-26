@@ -1,26 +1,26 @@
 //
-//  RRCShaderLines.m
+//  RRCShaderPoints.m
 //  RRCModelViewer
 //
 //  Created by RRC on 1/25/14.
 //  Copyright (c) 2014 RendonCepeda. All rights reserved.
 //
 
-#import "RRCShaderLines.h"
+#import "RRCShaderPoints.h"
 
 // Shaders
 #define STRINGIFY(A) #A
-#include "Lines.vsh"
-#include "Lines.fsh"
+#include "Points.vsh"
+#include "Points.fsh"
 
-@implementation RRCShaderLines
+@implementation RRCShaderPoints
 
 - (instancetype)init
 {
     if(self = [super init])
     {
         // Program
-        self.program = [self programWithVertexShader:LinesVSH fragmentShader:LinesFSH];
+        self.program = [self programWithVertexShader:PointsVSH fragmentShader:PointsFSH];
         
         // Attributes
         _aPosition = glGetAttribLocation(self.program, "aPosition");
