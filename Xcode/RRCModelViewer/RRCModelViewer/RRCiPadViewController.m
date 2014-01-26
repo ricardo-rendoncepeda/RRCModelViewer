@@ -11,14 +11,20 @@
 #import "RRCOpenglesModel.h"
 #import "RRCShaderLines.h"
 #import "RRCShaderPoints.h"
+#import "RRCShaderBlinnPhong.h"
 
 static NSString* const kRRCModel = @"Mushroom";
 
 @interface RRCiPadViewController ()
 
+// Model
 @property (strong, nonatomic, readwrite) RRCOpenglesModel* model;
+@property (strong, nonatomic, readwrite) GLKTextureInfo* texture;
+
+// Shaders
 @property (strong, nonatomic, readwrite) RRCShaderLines* shaderLines;
 @property (strong, nonatomic, readwrite) RRCShaderPoints* shaderPoints;
+@property (strong, nonatomic, readwrite) RRCShaderBlinnPhong* shaderBlinnPhong;
 
 @end
 
@@ -42,13 +48,19 @@ static NSString* const kRRCModel = @"Mushroom";
     glClearColor(0.50f, 0.50f, 0.50f, 1.00f);
     glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     
     // Initialize Shaders
     self.shaderLines = [RRCShaderLines new];
     self.shaderPoints = [RRCShaderPoints new];
+    self.shaderBlinnPhong = [RRCShaderBlinnPhong new];
     
     // Load Model
     [self loadModel];
+    
+    // Load Texture
+    [self loadTexture];
 }
 
 - (void)loadModel
@@ -76,6 +88,18 @@ static NSString* const kRRCModel = @"Mushroom";
     }
 }
 
+- (void)loadTexture
+{
+    // Texture
+    NSDictionary* options = @{GLKTextureLoaderOriginBottomLeft:@YES};
+    NSError* error;
+    NSString* path = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"Models/%@Texture", kRRCModel] ofType:@".png"];
+    self.texture = [GLKTextureLoader textureWithContentsOfFile:path options:options error:&error];
+    
+    if(self.texture == nil)
+        NSLog(@"%@:- Error loading texture: %@", [self class], [error localizedDescription]);
+}
+
 - (void)setMatrices
 {
     // Projection Matrix
@@ -84,15 +108,24 @@ static NSString* const kRRCModel = @"Mushroom";
     const GLKMatrix4 projectionMatrix = GLKMatrix4MakePerspective(fieldView, aspectRatio, 0.1f, 10.0f);
     glUniformMatrix4fv(self.shaderLines.uProjectionMatrix, 1, 0, projectionMatrix.m);
     glUniformMatrix4fv(self.shaderPoints.uProjectionMatrix, 1, 0, projectionMatrix.m);
+    glUniformMatrix4fv(self.shaderBlinnPhong.uProjectionMatrix, 1, 0, projectionMatrix.m);
     
     // ModelView Matrix
     GLKMatrix4 modelViewMatrix = GLKMatrix4Identity;
     modelViewMatrix = GLKMatrix4Translate(modelViewMatrix, 0.0f, 0.0f, -5.0f);
     modelViewMatrix = GLKMatrix4RotateX(modelViewMatrix, GLKMathDegreesToRadians(-90.0f));
     modelViewMatrix = GLKMatrix4RotateZ(modelViewMatrix, GLKMathDegreesToRadians(90.0f));
-    modelViewMatrix = GLKMatrix4Scale(modelViewMatrix, 0.75f, 0.75f, 0.75f);
+    modelViewMatrix = GLKMatrix4Scale(modelViewMatrix, 0.95f, 0.95f, 0.95f);
     glUniformMatrix4fv(self.shaderLines.uModelViewMatrix, 1, 0, modelViewMatrix.m);
     glUniformMatrix4fv(self.shaderPoints.uModelViewMatrix, 1, 0, modelViewMatrix.m);
+    glUniformMatrix4fv(self.shaderBlinnPhong.uModelViewMatrix, 1, 0, modelViewMatrix.m);
+    
+    // Normal Matrix
+    bool invertible;
+    GLKMatrix3 normalMatrix = GLKMatrix4GetMatrix3(GLKMatrix4InvertAndTranspose(modelViewMatrix, &invertible));
+    if(!invertible)
+        NSLog(@"%@:- ModelView Matrix is not invertible", [self class]);
+    glUniformMatrix3fv(self.shaderBlinnPhong.uNormalMatrix, 1, 0, normalMatrix.m);
 }
 
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
@@ -114,7 +147,7 @@ static NSString* const kRRCModel = @"Mushroom";
     
     // Draw Model
     glLineWidth(4.0f);
-    glDrawArrays(GL_LINES, 0, self.model.count);
+    glDrawArrays(GL_LINE_STRIP, 0, self.model.count);
     
     // POINTS
     glUseProgram(self.shaderPoints.program);
@@ -131,6 +164,38 @@ static NSString* const kRRCModel = @"Mushroom";
     
     // Draw Model
     glDrawArrays(GL_POINTS, 0, self.model.count);
+    
+    // GEOMETRY
+    glUseProgram(self.shaderBlinnPhong.program);
+    
+    // Set Matrices
+    [self setMatrices];
+    
+    // Positions
+    if(self.model.positions)
+    {
+        glEnableVertexAttribArray(self.shaderBlinnPhong.aPosition);
+        glVertexAttribPointer(self.shaderBlinnPhong.aPosition, 3, GL_FLOAT, GL_FALSE, 0, self.model.positions);
+    }
+    
+    // Normals
+    if(self.model.normals)
+    {
+        glEnableVertexAttribArray(self.shaderBlinnPhong.aNormal);
+        glVertexAttribPointer(self.shaderBlinnPhong.aNormal, 3, GL_FLOAT, GL_FALSE, 0, self.model.normals);
+    }
+    
+    // Texels
+    if(self.model.texels)
+    {
+        glBindTexture(GL_TEXTURE_2D, self.texture.name);
+        glUniform1i(self.shaderBlinnPhong.uTexture, 0);
+        glEnableVertexAttribArray(self.shaderBlinnPhong.aTexel);
+        glVertexAttribPointer(self.shaderBlinnPhong.aTexel, 2, GL_FLOAT, GL_FALSE, 0, self.model.texels);
+    }
+    
+    // Draw Model
+    glDrawArrays(GL_TRIANGLES, 0, self.model.count);
 }
 
 - (void)update

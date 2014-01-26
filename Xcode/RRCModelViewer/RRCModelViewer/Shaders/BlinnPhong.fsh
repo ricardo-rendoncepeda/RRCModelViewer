@@ -4,7 +4,7 @@ static char* const BlinnPhongFSH = STRINGIFY
 (
 // Varying
  varying highp vec3 vNormal;
- varying highp vec3 vTexture;
+ varying highp vec2 vTexel;
  
  // Uniforms
  uniform sampler2D uTexture;
@@ -26,7 +26,7 @@ static char* const BlinnPhongFSH = STRINGIFY
      sf = pow(sf, exponent);
      
      lowp vec3 surface = ambient + (df*diffuse) + (sf*specular);
-     lowp vec3 texture = vec3(texture2D(uTexture, vTexture));
+     lowp vec3 texture = vec3(texture2D(uTexture, vTexel));
      
      gl_FragColor = vec4(surface*texture, 1.0);
  }

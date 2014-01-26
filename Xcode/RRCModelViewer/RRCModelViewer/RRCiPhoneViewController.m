@@ -14,8 +14,11 @@ static NSString* const kRRCModel = @"Mushroom";
 
 @interface RRCiPhoneViewController ()
 
-@property (strong, nonatomic, readwrite) GLKBaseEffect* effect;
+// Model
 @property (strong, nonatomic, readwrite) RRCOpenglesModel* model;
+
+// Effect
+@property (strong, nonatomic, readwrite) GLKBaseEffect* effect;
 
 @end
 

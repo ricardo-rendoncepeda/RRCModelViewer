@@ -10,4 +10,15 @@
 
 @interface RRCShaderBlinnPhong : RRCShaderProgram
 
+// Attribute Handles
+@property (assign, nonatomic, readonly) GLint aPosition;
+@property (assign, nonatomic, readonly) GLint aNormal;
+@property (assign, nonatomic, readonly) GLint aTexel;
+
+// Uniform Handles
+@property (assign, nonatomic, readonly) GLint uProjectionMatrix;
+@property (assign, nonatomic, readonly) GLint uModelViewMatrix;
+@property (assign, nonatomic, readonly) GLint uNormalMatrix;
+@property (assign, nonatomic, readonly) GLint uTexture;
+
 @end

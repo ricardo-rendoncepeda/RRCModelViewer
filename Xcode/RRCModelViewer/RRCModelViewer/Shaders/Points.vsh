@@ -11,7 +11,7 @@ static char* const PointsVSH = STRINGIFY
  
  void main(void)
  {
-     gl_PointSize = 16.0;
+     gl_PointSize = 8.0;
      gl_Position = uProjectionMatrix * uModelViewMatrix * vec4(aPosition, 1.0);
  }
 );
