@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		80652F581895DB2D007A0683 /* RRCSceneEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 80652F571895DB2D007A0683 /* RRCSceneEngine.m */; };
 		80B6A0C6188B7A5D008551B4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B6A0C5188B7A5D008551B4 /* Foundation.framework */; };
 		80B6A0C8188B7A5D008551B4 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B6A0C7188B7A5D008551B4 /* CoreGraphics.framework */; };
 		80B6A0CA188B7A5D008551B4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B6A0C9188B7A5D008551B4 /* UIKit.framework */; };
@@ -53,6 +54,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		80652F561895DB2D007A0683 /* RRCSceneEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RRCSceneEngine.h; path = Scene/RRCSceneEngine.h; sourceTree = "<group>"; };
+		80652F571895DB2D007A0683 /* RRCSceneEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RRCSceneEngine.m; path = Scene/RRCSceneEngine.m; sourceTree = "<group>"; };
 		80B6A0C2188B7A5D008551B4 /* RRCModelViewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RRCModelViewer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		80B6A0C5188B7A5D008551B4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		80B6A0C7188B7A5D008551B4 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -138,6 +141,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		80652F551895DB18007A0683 /* Scene */ = {
+			isa = PBXGroup;
+			children = (
+				80652F561895DB2D007A0683 /* RRCSceneEngine.h */,
+				80652F571895DB2D007A0683 /* RRCSceneEngine.m */,
+			);
+			name = Scene;
+			sourceTree = "<group>";
+		};
 		80B6A0B9188B7A5D008551B4 = {
 			isa = PBXGroup;
 			children = (
@@ -186,6 +198,7 @@
 				80B6A14D188B9123008551B4 /* COLLADA */,
 				80B6A17A188B9805008551B4 /* OpenGLES */,
 				AEDC3B1218944D6700C5DFC8 /* Shaders */,
+				80652F551895DB18007A0683 /* Scene */,
 				80B6A0CC188B7A5D008551B4 /* Supporting Files */,
 			);
 			path = RRCModelViewer;
@@ -465,6 +478,7 @@
 				80B6A163188B9123008551B4 /* RRCColladaPrimitive.m in Sources */,
 				80B6A180188B9867008551B4 /* RRCiPhoneViewController.m in Sources */,
 				80B6A160188B9123008551B4 /* RRCColladaMesh.m in Sources */,
+				80652F581895DB2D007A0683 /* RRCSceneEngine.m in Sources */,
 				80B6A15E188B9123008551B4 /* RRCColladaGeometry.m in Sources */,
 				80B6A164188B9123008551B4 /* RRCColladaSource.m in Sources */,
 				AEDC3B1518944EE000C5DFC8 /* RRCShaderProgram.m in Sources */,

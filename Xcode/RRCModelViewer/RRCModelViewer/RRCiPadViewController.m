@@ -12,6 +12,7 @@
 #import "RRCShaderLines.h"
 #import "RRCShaderPoints.h"
 #import "RRCShaderBlinnPhong.h"
+#import "RRCSceneEngine.h"
 
 static NSString* const kRRCModel = @"Mushroom";
 
@@ -25,6 +26,9 @@ static NSString* const kRRCModel = @"Mushroom";
 @property (strong, nonatomic, readwrite) RRCShaderLines* shaderLines;
 @property (strong, nonatomic, readwrite) RRCShaderPoints* shaderPoints;
 @property (strong, nonatomic, readwrite) RRCShaderBlinnPhong* shaderBlinnPhong;
+
+// Scene
+@property (strong, nonatomic, readwrite) RRCSceneEngine* scene;
 
 @end
 
@@ -56,11 +60,25 @@ static NSString* const kRRCModel = @"Mushroom";
     self.shaderPoints = [RRCShaderPoints new];
     self.shaderBlinnPhong = [RRCShaderBlinnPhong new];
     
+    // Load Scene
+    [self loadScene];
+    
     // Load Model
     [self loadModel];
     
     // Load Texture
     [self loadTexture];
+}
+
+- (void)loadScene
+{
+    self.scene = [[RRCSceneEngine alloc] initWithFOV:90.0f
+                                              aspect:(float)(self.view.bounds.size.width / self.view.bounds.size.height)
+                                                near:0.1f
+                                                 far:10.0f
+                                               scale:0.95f
+                                            position:GLKVector2Make(0.0f, 0.95f)
+                                         orientation:GLKVector3Make(90.0f, -90.0f, 0.0f)];
 }
 
 - (void)loadModel
@@ -103,29 +121,17 @@ static NSString* const kRRCModel = @"Mushroom";
 - (void)setMatrices
 {
     // Projection Matrix
-    const GLfloat aspectRatio = (GLfloat)(self.view.bounds.size.width) / (GLfloat)(self.view.bounds.size.height);
-    const GLfloat fieldView = GLKMathDegreesToRadians(90.0f);
-    const GLKMatrix4 projectionMatrix = GLKMatrix4MakePerspective(fieldView, aspectRatio, 0.1f, 10.0f);
-    glUniformMatrix4fv(self.shaderLines.uProjectionMatrix, 1, 0, projectionMatrix.m);
-    glUniformMatrix4fv(self.shaderPoints.uProjectionMatrix, 1, 0, projectionMatrix.m);
-    glUniformMatrix4fv(self.shaderBlinnPhong.uProjectionMatrix, 1, 0, projectionMatrix.m);
+    glUniformMatrix4fv(self.shaderLines.uProjectionMatrix, 1, 0, self.scene.projectionMatrix.m);
+    glUniformMatrix4fv(self.shaderPoints.uProjectionMatrix, 1, 0, self.scene.projectionMatrix.m);
+    glUniformMatrix4fv(self.shaderBlinnPhong.uProjectionMatrix, 1, 0, self.scene.projectionMatrix.m);
     
     // ModelView Matrix
-    GLKMatrix4 modelViewMatrix = GLKMatrix4Identity;
-    modelViewMatrix = GLKMatrix4Translate(modelViewMatrix, 0.0f, 0.0f, -5.0f);
-    modelViewMatrix = GLKMatrix4RotateX(modelViewMatrix, GLKMathDegreesToRadians(-90.0f));
-    modelViewMatrix = GLKMatrix4RotateZ(modelViewMatrix, GLKMathDegreesToRadians(90.0f));
-    modelViewMatrix = GLKMatrix4Scale(modelViewMatrix, 0.95f, 0.95f, 0.95f);
-    glUniformMatrix4fv(self.shaderLines.uModelViewMatrix, 1, 0, modelViewMatrix.m);
-    glUniformMatrix4fv(self.shaderPoints.uModelViewMatrix, 1, 0, modelViewMatrix.m);
-    glUniformMatrix4fv(self.shaderBlinnPhong.uModelViewMatrix, 1, 0, modelViewMatrix.m);
+    glUniformMatrix4fv(self.shaderLines.uModelViewMatrix, 1, 0, self.scene.modelViewMatrix.m);
+    glUniformMatrix4fv(self.shaderPoints.uModelViewMatrix, 1, 0, self.scene.modelViewMatrix.m);
+    glUniformMatrix4fv(self.shaderBlinnPhong.uModelViewMatrix, 1, 0, self.scene.modelViewMatrix.m);
     
     // Normal Matrix
-    bool invertible;
-    GLKMatrix3 normalMatrix = GLKMatrix4GetMatrix3(GLKMatrix4InvertAndTranspose(modelViewMatrix, &invertible));
-    if(!invertible)
-        NSLog(@"%@:- ModelView Matrix is not invertible", [self class]);
-    glUniformMatrix3fv(self.shaderBlinnPhong.uNormalMatrix, 1, 0, normalMatrix.m);
+    glUniformMatrix3fv(self.shaderBlinnPhong.uNormalMatrix, 1, 0, self.scene.normalMatrix.m);
 }
 
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
