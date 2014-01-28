@@ -14,7 +14,7 @@
 #import "RRCShaderBlinnPhong.h"
 #import "RRCSceneEngine.h"
 
-static NSString* const kRRCModel = @"Mushroom";
+static NSString* const kRRCModel = @"Fishman";
 
 @interface RRCiPadViewController ()
 
@@ -206,6 +206,53 @@ static NSString* const kRRCModel = @"Mushroom";
 
 - (void)update
 {
+}
+
+#pragma mark - IBActions
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [self.scene beginTransformations];
+}
+
+- (IBAction)pinch:(UIPinchGestureRecognizer *)sender
+{
+    // Pinch
+    if((self.scene.transformation == RRCSceneEngineTransformations_NEW) || (self.scene.transformation == RRCSceneEngineTransformations_SCALE))
+    {
+        float scale = [sender scale];
+        [self.scene scale:scale];
+    }
+}
+
+- (IBAction)pan:(UIPanGestureRecognizer *)sender
+{
+    // Pan (1 Finger)
+    if((sender.numberOfTouches == 1) &&
+       ((self.scene.transformation == RRCSceneEngineTransformations_NEW) || (self.scene.transformation == RRCSceneEngineTransformations_TRANSLATE)))
+    {
+        CGPoint translation = [sender translationInView:sender.view];
+        float x = translation.x/sender.view.frame.size.width;
+        float y = translation.y/sender.view.frame.size.height;
+        [self.scene translate:GLKVector2Make(x, y) withMultiplier:5.0f];
+    }
+    
+    // Pan (2 Fingers)
+    else if((sender.numberOfTouches == 2) &&
+            ((self.scene.transformation == RRCSceneEngineTransformations_NEW) || (self.scene.transformation == RRCSceneEngineTransformations_ROTATE)))
+    {
+        CGPoint rotation = [sender translationInView:sender.view];
+        [self.scene rotate:GLKVector3Make(rotation.x, rotation.y, 0.0f) withMultiplier:0.5f];
+    }
+}
+
+- (IBAction)rotation:(UIRotationGestureRecognizer *)sender
+{
+    // Rotation
+    if((self.scene.transformation == RRCSceneEngineTransformations_NEW) || (self.scene.transformation == RRCSceneEngineTransformations_ROTATE))
+    {
+        float rotation = [sender rotation];
+        [self.scene rotate:GLKVector3Make(0.0f, 0.0f, rotation) withMultiplier:GLKMathDegreesToRadians(1.0)];
+    }
 }
 
 @end

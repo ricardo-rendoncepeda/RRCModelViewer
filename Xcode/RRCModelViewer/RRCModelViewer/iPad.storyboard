@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4514" systemVersion="13A603" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="vSe-JL-UCo">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4514" systemVersion="12F45" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="vSe-JL-UCo">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
     </dependencies>
@@ -15,14 +15,33 @@
                     <glkView key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" drawableDepthFormat="16" id="vcE-ZT-whj">
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <gestureRecognizers/>
                         <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                         <connections>
                             <outlet property="delegate" destination="vSe-JL-UCo" id="Dwt-8B-IMT"/>
+                            <outletCollection property="gestureRecognizers" destination="MNV-If-6BO" appends="YES" id="gho-N5-8Ob"/>
+                            <outletCollection property="gestureRecognizers" destination="kIf-hr-irV" appends="YES" id="VIj-cm-69a"/>
+                            <outletCollection property="gestureRecognizers" destination="tmJ-xg-aGa" appends="YES" id="Kdw-eu-kcd"/>
                         </connections>
                     </glkView>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                 </glkViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FNN-dj-J2O" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <pinchGestureRecognizer id="kIf-hr-irV">
+                    <connections>
+                        <action selector="pinch:" destination="vSe-JL-UCo" id="Bjf-vg-8SU"/>
+                    </connections>
+                </pinchGestureRecognizer>
+                <panGestureRecognizer minimumNumberOfTouches="1" maximumNumberOfTouches="2" id="MNV-If-6BO">
+                    <connections>
+                        <action selector="pan:" destination="vSe-JL-UCo" id="kuV-6U-SSr"/>
+                    </connections>
+                </panGestureRecognizer>
+                <rotationGestureRecognizer id="tmJ-xg-aGa">
+                    <connections>
+                        <action selector="rotation:" destination="vSe-JL-UCo" id="ScH-mR-9LW"/>
+                    </connections>
+                </rotationGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="187" y="-11"/>
         </scene>
