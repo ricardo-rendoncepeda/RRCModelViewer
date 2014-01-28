@@ -11,12 +11,12 @@
 @interface RRCSceneEngine ()
 
 // Transformations
-@property (assign, nonatomic, readwrite) float pScale;
-@property (assign, nonatomic, readwrite) float cScale;
-@property (assign, nonatomic, readwrite) GLKVector2 pTranslation;
-@property (assign, nonatomic, readwrite) GLKVector2 cTranslation;
-@property (assign, nonatomic, readwrite) GLKVector3 pRotation;
-@property (assign, nonatomic, readwrite) GLKQuaternion cRotation;
+@property (assign, nonatomic, readwrite) float beginScale;
+@property (assign, nonatomic, readwrite) float endScale;
+@property (assign, nonatomic, readwrite) GLKVector2 beginTranslation;
+@property (assign, nonatomic, readwrite) GLKVector2 endTranslation;
+@property (assign, nonatomic, readwrite) GLKVector3 beginRotation;
+@property (assign, nonatomic, readwrite) GLKQuaternion endRotation;
 
 @end
 
@@ -31,6 +31,7 @@
     float       _depth;
 }
 
+#pragma mark - init
 - (instancetype)initWithFOV:(float)fov aspect:(float)aspect near:(float)near far:(float)far scale:(float)scale position:(GLKVector2)position orientation:(GLKVector3)orientation
 {
     if(self = [super init])
@@ -44,15 +45,15 @@
         _depth = (near+far)/2.0f;
         
         // Transformations
-        _pScale = _cScale = scale;
-        _pTranslation = _cTranslation = position;
-        _pRotation = orientation;
+        _beginScale = _endScale = scale;
+        _beginTranslation = _endTranslation = position;
+        _beginRotation = orientation;
         
-        _cRotation = GLKQuaternionIdentity;
-        orientation = GLKVector3Make(GLKMathDegreesToRadians(orientation.x), GLKMathDegreesToRadians(orientation.y), GLKMathDegreesToRadians(orientation.z));
-        _cRotation = GLKQuaternionMultiply(GLKQuaternionMakeWithAngleAndVector3Axis(-orientation.x, _vectorRight), _cRotation);
-        _cRotation = GLKQuaternionMultiply(GLKQuaternionMakeWithAngleAndVector3Axis(-orientation.y, _vectorUp), _cRotation);
-        _cRotation = GLKQuaternionMultiply(GLKQuaternionMakeWithAngleAndVector3Axis(-orientation.z, _vectorFront), _cRotation);
+        _endRotation = GLKQuaternionIdentity;
+        orientation = GLKVector3MultiplyScalar(orientation, GLKMathDegreesToRadians(1.0));
+        _endRotation = GLKQuaternionMultiply(GLKQuaternionMakeWithAngleAndVector3Axis(-orientation.x, _vectorRight), _endRotation);
+        _endRotation = GLKQuaternionMultiply(GLKQuaternionMakeWithAngleAndVector3Axis(-orientation.y, _vectorUp), _endRotation);
+        _endRotation = GLKQuaternionMultiply(GLKQuaternionMakeWithAngleAndVector3Axis(-orientation.z, _vectorFront), _endRotation);
         
         // Projection Matrix
         _projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(fov), aspect, near, far);
@@ -60,12 +61,13 @@
     return self;
 }
 
+#pragma mark - Properties
 - (GLKMatrix4)modelViewMatrix
 {
     GLKMatrix4 modelViewMatrix = GLKMatrix4Identity;
-    modelViewMatrix = GLKMatrix4Translate(modelViewMatrix, _cTranslation.x, _cTranslation.y, -_depth);
-    modelViewMatrix = GLKMatrix4Multiply(modelViewMatrix, GLKMatrix4MakeWithQuaternion(_cRotation));
-    modelViewMatrix = GLKMatrix4Scale(modelViewMatrix, _cScale, _cScale, _cScale);
+    modelViewMatrix = GLKMatrix4Translate(modelViewMatrix, self.endTranslation.x, self.endTranslation.y, -_depth);
+    modelViewMatrix = GLKMatrix4Multiply(modelViewMatrix, GLKMatrix4MakeWithQuaternion(self.endRotation));
+    modelViewMatrix = GLKMatrix4Scale(modelViewMatrix, self.endScale, self.endScale, self.endScale);
     
     return modelViewMatrix;
 }
@@ -78,6 +80,49 @@
         NSLog(@"%@:- ModelView Matrix is not invertible", [self class]);
     
     return normalMatrix;
+}
+
+#pragma mark - Methods
+- (void)beginTransformations
+{
+    self.transformation = RRCSceneEngineTransformations_NEW;
+    self.beginScale = self.endScale;
+    self.beginTranslation = GLKVector2Make(0.0f, 0.0f);
+    self.beginRotation = GLKVector3Make(0.0f, 0.0f, 0.0f);
+}
+
+- (void)scale:(float)s
+{
+    self.transformation = RRCSceneEngineTransformations_SCALE;
+    
+    self.endScale = s*self.beginScale;
+}
+
+- (void)translate:(GLKVector2)t withMultiplier:(float)m
+{
+    self.transformation = RRCSceneEngineTransformations_TRANSLATE;
+    
+    t = GLKVector2MultiplyScalar(t, m);
+    float dx = self.endTranslation.x + (t.x-self.beginTranslation.x);
+    float dy = self.endTranslation.y + (t.y-self.beginTranslation.y);
+    
+    self.beginTranslation = GLKVector2Make(t.x, t.y);
+    self.endTranslation = GLKVector2Make(dx, dy);
+}
+
+- (void)rotate:(GLKVector3)r withMultiplier:(float)m
+{
+    self.transformation = RRCSceneEngineTransformations_ROTATE;
+    
+    m = GLKMathDegreesToRadians(m);
+    float dx = r.x - self.beginRotation.x;
+    float dy = r.y - self.beginRotation.y;
+    float dz = r.z - self.beginRotation.z;
+    
+    self.beginRotation = GLKVector3Make(r.x, r.y, r.z);
+    self.endRotation = GLKQuaternionMultiply(GLKQuaternionMakeWithAngleAndVector3Axis(dx*m, _vectorUp), self.endRotation);
+    self.endRotation = GLKQuaternionMultiply(GLKQuaternionMakeWithAngleAndVector3Axis(dy*m, _vectorUp), self.endRotation);
+    self.endRotation = GLKQuaternionMultiply(GLKQuaternionMakeWithAngleAndVector3Axis(-dz, _vectorUp), self.endRotation);
 }
 
 @end

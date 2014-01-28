@@ -22,5 +22,9 @@ typedef NS_ENUM(NSInteger, RRCSceneEngineTransformations)
 @property (assign, nonatomic, readwrite) RRCSceneEngineTransformations transformation;
 
 - (instancetype)initWithFOV:(float)fov aspect:(float)aspect near:(float)near far:(float)far scale:(float)scale position:(GLKVector2)position orientation:(GLKVector3)orientation;
+- (void)beginTransformations;
+- (void)scale:(float)s;
+- (void)translate:(GLKVector2)t withMultiplier:(float)m;
+- (void)rotate:(GLKVector3)r withMultiplier:(float)m;
 
 @end
