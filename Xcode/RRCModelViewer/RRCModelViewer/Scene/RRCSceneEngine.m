@@ -85,7 +85,6 @@
 #pragma mark - Methods
 - (void)beginTransformations
 {
-    self.transformation = RRCSceneEngineTransformations_NEW;
     self.beginScale = self.endScale;
     self.beginTranslation = GLKVector2Make(0.0f, 0.0f);
     self.beginRotation = GLKVector3Make(0.0f, 0.0f, 0.0f);
@@ -93,15 +92,11 @@
 
 - (void)scale:(float)s
 {
-    self.transformation = RRCSceneEngineTransformations_SCALE;
-    
     self.endScale = s*self.beginScale;
 }
 
 - (void)translate:(GLKVector2)t withMultiplier:(float)m
 {
-    self.transformation = RRCSceneEngineTransformations_TRANSLATE;
-    
     t = GLKVector2MultiplyScalar(t, m);
     float dx = self.endTranslation.x + (t.x-self.beginTranslation.x);
     float dy = self.endTranslation.y + (t.y-self.beginTranslation.y);
@@ -112,8 +107,6 @@
 
 - (void)rotate:(GLKVector3)r withMultiplier:(float)m
 {
-    self.transformation = RRCSceneEngineTransformations_ROTATE;
-    
     m = GLKMathDegreesToRadians(m);
     float dx = r.x - self.beginRotation.x;
     float dy = r.y - self.beginRotation.y;
@@ -121,8 +114,8 @@
     
     self.beginRotation = GLKVector3Make(r.x, r.y, r.z);
     self.endRotation = GLKQuaternionMultiply(GLKQuaternionMakeWithAngleAndVector3Axis(dx*m, _vectorUp), self.endRotation);
-    self.endRotation = GLKQuaternionMultiply(GLKQuaternionMakeWithAngleAndVector3Axis(dy*m, _vectorUp), self.endRotation);
-    self.endRotation = GLKQuaternionMultiply(GLKQuaternionMakeWithAngleAndVector3Axis(-dz, _vectorUp), self.endRotation);
+    self.endRotation = GLKQuaternionMultiply(GLKQuaternionMakeWithAngleAndVector3Axis(dy*m, _vectorRight), self.endRotation);
+    self.endRotation = GLKQuaternionMultiply(GLKQuaternionMakeWithAngleAndVector3Axis(-dz, _vectorFront), self.endRotation);
 }
 
 @end

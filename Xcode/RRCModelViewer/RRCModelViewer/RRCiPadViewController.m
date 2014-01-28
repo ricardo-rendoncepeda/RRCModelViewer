@@ -14,9 +14,9 @@
 #import "RRCShaderBlinnPhong.h"
 #import "RRCSceneEngine.h"
 
-static NSString* const kRRCModel = @"Fishman";
+static NSString* const kRRCModel = @"Mushroom";
 
-@interface RRCiPadViewController ()
+@interface RRCiPadViewController () <UIGestureRecognizerDelegate>
 
 // Model
 @property (strong, nonatomic, readwrite) RRCOpenglesModel* model;
@@ -153,7 +153,9 @@ static NSString* const kRRCModel = @"Fishman";
     
     // Draw Model
     glLineWidth(4.0f);
-    glDrawArrays(GL_LINE_STRIP, 0, self.model.count);
+    for(int i=0; i<self.model.count; i+=3)
+        glDrawArrays(GL_LINE_STRIP, i, 2);
+//    glDrawArrays(GL_LINE_STRIP, 0, self.model.count);
     
     // POINTS
     glUseProgram(self.shaderPoints.program);
@@ -209,36 +211,33 @@ static NSString* const kRRCModel = @"Fishman";
 }
 
 #pragma mark - IBActions
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
 {
     [self.scene beginTransformations];
+    
+    return YES;
 }
 
 - (IBAction)pinch:(UIPinchGestureRecognizer *)sender
 {
     // Pinch
-    if((self.scene.transformation == RRCSceneEngineTransformations_NEW) || (self.scene.transformation == RRCSceneEngineTransformations_SCALE))
-    {
-        float scale = [sender scale];
-        [self.scene scale:scale];
-    }
+    float scale = [sender scale];
+    [self.scene scale:scale];
 }
 
 - (IBAction)pan:(UIPanGestureRecognizer *)sender
 {
     // Pan (1 Finger)
-    if((sender.numberOfTouches == 1) &&
-       ((self.scene.transformation == RRCSceneEngineTransformations_NEW) || (self.scene.transformation == RRCSceneEngineTransformations_TRANSLATE)))
+    if(sender.numberOfTouches == 1)
     {
         CGPoint translation = [sender translationInView:sender.view];
         float x = translation.x/sender.view.frame.size.width;
         float y = translation.y/sender.view.frame.size.height;
-        [self.scene translate:GLKVector2Make(x, y) withMultiplier:5.0f];
+        [self.scene translate:GLKVector2Make(x, -y) withMultiplier:5.0f];
     }
     
     // Pan (2 Fingers)
-    else if((sender.numberOfTouches == 2) &&
-            ((self.scene.transformation == RRCSceneEngineTransformations_NEW) || (self.scene.transformation == RRCSceneEngineTransformations_ROTATE)))
+    else if(sender.numberOfTouches == 2)
     {
         CGPoint rotation = [sender translationInView:sender.view];
         [self.scene rotate:GLKVector3Make(rotation.x, rotation.y, 0.0f) withMultiplier:0.5f];
@@ -248,11 +247,8 @@ static NSString* const kRRCModel = @"Fishman";
 - (IBAction)rotation:(UIRotationGestureRecognizer *)sender
 {
     // Rotation
-    if((self.scene.transformation == RRCSceneEngineTransformations_NEW) || (self.scene.transformation == RRCSceneEngineTransformations_ROTATE))
-    {
-        float rotation = [sender rotation];
-        [self.scene rotate:GLKVector3Make(0.0f, 0.0f, rotation) withMultiplier:GLKMathDegreesToRadians(1.0)];
-    }
+    float rotation = [sender rotation];
+    [self.scene rotate:GLKVector3Make(0.0f, 0.0f, rotation) withMultiplier:GLKMathDegreesToRadians(1.0)];
 }
 
 @end

@@ -30,16 +30,19 @@
                 <pinchGestureRecognizer id="kIf-hr-irV">
                     <connections>
                         <action selector="pinch:" destination="vSe-JL-UCo" id="Bjf-vg-8SU"/>
+                        <outlet property="delegate" destination="vSe-JL-UCo" id="ztO-ni-7DU"/>
                     </connections>
                 </pinchGestureRecognizer>
                 <panGestureRecognizer minimumNumberOfTouches="1" maximumNumberOfTouches="2" id="MNV-If-6BO">
                     <connections>
                         <action selector="pan:" destination="vSe-JL-UCo" id="kuV-6U-SSr"/>
+                        <outlet property="delegate" destination="vSe-JL-UCo" id="SEJ-gf-iZ2"/>
                     </connections>
                 </panGestureRecognizer>
                 <rotationGestureRecognizer id="tmJ-xg-aGa">
                     <connections>
                         <action selector="rotation:" destination="vSe-JL-UCo" id="ScH-mR-9LW"/>
+                        <outlet property="delegate" destination="vSe-JL-UCo" id="WNp-pP-2CB"/>
                     </connections>
                 </rotationGestureRecognizer>
             </objects>
