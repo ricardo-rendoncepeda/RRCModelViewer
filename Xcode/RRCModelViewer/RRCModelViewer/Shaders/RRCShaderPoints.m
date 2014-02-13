@@ -14,21 +14,22 @@
 
 @implementation RRCShaderPoints
 
+#pragma mark - init
 - (instancetype)init
 {
-    if(self = [super init])
+    if(self = [super initWithVertexShader:PointsVSH fragmentShader:PointsFSH])
     {
-        // Program
-        self.program = [self programWithVertexShader:PointsVSH fragmentShader:PointsFSH];
-        
-        // Attributes
-        _aPosition = glGetAttribLocation(self.program, "aPosition");
-        
-        // Uniforms
-        _uProjectionMatrix = glGetUniformLocation(self.program, "uProjectionMatrix");
-        _uModelViewMatrix = glGetUniformLocation(self.program, "uModelViewMatrix");
     }
     return self;
+}
+
+#pragma mark - Render
+- (void)renderModel:(RRCOpenglesModel *)model inScene:(RRCSceneEngine *)scene
+{
+    [super renderModel:model inScene:scene];
+    
+    // Draw Model
+    glDrawArrays(GL_POINTS, 0, model.count);
 }
 
 @end

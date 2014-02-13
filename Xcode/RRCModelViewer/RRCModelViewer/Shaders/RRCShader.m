@@ -10,6 +10,25 @@
 
 @implementation RRCShader
 
+#pragma mark - init
+- (instancetype)initWithVertexShader:(const char *)vsh fragmentShader:(const char *)fsh
+{
+    if(self = [super init])
+    {
+        // Program
+        _program = [self programWithVertexShader:vsh fragmentShader:fsh];
+        
+        // Attributes
+        _aPosition = glGetAttribLocation(self.program, "aPosition");
+        
+        // Uniforms
+        _uProjectionMatrix = glGetUniformLocation(self.program, "uProjectionMatrix");
+        _uModelViewMatrix = glGetUniformLocation(self.program, "uModelViewMatrix");
+    }
+    return self;
+}
+
+#pragma mark - Compile & Link
 - (GLuint)programWithVertexShader:(const char*)vsh fragmentShader:(const char*)fsh
 {
     // Build shaders
@@ -65,6 +84,26 @@
     }
     
     return shaderHandle;
+}
+
+#pragma mark - Render
+- (void)renderModel:(RRCOpenglesModel *)model inScene:(RRCSceneEngine *)scene
+{
+    // Program
+    glUseProgram(self.program);
+    
+    // Projection Matrix
+    glUniformMatrix4fv(self.uProjectionMatrix, 1, 0, scene.projectionMatrix.m);
+    
+    // ModelView Matrix
+    glUniformMatrix4fv(self.uModelViewMatrix, 1, 0, scene.modelViewMatrix.m);
+    
+    // Positions
+    if(model.positions)
+    {
+        glEnableVertexAttribArray(self.aPosition);
+        glVertexAttribPointer(self.aPosition, 3, GL_FLOAT, GL_FALSE, 0, model.positions);
+    }
 }
 
 @end

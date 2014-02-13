@@ -14,21 +14,24 @@
 
 @implementation RRCShaderLines
 
+#pragma mark - init
 - (instancetype)init
 {
-    if(self = [super init])
+    if(self = [super initWithVertexShader:LinesVSH fragmentShader:LinesFSH])
     {
-        // Program
-        self.program = [self programWithVertexShader:LinesVSH fragmentShader:LinesFSH];
-        
-        // Attributes
-        _aPosition = glGetAttribLocation(self.program, "aPosition");
-        
-        // Uniforms
-        _uProjectionMatrix = glGetUniformLocation(self.program, "uProjectionMatrix");
-        _uModelViewMatrix = glGetUniformLocation(self.program, "uModelViewMatrix");
     }
     return self;
+}
+
+#pragma mark - Render
+- (void)renderModel:(RRCOpenglesModel *)model inScene:(RRCSceneEngine *)scene
+{
+    [super renderModel:model inScene:scene];
+    
+    // Draw Model
+    glLineWidth(4.0f);
+    for(int i=0; i<model.count; i+=3)
+        glDrawArrays(GL_LINE_STRIP, i, 2);
 }
 
 @end

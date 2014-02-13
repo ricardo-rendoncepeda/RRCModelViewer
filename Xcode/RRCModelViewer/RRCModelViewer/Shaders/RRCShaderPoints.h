@@ -10,11 +10,4 @@
 
 @interface RRCShaderPoints : RRCShader
 
-// Attribute Handles
-@property (assign, nonatomic, readonly) GLint aPosition;
-
-// Uniform Handles
-@property (assign, nonatomic, readonly) GLint uProjectionMatrix;
-@property (assign, nonatomic, readonly) GLint uModelViewMatrix;
-
 @end

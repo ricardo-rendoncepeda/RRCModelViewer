@@ -8,11 +8,22 @@
 
 #define STRINGIFY(A) #A
 
+#import "RRCOpenglesModel.h"
+#import "RRCSceneEngine.h"
+
 @interface RRCShader : NSObject
 
 // Program Handle
 @property (assign, nonatomic, readwrite) GLuint program;
 
-- (GLuint)programWithVertexShader:(const char*)vsh fragmentShader:(const char*)fsh;
+// Attribute Handles
+@property (assign, nonatomic, readonly) GLint aPosition;
+
+// Uniform Handles
+@property (assign, nonatomic, readonly) GLint uProjectionMatrix;
+@property (assign, nonatomic, readonly) GLint uModelViewMatrix;
+
+- (instancetype)initWithVertexShader:(const char*)vsh fragmentShader:(const char*)fsh;
+- (void)renderModel:(RRCOpenglesModel*)model inScene:(RRCSceneEngine*)scene;
 
 @end

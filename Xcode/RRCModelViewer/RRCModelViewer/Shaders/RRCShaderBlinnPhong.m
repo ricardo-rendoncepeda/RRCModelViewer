@@ -14,25 +14,48 @@
 
 @implementation RRCShaderBlinnPhong
 
+#pragma mark - init
 - (instancetype)init
 {
-    if(self = [super init])
+    if(self = [super initWithVertexShader:BlinnPhongVSH fragmentShader:BlinnPhongFSH])
     {
-        // Program
-        self.program = [self programWithVertexShader:BlinnPhongVSH fragmentShader:BlinnPhongFSH];
-        
         // Attributes
-        _aPosition = glGetAttribLocation(self.program, "aPosition");
         _aNormal = glGetAttribLocation(self.program, "aNormal");
         _aTexel = glGetAttribLocation(self.program, "aTexel");
         
         // Uniforms
-        _uProjectionMatrix = glGetUniformLocation(self.program, "uProjectionMatrix");
-        _uModelViewMatrix = glGetUniformLocation(self.program, "uModelViewMatrix");
         _uNormalMatrix = glGetUniformLocation(self.program, "uNormalMatrix");
         _uTexture = glGetUniformLocation(self.program, "uTexture");
     }
     return self;
+}
+
+#pragma mark - Render
+- (void)renderModel:(RRCOpenglesModel *)model inScene:(RRCSceneEngine *)scene withTexture:(GLKTextureInfo *)texture
+{
+    [super renderModel:model inScene:scene];
+    
+    // Normal Matrix
+    glUniformMatrix3fv(self.uNormalMatrix, 1, 0, scene.normalMatrix.m);
+    
+    // Normals
+    if(model.normals)
+    {
+        glEnableVertexAttribArray(self.aNormal);
+        glVertexAttribPointer(self.aNormal, 3, GL_FLOAT, GL_FALSE, 0, model.normals);
+    }
+    
+    // Texels
+    if(model.texels)
+    {
+        glBindTexture(GL_TEXTURE_2D, texture.name);
+        glUniform1i(self.uTexture, 0);
+        glEnableVertexAttribArray(self.aTexel);
+        glVertexAttribPointer(self.aTexel, 2, GL_FLOAT, GL_FALSE, 0, model.texels);
+    }
+    
+    // Draw Model
+    glDrawArrays(GL_TRIANGLES, 0, model.count);
 }
 
 @end

@@ -118,20 +118,13 @@ static NSString* const kRRCModel = @"Mushroom";
         NSLog(@"%@:- Error loading texture: %@", [self class], [error localizedDescription]);
 }
 
-- (void)setMatrices
+- (void)setMVPMatricesForShader:(RRCShader*)shader
 {
     // Projection Matrix
-    glUniformMatrix4fv(self.shaderLines.uProjectionMatrix, 1, 0, self.scene.projectionMatrix.m);
-    glUniformMatrix4fv(self.shaderPoints.uProjectionMatrix, 1, 0, self.scene.projectionMatrix.m);
-    glUniformMatrix4fv(self.shaderBlinnPhong.uProjectionMatrix, 1, 0, self.scene.projectionMatrix.m);
+    glUniformMatrix4fv(shader.uProjectionMatrix, 1, 0, self.scene.projectionMatrix.m);
     
     // ModelView Matrix
-    glUniformMatrix4fv(self.shaderLines.uModelViewMatrix, 1, 0, self.scene.modelViewMatrix.m);
-    glUniformMatrix4fv(self.shaderPoints.uModelViewMatrix, 1, 0, self.scene.modelViewMatrix.m);
-    glUniformMatrix4fv(self.shaderBlinnPhong.uModelViewMatrix, 1, 0, self.scene.modelViewMatrix.m);
-    
-    // Normal Matrix
-    glUniformMatrix3fv(self.shaderBlinnPhong.uNormalMatrix, 1, 0, self.scene.normalMatrix.m);
+    glUniformMatrix4fv(shader.uModelViewMatrix, 1, 0, self.scene.modelViewMatrix.m);
 }
 
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
@@ -139,71 +132,13 @@ static NSString* const kRRCModel = @"Mushroom";
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     // LINES
-    glUseProgram(self.shaderLines.program);
-    
-    // Set Matrices
-    [self setMatrices];
-    
-    // Positions
-    if(self.model.positions)
-    {
-        glEnableVertexAttribArray(self.shaderLines.aPosition);
-        glVertexAttribPointer(self.shaderLines.aPosition, 3, GL_FLOAT, GL_FALSE, 0, self.model.positions);
-    }
-    
-    // Draw Model
-    glLineWidth(4.0f);
-    for(int i=0; i<self.model.count; i+=3)
-        glDrawArrays(GL_LINE_STRIP, i, 2);
-//    glDrawArrays(GL_LINE_STRIP, 0, self.model.count);
+    [self.shaderLines renderModel:self.model inScene:self.scene];
     
     // POINTS
-    glUseProgram(self.shaderPoints.program);
-    
-    // Set Matrices
-    [self setMatrices];
-    
-    // Positions
-    if(self.model.positions)
-    {
-        glEnableVertexAttribArray(self.shaderPoints.aPosition);
-        glVertexAttribPointer(self.shaderPoints.aPosition, 3, GL_FLOAT, GL_FALSE, 0, self.model.positions);
-    }
-    
-    // Draw Model
-    glDrawArrays(GL_POINTS, 0, self.model.count);
+    [self.shaderPoints renderModel:self.model inScene:self.scene];
     
     // GEOMETRY
-    glUseProgram(self.shaderBlinnPhong.program);
-    
-    // Set Matrices
-    [self setMatrices];
-    
-    // Positions
-    if(self.model.positions)
-    {
-        glEnableVertexAttribArray(self.shaderBlinnPhong.aPosition);
-        glVertexAttribPointer(self.shaderBlinnPhong.aPosition, 3, GL_FLOAT, GL_FALSE, 0, self.model.positions);
-    }
-    
-    // Normals
-    if(self.model.normals)
-    {
-        glEnableVertexAttribArray(self.shaderBlinnPhong.aNormal);
-        glVertexAttribPointer(self.shaderBlinnPhong.aNormal, 3, GL_FLOAT, GL_FALSE, 0, self.model.normals);
-    }
-    
-    // Texels
-    if(self.model.texels)
-    {
-        glBindTexture(GL_TEXTURE_2D, self.texture.name);
-        glUniform1i(self.shaderBlinnPhong.uTexture, 0);
-        glEnableVertexAttribArray(self.shaderBlinnPhong.aTexel);
-        glVertexAttribPointer(self.shaderBlinnPhong.aTexel, 2, GL_FLOAT, GL_FALSE, 0, self.model.texels);
-    }
-    
-    // Draw Model
-    glDrawArrays(GL_TRIANGLES, 0, self.model.count);
+    [self.shaderBlinnPhong renderModel:self.model inScene:self.scene withTexture:self.texture];
 }
 
 - (void)update
