@@ -118,15 +118,6 @@ static NSString* const kRRCModel = @"Mushroom";
         NSLog(@"%@:- Error loading texture: %@", [self class], [error localizedDescription]);
 }
 
-- (void)setMVPMatricesForShader:(RRCShader*)shader
-{
-    // Projection Matrix
-    glUniformMatrix4fv(shader.uProjectionMatrix, 1, 0, self.scene.projectionMatrix.m);
-    
-    // ModelView Matrix
-    glUniformMatrix4fv(shader.uModelViewMatrix, 1, 0, self.scene.modelViewMatrix.m);
-}
-
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
