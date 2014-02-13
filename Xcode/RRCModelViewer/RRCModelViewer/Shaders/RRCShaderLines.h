@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 RendonCepeda. All rights reserved.
 //
 
-#import "RRCShaderProgram.h"
+#import "RRCShader.h"
 
-@interface RRCShaderLines : RRCShaderProgram
+@interface RRCShaderLines : RRCShader
 
 // Attribute Handles
 @property (assign, nonatomic, readonly) GLint aPosition;

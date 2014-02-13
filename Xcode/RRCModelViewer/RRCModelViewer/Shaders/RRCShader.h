@@ -1,5 +1,5 @@
 //
-//  RRCShaderProgram.h
+//  RRCShader.h
 //  RRCModelViewer
 //
 //  Created by RRC on 1/25/14.
@@ -8,7 +8,7 @@
 
 #define STRINGIFY(A) #A
 
-@interface RRCShaderProgram : NSObject
+@interface RRCShader : NSObject
 
 // Program Handle
 @property (assign, nonatomic, readwrite) GLuint program;

@@ -1,14 +1,14 @@
 //
-//  RRCShaderProgram.m
+//  RRCShader.m
 //  RRCModelViewer
 //
 //  Created by RRC on 1/25/14.
 //  Copyright (c) 2014 RendonCepeda. All rights reserved.
 //
 
-#import "RRCShaderProgram.h"
+#import "RRCShader.h"
 
-@implementation RRCShaderProgram
+@implementation RRCShader
 
 - (GLuint)programWithVertexShader:(const char*)vsh fragmentShader:(const char*)fsh
 {

@@ -38,7 +38,7 @@
 		80B6A180188B9867008551B4 /* RRCiPhoneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 80B6A17F188B9867008551B4 /* RRCiPhoneViewController.m */; };
 		AE21406C189576DC00905FAB /* RRCShaderBlinnPhong.m in Sources */ = {isa = PBXBuildFile; fileRef = AE21406B189576DC00905FAB /* RRCShaderBlinnPhong.m */; };
 		AEDC3B1118944BB600C5DFC8 /* RRCiPadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AEDC3B1018944BB600C5DFC8 /* RRCiPadViewController.m */; };
-		AEDC3B1518944EE000C5DFC8 /* RRCShaderProgram.m in Sources */ = {isa = PBXBuildFile; fileRef = AEDC3B1418944EE000C5DFC8 /* RRCShaderProgram.m */; };
+		AEDC3B1518944EE000C5DFC8 /* RRCShader.m in Sources */ = {isa = PBXBuildFile; fileRef = AEDC3B1418944EE000C5DFC8 /* RRCShader.m */; };
 		AEDC3B1918944FD600C5DFC8 /* RRCShaderLines.m in Sources */ = {isa = PBXBuildFile; fileRef = AEDC3B1818944FD600C5DFC8 /* RRCShaderLines.m */; };
 		AEDC3B231894972200C5DFC8 /* RRCShaderPoints.m in Sources */ = {isa = PBXBuildFile; fileRef = AEDC3B1F1894962C00C5DFC8 /* RRCShaderPoints.m */; };
 /* End PBXBuildFile section */
@@ -103,8 +103,8 @@
 		AE21406E1895776D00905FAB /* BlinnPhong.fsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = BlinnPhong.fsh; path = Shaders/BlinnPhong.fsh; sourceTree = "<group>"; };
 		AEDC3B0F18944BB600C5DFC8 /* RRCiPadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RRCiPadViewController.h; sourceTree = "<group>"; };
 		AEDC3B1018944BB600C5DFC8 /* RRCiPadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RRCiPadViewController.m; sourceTree = "<group>"; };
-		AEDC3B1318944EE000C5DFC8 /* RRCShaderProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RRCShaderProgram.h; path = Shaders/RRCShaderProgram.h; sourceTree = "<group>"; };
-		AEDC3B1418944EE000C5DFC8 /* RRCShaderProgram.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RRCShaderProgram.m; path = Shaders/RRCShaderProgram.m; sourceTree = "<group>"; };
+		AEDC3B1318944EE000C5DFC8 /* RRCShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RRCShader.h; path = Shaders/RRCShader.h; sourceTree = "<group>"; };
+		AEDC3B1418944EE000C5DFC8 /* RRCShader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RRCShader.m; path = Shaders/RRCShader.m; sourceTree = "<group>"; };
 		AEDC3B1718944FD600C5DFC8 /* RRCShaderLines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RRCShaderLines.h; path = Shaders/RRCShaderLines.h; sourceTree = "<group>"; };
 		AEDC3B1818944FD600C5DFC8 /* RRCShaderLines.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RRCShaderLines.m; path = Shaders/RRCShaderLines.m; sourceTree = "<group>"; };
 		AEDC3B1A18948D3D00C5DFC8 /* Lines.vsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = Lines.vsh; path = Shaders/Lines.vsh; sourceTree = "<group>"; };
@@ -343,8 +343,8 @@
 		AEDC3B1218944D6700C5DFC8 /* Shaders */ = {
 			isa = PBXGroup;
 			children = (
-				AEDC3B1318944EE000C5DFC8 /* RRCShaderProgram.h */,
-				AEDC3B1418944EE000C5DFC8 /* RRCShaderProgram.m */,
+				AEDC3B1318944EE000C5DFC8 /* RRCShader.h */,
+				AEDC3B1418944EE000C5DFC8 /* RRCShader.m */,
 				AE2140691895768E00905FAB /* BlinnPhong */,
 				AEDC3B1D1894960C00C5DFC8 /* Points */,
 				AEDC3B1618944F1700C5DFC8 /* Lines */,
@@ -481,7 +481,7 @@
 				80652F581895DB2D007A0683 /* RRCSceneEngine.m in Sources */,
 				80B6A15E188B9123008551B4 /* RRCColladaGeometry.m in Sources */,
 				80B6A164188B9123008551B4 /* RRCColladaSource.m in Sources */,
-				AEDC3B1518944EE000C5DFC8 /* RRCShaderProgram.m in Sources */,
+				AEDC3B1518944EE000C5DFC8 /* RRCShader.m in Sources */,
 				AEDC3B231894972200C5DFC8 /* RRCShaderPoints.m in Sources */,
 				80B6A0D6188B7A5D008551B4 /* RRCAppDelegate.m in Sources */,
 				AEDC3B1118944BB600C5DFC8 /* RRCiPadViewController.m in Sources */,
