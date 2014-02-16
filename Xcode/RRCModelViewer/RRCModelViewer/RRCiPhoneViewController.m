@@ -39,7 +39,7 @@ static NSString* const kRRCModel = @"Mushroom";
     glkview.context = context;
     
     // OpenGL ES Settings
-    glClearColor(0.50f, 0.50f, 0.50f, 1.00f);
+    glClearColor(0.36f, 0.67f, 0.18f, 1.00f);
     glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
     
@@ -152,10 +152,6 @@ static NSString* const kRRCModel = @"Mushroom";
     
     // Draw Model
     glDrawArrays(GL_TRIANGLES, 0, self.model.count);
-}
-
-- (void)update
-{
 }
 
 @end

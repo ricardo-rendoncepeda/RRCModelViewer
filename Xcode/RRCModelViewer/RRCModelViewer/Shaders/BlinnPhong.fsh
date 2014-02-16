@@ -16,9 +16,9 @@ static char* const BlinnPhongFSH = STRINGIFY
      highp vec3 E = vec3(0.0, 0.0, 1.0);
      highp vec3 H = normalize(L+E);
      
-     lowp vec3 ambient = vec3(0.5);
-     lowp vec3 diffuse = vec3(0.5);
-     lowp vec3 specular = vec3(0.0);
+     lowp vec3 ambient = vec3(0.2);
+     lowp vec3 diffuse = vec3(0.7);
+     lowp vec3 specular = vec3(0.1);
      highp float exponent = 1.0;
      
      highp float df = max(0.0, dot(N,L));
@@ -28,6 +28,6 @@ static char* const BlinnPhongFSH = STRINGIFY
      lowp vec3 surface = ambient + (df*diffuse) + (sf*specular);
      lowp vec3 texture = vec3(texture2D(uTexture, vTexel));
      
-     gl_FragColor = vec4(surface*texture, 1.0);
+     gl_FragColor = vec4(surface*texture, 0.5);
  }
 );

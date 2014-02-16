@@ -50,7 +50,7 @@
         _beginRotation = orientation;
         
         _endRotation = GLKQuaternionIdentity;
-        orientation = GLKVector3MultiplyScalar(orientation, GLKMathDegreesToRadians(1.0));
+        orientation = GLKVector3MultiplyScalar(orientation, GLKMathDegreesToRadians(1.0f));
         _endRotation = GLKQuaternionMultiply(GLKQuaternionMakeWithAngleAndVector3Axis(-orientation.x, _vectorRight), _endRotation);
         _endRotation = GLKQuaternionMultiply(GLKQuaternionMakeWithAngleAndVector3Axis(-orientation.y, _vectorUp), _endRotation);
         _endRotation = GLKQuaternionMultiply(GLKQuaternionMakeWithAngleAndVector3Axis(-orientation.z, _vectorFront), _endRotation);

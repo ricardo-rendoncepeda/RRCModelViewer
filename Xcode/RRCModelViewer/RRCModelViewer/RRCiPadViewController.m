@@ -49,7 +49,7 @@ static NSString* const kRRCModel = @"Mushroom";
     glkview.context = context;
     
     // OpenGL ES Settings
-    glClearColor(0.50f, 0.50f, 0.50f, 1.00f);
+    glClearColor(0.36f, 0.67f, 0.18f, 1.00f);
     glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_BLEND);
@@ -122,18 +122,14 @@ static NSString* const kRRCModel = @"Mushroom";
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
-    // LINES
+    // Lines
     [self.shaderLines renderModel:self.model inScene:self.scene];
     
-    // POINTS
+    // Points
     [self.shaderPoints renderModel:self.model inScene:self.scene];
     
-    // GEOMETRY
+    // Blinn-Phong
     [self.shaderBlinnPhong renderModel:self.model inScene:self.scene withTexture:self.texture];
-}
-
-- (void)update
-{
 }
 
 #pragma mark - IBActions
