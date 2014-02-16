@@ -17,7 +17,9 @@
 // Uniform Handles
 @property (assign, nonatomic, readonly) GLint uNormalMatrix;
 @property (assign, nonatomic, readonly) GLint uTexture;
+@property (assign, nonatomic, readonly) GLint uSwitchTexture;
+@property (assign, nonatomic, readonly) GLint uSwitchXRay;
 
-- (void)renderModel:(RRCOpenglesModel *)model inScene:(RRCSceneEngine *)scene withTexture:(GLKTextureInfo*)texture;
+- (void)renderModel:(RRCOpenglesModel *)model inScene:(RRCSceneEngine *)scene withTexture:(GLKTextureInfo*)texture boolTexture:(BOOL)boolTexture boolXRay:(BOOL)boolXRay;
 
 @end

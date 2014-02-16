@@ -8,6 +8,8 @@ static char* const BlinnPhongFSH = STRINGIFY
  
  // Uniforms
  uniform sampler2D uTexture;
+ uniform bool uSwitchTexture;
+ uniform bool uSwitchXRay;
  
  void main(void)
  {
@@ -28,6 +30,14 @@ static char* const BlinnPhongFSH = STRINGIFY
      lowp vec3 surface = ambient + (df*diffuse) + (sf*specular);
      lowp vec3 texture = vec3(texture2D(uTexture, vTexel));
      
-     gl_FragColor = vec4(surface*texture, 0.5);
+     lowp vec3 color = surface;
+     if(uSwitchTexture)
+         color *= texture;
+     
+     lowp float alpha = 1.0;
+     if(uSwitchXRay)
+         alpha = 0.5;
+     
+     gl_FragColor = vec4(color, alpha);
  }
 );

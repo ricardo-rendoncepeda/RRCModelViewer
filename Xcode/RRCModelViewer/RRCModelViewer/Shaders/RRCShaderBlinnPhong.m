@@ -26,14 +26,19 @@
         // Uniforms
         _uNormalMatrix = glGetUniformLocation(self.program, "uNormalMatrix");
         _uTexture = glGetUniformLocation(self.program, "uTexture");
+        _uSwitchTexture = glGetUniformLocation(self.program, "uSwitchTexture");
+        _uSwitchXRay = glGetUniformLocation(self.program, "uSwitchXRay");
     }
     return self;
 }
 
 #pragma mark - Render
-- (void)renderModel:(RRCOpenglesModel *)model inScene:(RRCSceneEngine *)scene withTexture:(GLKTextureInfo *)texture
+- (void)renderModel:(RRCOpenglesModel *)model inScene:(RRCSceneEngine *)scene withTexture:(GLKTextureInfo *)texture boolTexture:(BOOL)boolTexture boolXRay:(BOOL)boolXRay
 {
     [super renderModel:model inScene:scene];
+    
+    glUniform1i(self.uSwitchTexture, boolTexture);
+    glUniform1i(self.uSwitchXRay, boolXRay);
     
     // Normal Matrix
     glUniformMatrix3fv(self.uNormalMatrix, 1, 0, scene.normalMatrix.m);

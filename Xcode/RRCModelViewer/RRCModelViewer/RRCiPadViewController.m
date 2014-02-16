@@ -30,6 +30,12 @@ static NSString* const kRRCModel = @"Mushroom";
 // Scene
 @property (strong, nonatomic, readwrite) RRCSceneEngine* scene;
 
+// UI
+@property (weak, nonatomic) IBOutlet UISwitch* switchTexture;
+@property (weak, nonatomic) IBOutlet UISwitch* switchXRay;
+@property (weak, nonatomic) IBOutlet UISwitch* switchLines;
+@property (weak, nonatomic) IBOutlet UISwitch* switchPoints;
+
 @end
 
 @implementation RRCiPadViewController
@@ -123,13 +129,15 @@ static NSString* const kRRCModel = @"Mushroom";
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     // Lines
-    [self.shaderLines renderModel:self.model inScene:self.scene];
+    if(self.switchLines.on)
+        [self.shaderLines renderModel:self.model inScene:self.scene];
     
     // Points
-    [self.shaderPoints renderModel:self.model inScene:self.scene];
+    if(self.switchPoints.on)
+        [self.shaderPoints renderModel:self.model inScene:self.scene];
     
     // Blinn-Phong
-    [self.shaderBlinnPhong renderModel:self.model inScene:self.scene withTexture:self.texture];
+    [self.shaderBlinnPhong renderModel:self.model inScene:self.scene withTexture:self.texture boolTexture:self.switchTexture.on boolXRay:self.switchXRay.on];
 }
 
 #pragma mark - IBActions
