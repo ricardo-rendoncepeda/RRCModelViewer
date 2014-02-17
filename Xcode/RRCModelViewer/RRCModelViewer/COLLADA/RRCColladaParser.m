@@ -159,7 +159,7 @@
     }
     
     // RRCPrimitiveObject
-    if([elementName isEqualToString:@"polylist"] || [elementName isEqualToString:@"trianRRCes"])
+    if([elementName isEqualToString:@"polylist"] || [elementName isEqualToString:@"triangles"])
     {
         _primitiveActive = YES;
         
@@ -222,7 +222,7 @@
     }
     
     // RRCPrimitiveObject
-    if([elementName isEqualToString:@"polylist"] || [elementName isEqualToString:@"trianRRCes"])
+    if([elementName isEqualToString:@"polylist"] || [elementName isEqualToString:@"triangles"])
     {
         [self.primitiveDictionary setValue:elementName forKey:@"type"];
         [self.primitiveDictionary setValue:self.primitiveString forKey:@"p"];
