@@ -10,7 +10,7 @@
 #import "RRCColladaParser.h"
 #import "RRCOpenglesModel.h"
 
-static NSString* const kRRCModel = @"Mushroom";
+static NSString* const kRRCModel = @"mushroom";
 
 @interface RRCiPhoneViewController ()
 
@@ -58,7 +58,7 @@ static NSString* const kRRCModel = @"Mushroom";
     // Texture
     NSDictionary* options = @{GLKTextureLoaderOriginBottomLeft:@YES};
     NSError* error;
-    NSString* path = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"Models/%@Texture", kRRCModel] ofType:@".png"];
+    NSString* path = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"Models/%@", kRRCModel] ofType:@".png"];
     GLKTextureInfo* texture = [GLKTextureLoader textureWithContentsOfFile:path options:options error:&error];
     
     if(texture == nil)

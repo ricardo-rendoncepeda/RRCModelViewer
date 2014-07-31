@@ -14,7 +14,7 @@
 #import "RRCShaderBlinnPhong.h"
 #import "RRCSceneEngine.h"
 
-static NSString* const kRRCModel = @"Mushroom";
+static NSString* const kRRCModel = @"tree";
 
 @interface RRCiPadViewController () <UIGestureRecognizerDelegate>
 
@@ -117,7 +117,7 @@ static NSString* const kRRCModel = @"Mushroom";
     // Texture
     NSDictionary* options = @{GLKTextureLoaderOriginBottomLeft:@YES};
     NSError* error;
-    NSString* path = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"Models/%@Texture", kRRCModel] ofType:@".png"];
+    NSString* path = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"Models/%@", kRRCModel] ofType:@".png"];
     self.texture = [GLKTextureLoader textureWithContentsOfFile:path options:options error:&error];
     
     if(self.texture == nil)
