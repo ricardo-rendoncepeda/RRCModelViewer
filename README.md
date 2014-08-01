@@ -1,4 +1,4 @@
-# ABSTRACT - SIGGRAPH 2014 Studio Course 
+# SIGGRAPH 2014 Studio Course 
 
 ## Developing a 3D Model Viewer for iOS using COLLADA and OpenGL ES
 
