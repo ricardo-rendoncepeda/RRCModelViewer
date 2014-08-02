@@ -8,16 +8,12 @@
 
 #import "RRCShaderBlinnPhong.h"
 
-// Shaders
-#include "BlinnPhong.vsh"
-#include "BlinnPhong.fsh"
-
 @implementation RRCShaderBlinnPhong
 
 #pragma mark - init
 - (instancetype)init
 {
-    if(self = [super initWithVertexShader:BlinnPhongVSH fragmentShader:BlinnPhongFSH])
+    if(self = [super initWithVertexShader:@"BlinnPhong" fragmentShader:@"BlinnPhong"])
     {
         // Attributes
         _aNormal = glGetAttribLocation(self.program, "aNormal");

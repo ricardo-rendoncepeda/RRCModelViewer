@@ -7,7 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8032C551198DA67500B874AE /* RRCOpenglesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8032C550198DA67500B874AE /* RRCOpenglesView.m */; };
 		80652F581895DB2D007A0683 /* RRCSceneEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 80652F571895DB2D007A0683 /* RRCSceneEngine.m */; };
+		80749755198DA0BE00462375 /* BlinnPhong.vsh in Resources */ = {isa = PBXBuildFile; fileRef = AE21406D1895775000905FAB /* BlinnPhong.vsh */; };
+		80749756198DA0C200462375 /* BlinnPhong.fsh in Resources */ = {isa = PBXBuildFile; fileRef = AE21406E1895776D00905FAB /* BlinnPhong.fsh */; };
+		80749757198DA0C900462375 /* Points.vsh in Resources */ = {isa = PBXBuildFile; fileRef = AEDC3B211894967300C5DFC8 /* Points.vsh */; };
+		80749758198DA0CB00462375 /* Points.fsh in Resources */ = {isa = PBXBuildFile; fileRef = AEDC3B221894969000C5DFC8 /* Points.fsh */; };
+		80749759198DA0CE00462375 /* Lines.vsh in Resources */ = {isa = PBXBuildFile; fileRef = AEDC3B1A18948D3D00C5DFC8 /* Lines.vsh */; };
+		8074975A198DA0D000462375 /* Lines.fsh in Resources */ = {isa = PBXBuildFile; fileRef = AEDC3B1C1894901600C5DFC8 /* Lines.fsh */; };
 		80B6A0C6188B7A5D008551B4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B6A0C5188B7A5D008551B4 /* Foundation.framework */; };
 		80B6A0C8188B7A5D008551B4 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B6A0C7188B7A5D008551B4 /* CoreGraphics.framework */; };
 		80B6A0CA188B7A5D008551B4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B6A0C9188B7A5D008551B4 /* UIKit.framework */; };
@@ -54,6 +61,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8032C54F198DA67500B874AE /* RRCOpenglesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RRCOpenglesView.h; sourceTree = "<group>"; };
+		8032C550198DA67500B874AE /* RRCOpenglesView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RRCOpenglesView.m; sourceTree = "<group>"; };
 		80652F561895DB2D007A0683 /* RRCSceneEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RRCSceneEngine.h; path = Scene/RRCSceneEngine.h; sourceTree = "<group>"; };
 		80652F571895DB2D007A0683 /* RRCSceneEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RRCSceneEngine.m; path = Scene/RRCSceneEngine.m; sourceTree = "<group>"; };
 		80B6A0C2188B7A5D008551B4 /* RRCModelViewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RRCModelViewer.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -325,6 +334,8 @@
 			children = (
 				80B6A17B188B9805008551B4 /* RRCOpenglesModel.h */,
 				80B6A17C188B9805008551B4 /* RRCOpenglesModel.m */,
+				8032C54F198DA67500B874AE /* RRCOpenglesView.h */,
+				8032C550198DA67500B874AE /* RRCOpenglesView.m */,
 			);
 			path = OpenGLES;
 			sourceTree = "<group>";
@@ -452,9 +463,15 @@
 			files = (
 				80B6A0F7188B7BA4008551B4 /* Models in Resources */,
 				80B6A0D0188B7A5D008551B4 /* InfoPlist.strings in Resources */,
+				80749758198DA0CB00462375 /* Points.fsh in Resources */,
+				80749755198DA0BE00462375 /* BlinnPhong.vsh in Resources */,
 				80B6A0D8188B7A5D008551B4 /* Images.xcassets in Resources */,
 				80B6A171188B922D008551B4 /* iPad.storyboard in Resources */,
+				8074975A198DA0D000462375 /* Lines.fsh in Resources */,
+				80749756198DA0C200462375 /* BlinnPhong.fsh in Resources */,
+				80749757198DA0C900462375 /* Points.vsh in Resources */,
 				80B6A16F188B9221008551B4 /* iPhone.storyboard in Resources */,
+				80749759198DA0CE00462375 /* Lines.vsh in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -490,6 +507,7 @@
 				AE21406C189576DC00905FAB /* RRCShaderBlinnPhong.m in Sources */,
 				80B6A161188B9123008551B4 /* RRCColladaObject.m in Sources */,
 				80B6A162188B9123008551B4 /* RRCColladaParser.m in Sources */,
+				8032C551198DA67500B874AE /* RRCOpenglesView.m in Sources */,
 				80B6A0D2188B7A5D008551B4 /* main.m in Sources */,
 				80B6A15F188B9123008551B4 /* RRCColladaInput.m in Sources */,
 			);

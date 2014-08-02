@@ -10,7 +10,4 @@
 
 @interface RRCShaderLines : RRCShader
 
-// Attribute Handles
-@property (assign, nonatomic, readonly) GLint aPosition;
-
 @end

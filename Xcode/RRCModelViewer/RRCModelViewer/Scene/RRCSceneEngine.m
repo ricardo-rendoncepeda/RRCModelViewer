@@ -37,12 +37,12 @@
     if(self = [super init])
     {
         // Vectors
-        _vectorRight = GLKVector3Make(1.0f, 0.0f, 0.0f);
-        _vectorUp = GLKVector3Make(0.0f, 1.0f, 0.0f);
-        _vectorFront = GLKVector3Make(0.0f, 0.0f, 1.0f);
+        _vectorRight = GLKVector3Make(1.00, 0.00, 0.00);
+        _vectorUp = GLKVector3Make(0.00, 1.00, 0.00);
+        _vectorFront = GLKVector3Make(0.00, 0.00, 1.00);
         
         // Depth
-        _depth = (near+far)/2.0f;
+        _depth = (near+far)/2.00;
         
         // Transformations
         _beginScale = _endScale = scale;
@@ -50,7 +50,7 @@
         _beginRotation = orientation;
         
         _endRotation = GLKQuaternionIdentity;
-        orientation = GLKVector3MultiplyScalar(orientation, GLKMathDegreesToRadians(1.0f));
+        orientation = GLKVector3MultiplyScalar(orientation, GLKMathDegreesToRadians(1.00));
         _endRotation = GLKQuaternionMultiply(GLKQuaternionMakeWithAngleAndVector3Axis(-orientation.x, _vectorRight), _endRotation);
         _endRotation = GLKQuaternionMultiply(GLKQuaternionMakeWithAngleAndVector3Axis(-orientation.y, _vectorUp), _endRotation);
         _endRotation = GLKQuaternionMultiply(GLKQuaternionMakeWithAngleAndVector3Axis(-orientation.z, _vectorFront), _endRotation);
@@ -86,8 +86,8 @@
 - (void)beginTransformations
 {
     self.beginScale = self.endScale;
-    self.beginTranslation = GLKVector2Make(0.0f, 0.0f);
-    self.beginRotation = GLKVector3Make(0.0f, 0.0f, 0.0f);
+    self.beginTranslation = GLKVector2Make(0.00, 0.00);
+    self.beginRotation = GLKVector3Make(0.00, 0.00, 0.00);
 }
 
 - (void)scale:(float)s

@@ -14,7 +14,7 @@
 #import "RRCShaderBlinnPhong.h"
 #import "RRCSceneEngine.h"
 
-static NSString* const kRRCModel = @"tree";
+static NSString* const kRRCModel = @"mushroom";
 
 @interface RRCiPadViewController () <UIGestureRecognizerDelegate>
 
@@ -55,7 +55,7 @@ static NSString* const kRRCModel = @"tree";
     glkview.context = context;
     
     // OpenGL ES Settings
-    glClearColor(0.36f, 0.67f, 0.18f, 1.00f);
+    glClearColor(0.36, 0.67, 0.18, 1.00);
     glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_BLEND);
@@ -78,13 +78,13 @@ static NSString* const kRRCModel = @"tree";
 
 - (void)loadScene
 {
-    self.scene = [[RRCSceneEngine alloc] initWithFOV:90.0f
+    self.scene = [[RRCSceneEngine alloc] initWithFOV:90.00
                                               aspect:(float)(self.view.bounds.size.width / self.view.bounds.size.height)
-                                                near:0.1f
-                                                 far:10.0f
-                                               scale:0.95f
-                                            position:GLKVector2Make(0.0f, 0.95f)
-                                         orientation:GLKVector3Make(90.0f, -90.0f, 0.0f)];
+                                                near:0.10
+                                                 far:10.00
+                                               scale:0.95
+                                            position:GLKVector2Make(0.00, 0.95)
+                                         orientation:GLKVector3Make(90.00, -90.00, 0.00)];
 }
 
 - (void)loadModel
@@ -163,14 +163,14 @@ static NSString* const kRRCModel = @"tree";
         CGPoint translation = [sender translationInView:sender.view];
         float x = translation.x/sender.view.frame.size.width;
         float y = translation.y/sender.view.frame.size.height;
-        [self.scene translate:GLKVector2Make(x, -y) withMultiplier:5.0f];
+        [self.scene translate:GLKVector2Make(x, -y) withMultiplier:5.00];
     }
     
     // Pan (2 Fingers)
     else if(sender.numberOfTouches == 2)
     {
         CGPoint rotation = [sender translationInView:sender.view];
-        [self.scene rotate:GLKVector3Make(rotation.x, rotation.y, 0.0f) withMultiplier:0.5f];
+        [self.scene rotate:GLKVector3Make(rotation.x, rotation.y, 0.00) withMultiplier:0.50];
     }
 }
 
@@ -178,7 +178,7 @@ static NSString* const kRRCModel = @"tree";
 {
     // Rotation
     float rotation = [sender rotation];
-    [self.scene rotate:GLKVector3Make(0.0f, 0.0f, rotation) withMultiplier:GLKMathDegreesToRadians(1.0)];
+    [self.scene rotate:GLKVector3Make(0.00, 0.00, rotation) withMultiplier:GLKMathDegreesToRadians(1.00)];
 }
 
 @end

@@ -39,7 +39,7 @@ static NSString* const kRRCModel = @"mushroom";
     glkview.context = context;
     
     // OpenGL ES Settings
-    glClearColor(0.36f, 0.67f, 0.18f, 1.00f);
+    glClearColor(0.36, 0.67, 0.18, 1.00);
     glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
     
@@ -61,7 +61,7 @@ static NSString* const kRRCModel = @"mushroom";
     NSString* path = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"Models/%@", kRRCModel] ofType:@".png"];
     GLKTextureInfo* texture = [GLKTextureLoader textureWithContentsOfFile:path options:options error:&error];
     
-    if(texture == nil)
+    if(!texture)
         NSLog(@"%@:- Error loading texture: %@", [self class], [error localizedDescription]);
     
     self.effect.texture2d0.name = texture.name;
@@ -69,12 +69,12 @@ static NSString* const kRRCModel = @"mushroom";
     
     // Light
     self.effect.light0.enabled = GL_TRUE;
-    self.effect.light0.position = GLKVector4Make(0.25f, 0.75f, 0.75f, 1.0f);
+    self.effect.light0.position = GLKVector4Make(0.25, 0.75, 0.75, 1.00);
     self.effect.lightingType = GLKLightingTypePerPixel;
     
     // Material
-    self.effect.material.diffuseColor = GLKVector4Make(0.75f, 0.75f, 0.75f, 1.0f);
-    self.effect.material.specularColor = GLKVector4Make(0.25f, 0.25f, 0.25f, 1.0f);
+    self.effect.material.diffuseColor = GLKVector4Make(0.75, 0.75, 0.75, 1.0);
+    self.effect.material.specularColor = GLKVector4Make(0.25, 0.25, 0.25, 1.0);
 }
 
 - (void)loadModel
@@ -105,17 +105,17 @@ static NSString* const kRRCModel = @"mushroom";
 - (void)setMatrices
 {
     // Projection Matrix
-    const GLfloat aspectRatio = (GLfloat)(self.view.bounds.size.width) / (GLfloat)(self.view.bounds.size.height);
-    const GLfloat fieldView = GLKMathDegreesToRadians(90.0f);
-    const GLKMatrix4 projectionMatrix = GLKMatrix4MakePerspective(fieldView, aspectRatio, 0.1f, 10.0f);
+    const GLfloat aspectRatio = self.view.bounds.size.width/self.view.bounds.size.height;
+    const GLfloat fieldOfView = GLKMathDegreesToRadians(90.00);
+    const GLKMatrix4 projectionMatrix = GLKMatrix4MakePerspective(fieldOfView, aspectRatio, 0.10, 10.00);
     self.effect.transform.projectionMatrix = projectionMatrix;
     
     // ModelView Matrix
     GLKMatrix4 modelViewMatrix = GLKMatrix4Identity;
-    modelViewMatrix = GLKMatrix4Translate(modelViewMatrix, 0.0f, 0.0f, -5.0f);
-    modelViewMatrix = GLKMatrix4RotateX(modelViewMatrix, GLKMathDegreesToRadians(-90.0f));
-    modelViewMatrix = GLKMatrix4RotateZ(modelViewMatrix, GLKMathDegreesToRadians(90.0f));
-    modelViewMatrix = GLKMatrix4Scale(modelViewMatrix, 0.55f, 0.55f, 0.55f);
+    modelViewMatrix = GLKMatrix4Translate(modelViewMatrix, 0.00, -2.00, -4.00);
+    modelViewMatrix = GLKMatrix4RotateY(modelViewMatrix, GLKMathDegreesToRadians(200.00));
+    modelViewMatrix = GLKMatrix4RotateX(modelViewMatrix, GLKMathDegreesToRadians(-90.00));
+    modelViewMatrix = GLKMatrix4Scale(modelViewMatrix, 0.67, 0.67, 0.67);
     self.effect.transform.modelviewMatrix = modelViewMatrix;
 }
 

@@ -8,16 +8,12 @@
 
 #import "RRCShaderLines.h"
 
-// Shaders
-#include "Lines.vsh"
-#include "Lines.fsh"
-
 @implementation RRCShaderLines
 
 #pragma mark - init
 - (instancetype)init
 {
-    if(self = [super initWithVertexShader:LinesVSH fragmentShader:LinesFSH])
+    if(self = [super initWithVertexShader:@"Lines" fragmentShader:@"Lines"])
     {
     }
     return self;
@@ -31,7 +27,7 @@
     // Draw Model
     glLineWidth(4.0f);
     for(int i=0; i<model.count; i+=3)
-        glDrawArrays(GL_LINE_STRIP, i, 2);
+        glDrawArrays(GL_LINES, i, 2);
 }
 
 @end

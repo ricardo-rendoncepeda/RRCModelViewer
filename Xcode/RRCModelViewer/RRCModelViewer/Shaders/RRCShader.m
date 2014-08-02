@@ -11,7 +11,7 @@
 @implementation RRCShader
 
 #pragma mark - init
-- (instancetype)initWithVertexShader:(const char *)vsh fragmentShader:(const char *)fsh
+- (instancetype)initWithVertexShader:(NSString*)vsh fragmentShader:(NSString*)fsh
 {
     if(self = [super init])
     {
@@ -28,12 +28,12 @@
     return self;
 }
 
-#pragma mark - Compile & Link
-- (GLuint)programWithVertexShader:(const char*)vsh fragmentShader:(const char*)fsh
+#pragma mark - Program
+- (GLuint)programWithVertexShader:(NSString*)vsh fragmentShader:(NSString*)fsh
 {
     // Build shaders
-    GLuint vertexShader = [self shaderWithSource:vsh type:GL_VERTEX_SHADER];
-    GLuint fragmentShader = [self shaderWithSource:fsh type:GL_FRAGMENT_SHADER];
+    GLuint vertexShader = [self shaderWithName:vsh type:GL_VERTEX_SHADER];
+    GLuint fragmentShader = [self shaderWithName:fsh type:GL_FRAGMENT_SHADER];
     
     // Create program
     GLuint programHandle = glCreateProgram();
@@ -62,8 +62,18 @@
     return programHandle;
 }
 
-- (GLuint)shaderWithSource:(const char*)source type:(GLenum)type
+- (GLuint)shaderWithName:(NSString*)name type:(GLenum)type
 {
+    // Load the shader file
+    NSString* file;
+    if(type == GL_VERTEX_SHADER)
+        file = [[NSBundle mainBundle] pathForResource:name ofType:@"vsh"];
+    else if(type == GL_FRAGMENT_SHADER)
+        file = [[NSBundle mainBundle] pathForResource:name ofType:@"fsh"];
+    
+    // Create the shader source
+    const GLchar* source = (GLchar*)[[NSString stringWithContentsOfFile:file encoding:NSUTF8StringEncoding error:nil] UTF8String];
+    
     // Create the shader object
     GLuint shaderHandle = glCreateShader(type);
     

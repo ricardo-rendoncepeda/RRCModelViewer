@@ -274,6 +274,7 @@
     NSLog(@"---INPUTS:");
     for(RRCColladaInput* input in self.geometry.mesh.primitive.inputs)
     {
+        NSLog(@"----input: %@", input);
         NSLog(@"----semantic: %i", self.geometry.mesh.vertices.semantic);
         NSLog(@"----source: %@", self.geometry.mesh.vertices.source);
         NSLog(@"----offset: %i", self.geometry.mesh.vertices.offset);

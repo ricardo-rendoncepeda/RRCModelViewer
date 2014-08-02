@@ -8,16 +8,12 @@
 
 #import "RRCShaderPoints.h"
 
-// Shaders
-#include "Points.vsh"
-#include "Points.fsh"
-
 @implementation RRCShaderPoints
 
 #pragma mark - init
 - (instancetype)init
 {
-    if(self = [super initWithVertexShader:PointsVSH fragmentShader:PointsFSH])
+    if(self = [super initWithVertexShader:@"Points" fragmentShader:@"Points"])
     {
     }
     return self;

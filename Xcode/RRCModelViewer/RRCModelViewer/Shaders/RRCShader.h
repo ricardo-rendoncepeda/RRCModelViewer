@@ -6,8 +6,6 @@
 //  Copyright (c) 2014 RendonCepeda. All rights reserved.
 //
 
-#define STRINGIFY(A) #A
-
 #import "RRCOpenglesModel.h"
 #import "RRCSceneEngine.h"
 
@@ -23,7 +21,7 @@
 @property (assign, nonatomic, readonly) GLint uProjectionMatrix;
 @property (assign, nonatomic, readonly) GLint uModelViewMatrix;
 
-- (instancetype)initWithVertexShader:(const char*)vsh fragmentShader:(const char*)fsh;
+- (instancetype)initWithVertexShader:(NSString*)vsh fragmentShader:(NSString*)fsh;
 - (void)renderModel:(RRCOpenglesModel*)model inScene:(RRCSceneEngine*)scene;
 
 @end
