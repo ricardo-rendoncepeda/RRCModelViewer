@@ -39,6 +39,7 @@ static NSString* const kRRCModel = @"mushroom";
 @property (weak, nonatomic) IBOutlet UISwitch* switchXRay;
 @property (weak, nonatomic) IBOutlet UISwitch* switchLines;
 @property (weak, nonatomic) IBOutlet UISwitch* switchPoints;
+@property (weak, nonatomic) IBOutlet UILabel* labelHeader;
 
 @end
 
@@ -57,6 +58,9 @@ static NSString* const kRRCModel = @"mushroom";
     [super viewDidAppear:animated];
     
     NSLog(@"%@:- viewDidAppear", [self class]);
+    
+    // UI
+    self.labelHeader.text = @"Ricardo Rendon Cepeda\nSIGGRAPH 2014";
     
     // Load view
     [self loadGraphicsView];
