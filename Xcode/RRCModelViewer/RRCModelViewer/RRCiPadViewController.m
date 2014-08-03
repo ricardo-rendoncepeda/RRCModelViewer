@@ -179,17 +179,17 @@ static NSString* const kRRCModelName = @"mushroom";
     // Pan (1 Finger)
     if(sender.numberOfTouches == 1)
     {
-        CGPoint translation = [sender translationInView:sender.view];
-        float x = translation.x/sender.view.frame.size.width;
-        float y = translation.y/sender.view.frame.size.height;
-        [self.sceneEngine translate:GLKVector2Make(x, -y) withMultiplier:5.00];
+        CGPoint rotation = [sender translationInView:sender.view];
+        [self.sceneEngine rotate:GLKVector3Make(rotation.x, rotation.y, 0.00) withMultiplier:0.50];
     }
     
     // Pan (2 Fingers)
     else if(sender.numberOfTouches == 2)
     {
-        CGPoint rotation = [sender translationInView:sender.view];
-        [self.sceneEngine rotate:GLKVector3Make(rotation.x, rotation.y, 0.00) withMultiplier:0.50];
+        CGPoint translation = [sender translationInView:sender.view];
+        float x = translation.x/sender.view.frame.size.width;
+        float y = translation.y/sender.view.frame.size.height;
+        [self.sceneEngine translate:GLKVector2Make(x, -y) withMultiplier:5.00];
     }
 }
 
