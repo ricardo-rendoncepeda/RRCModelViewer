@@ -71,6 +71,12 @@ static NSString* const kRRCModel = @"mushroom";
 
 - (IBAction)pan:(UIPanGestureRecognizer *)sender
 {
+    if(sender.numberOfTouches == 1)
+    {
+    }
+    else if(sender.numberOfTouches == 2)
+    {
+    }
 }
 
 - (IBAction)rotation:(UIRotationGestureRecognizer *)sender

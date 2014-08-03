@@ -29,12 +29,12 @@
 }
 
 #pragma mark - Render
-- (void)renderModel:(RRCOpenglesModel *)model inScene:(RRCSceneEngine *)scene withTexture:(GLKTextureInfo *)texture boolTexture:(BOOL)boolTexture boolXRay:(BOOL)boolXRay
+- (void)renderModel:(RRCOpenglesModel *)model withScene:(RRCSceneEngine *)scene texture:(BOOL)texture xRay:(BOOL)xRay
 {
     [super renderModel:model inScene:scene];
     
-    glUniform1i(self.uSwitchTexture, boolTexture);
-    glUniform1i(self.uSwitchXRay, boolXRay);
+    glUniform1i(self.uSwitchTexture, texture);
+    glUniform1i(self.uSwitchXRay, xRay);
     
     // Normal Matrix
     glUniformMatrix3fv(self.uNormalMatrix, 1, 0, scene.normalMatrix.m);
@@ -49,7 +49,6 @@
     // Texels
     if(model.texels)
     {
-        glBindTexture(GL_TEXTURE_2D, texture.name);
         glUniform1i(self.uTexture, 0);
         glEnableVertexAttribArray(self.aTexel);
         glVertexAttribPointer(self.aTexel, 2, GL_FLOAT, GL_FALSE, 0, model.texels);

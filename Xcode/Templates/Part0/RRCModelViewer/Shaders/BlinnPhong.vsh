@@ -17,7 +17,7 @@ varying vec2 vTexel;
 void main(void)
 {
     vNormal = uNormalMatrix * aNormal;
-    vTexel = aTexel;
+    vTexel = vec2(aTexel.x, 1.0-aTexel.y);
     
     gl_Position = uProjectionMatrix * uModelViewMatrix * vec4(aPosition, 1.0);
 }

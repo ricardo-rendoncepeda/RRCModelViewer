@@ -169,21 +169,17 @@ static NSString* const kRRCModelName = @"mushroom";
 
 - (IBAction)pinch:(UIPinchGestureRecognizer *)sender
 {
-    // Pinch
     float scale = [sender scale];
     [self.sceneEngine scale:scale];
 }
 
 - (IBAction)pan:(UIPanGestureRecognizer *)sender
 {
-    // Pan (1 Finger)
     if(sender.numberOfTouches == 1)
     {
         CGPoint rotation = [sender translationInView:sender.view];
         [self.sceneEngine rotate:GLKVector3Make(rotation.x, rotation.y, 0.00) withMultiplier:0.50];
     }
-    
-    // Pan (2 Fingers)
     else if(sender.numberOfTouches == 2)
     {
         CGPoint translation = [sender translationInView:sender.view];
@@ -195,7 +191,6 @@ static NSString* const kRRCModelName = @"mushroom";
 
 - (IBAction)rotation:(UIRotationGestureRecognizer *)sender
 {
-    // Rotation
     float rotation = [sender rotation];
     [self.sceneEngine rotate:GLKVector3Make(0.00, 0.00, rotation) withMultiplier:GLKMathDegreesToRadians(1.00)];
 }
