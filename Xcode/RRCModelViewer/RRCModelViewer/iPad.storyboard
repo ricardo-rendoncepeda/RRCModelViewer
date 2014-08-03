@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4514" systemVersion="13B42" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="vSe-JL-UCo">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="ezH-qT-zAh">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <scenes>
-        <!--GLKit View Controller-->
-        <scene sceneID="Jrn-MX-7O5">
+        <!--Ci Pad View Controller-->
+        <scene sceneID="SKa-v2-Slr">
             <objects>
-                <glkViewController autoresizesArchivedViewToFullSize="NO" preferredFramesPerSecond="30" id="vSe-JL-UCo" customClass="RRCiPadViewController" sceneMemberID="viewController">
+                <viewController id="ezH-qT-zAh" customClass="RRCiPadViewController" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="gQf-5J-Hra"/>
-                        <viewControllerLayoutGuide type="bottom" id="Int-Gg-ZUI"/>
+                        <viewControllerLayoutGuide type="top" id="p8i-Y6-poG"/>
+                        <viewControllerLayoutGuide type="bottom" id="CSz-y4-dHD"/>
                     </layoutGuides>
-                    <glkView key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" drawableDepthFormat="16" id="vcE-ZT-whj">
+                    <view key="view" contentMode="scaleToFill" id="OfC-yk-exD">
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3vu-5V-KJ1">
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3vu-5V-KJ1" userLabel="Toolbar">
                                 <rect key="frame" x="0.0" y="724" width="1024" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
@@ -91,44 +91,20 @@
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
-                        <gestureRecognizers/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
-                        <connections>
-                            <outlet property="delegate" destination="vSe-JL-UCo" id="Dwt-8B-IMT"/>
-                            <outletCollection property="gestureRecognizers" destination="MNV-If-6BO" appends="YES" id="gho-N5-8Ob"/>
-                            <outletCollection property="gestureRecognizers" destination="kIf-hr-irV" appends="YES" id="VIj-cm-69a"/>
-                            <outletCollection property="gestureRecognizers" destination="tmJ-xg-aGa" appends="YES" id="Kdw-eu-kcd"/>
-                        </connections>
-                    </glkView>
+                    </view>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <connections>
-                        <outlet property="switchLines" destination="fqH-vq-e84" id="Rcp-5N-7B9"/>
-                        <outlet property="switchPoints" destination="IpM-12-Myw" id="X92-BL-Noe"/>
-                        <outlet property="switchTexture" destination="ELU-gH-dVn" id="hlj-Qi-WWA"/>
-                        <outlet property="switchXRay" destination="K4R-iS-szS" id="BUr-Ru-LoS"/>
+                        <outlet property="switchLines" destination="fqH-vq-e84" id="4Nh-tL-A7G"/>
+                        <outlet property="switchPoints" destination="IpM-12-Myw" id="ulA-NT-Kzs"/>
+                        <outlet property="switchTexture" destination="ELU-gH-dVn" id="d1m-X6-m7y"/>
+                        <outlet property="switchXRay" destination="K4R-iS-szS" id="GqX-xN-5Yy"/>
                     </connections>
-                </glkViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="FNN-dj-J2O" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <pinchGestureRecognizer id="kIf-hr-irV">
-                    <connections>
-                        <action selector="pinch:" destination="vSe-JL-UCo" id="Bjf-vg-8SU"/>
-                        <outlet property="delegate" destination="vSe-JL-UCo" id="ztO-ni-7DU"/>
-                    </connections>
-                </pinchGestureRecognizer>
-                <panGestureRecognizer minimumNumberOfTouches="1" maximumNumberOfTouches="2" id="MNV-If-6BO">
-                    <connections>
-                        <action selector="pan:" destination="vSe-JL-UCo" id="kuV-6U-SSr"/>
-                        <outlet property="delegate" destination="vSe-JL-UCo" id="SEJ-gf-iZ2"/>
-                    </connections>
-                </panGestureRecognizer>
-                <rotationGestureRecognizer id="tmJ-xg-aGa">
-                    <connections>
-                        <action selector="rotation:" destination="vSe-JL-UCo" id="ScH-mR-9LW"/>
-                        <outlet property="delegate" destination="vSe-JL-UCo" id="WNp-pP-2CB"/>
-                    </connections>
-                </rotationGestureRecognizer>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="h3X-4y-JFK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="131" y="-474"/>
+            <point key="canvasLocation" x="470" y="-31"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

@@ -15,7 +15,7 @@ static NSString* const kRRCModel = @"mushroom";
 @interface RRCiPhoneViewController ()
 
 // Model
-@property (strong, nonatomic, readwrite) RRCOpenglesModel* model;
+@property (strong, nonatomic, readwrite) RRCOpenglesModel* graphicsModel;
 
 // Effect
 @property (strong, nonatomic, readwrite) GLKBaseEffect* effect;
@@ -24,11 +24,19 @@ static NSString* const kRRCModel = @"mushroom";
 
 @implementation RRCiPhoneViewController
 
+#pragma mark - View
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
     NSLog(@"%@:- viewDidLoad", [self class]);
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    NSLog(@"%@:- viewDidAppear", [self class]);
     
     // Set up context
     EAGLContext* context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
@@ -38,18 +46,19 @@ static NSString* const kRRCModel = @"mushroom";
     GLKView* glkview = (GLKView *)self.view;
     glkview.context = context;
     
-    // OpenGL ES Settings
+    // OpenGL ES settings
     glClearColor(0.36, 0.67, 0.18, 1.00);
     glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
     
     // Create effect
     [self createEffect];
-
+    
     // Load model
-    [self loadModel];
+    [self loadGraphicsModel];
 }
 
+#pragma mark - Effect
 - (void)createEffect
 {
     // Initialize
@@ -77,15 +86,16 @@ static NSString* const kRRCModel = @"mushroom";
     self.effect.material.specularColor = GLKVector4Make(0.25, 0.25, 0.25, 1.0);
 }
 
-- (void)loadModel
+#pragma mark - Model
+- (void)loadGraphicsModel
 {
     RRCColladaParser* parser = [[RRCColladaParser alloc] initWithXML:[NSString stringWithFormat:@"Models/%@", kRRCModel]];
     
     if([parser didParseXML])
     {
         NSLog(@"%@:- Successfully parsed XML", [self class]);
-        self.model = [[RRCOpenglesModel alloc] initWithCollada:parser.collada];
-        if([self.model didConvertCollada])
+        self.graphicsModel = [[RRCOpenglesModel alloc] initWithCollada:parser.collada];
+        if([self.graphicsModel didConvertCollada])
         {
             NSLog(@"%@:- Successfully converted COLLADA", [self class]);
         }
@@ -102,6 +112,7 @@ static NSString* const kRRCModel = @"mushroom";
     }
 }
 
+#pragma mark - Matrices
 - (void)setMatrices
 {
     // Projection Matrix
@@ -112,13 +123,14 @@ static NSString* const kRRCModel = @"mushroom";
     
     // ModelView Matrix
     GLKMatrix4 modelViewMatrix = GLKMatrix4Identity;
-    modelViewMatrix = GLKMatrix4Translate(modelViewMatrix, 0.00, -2.00, -4.00);
+    modelViewMatrix = GLKMatrix4Translate(modelViewMatrix, 0.00, -1.50, -4.00);
     modelViewMatrix = GLKMatrix4RotateY(modelViewMatrix, GLKMathDegreesToRadians(200.00));
     modelViewMatrix = GLKMatrix4RotateX(modelViewMatrix, GLKMathDegreesToRadians(-90.00));
     modelViewMatrix = GLKMatrix4Scale(modelViewMatrix, 0.67, 0.67, 0.67);
     self.effect.transform.modelviewMatrix = modelViewMatrix;
 }
 
+#pragma mark - Render
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -130,28 +142,28 @@ static NSString* const kRRCModel = @"mushroom";
     [self setMatrices];
     
     // Positions
-    if(self.model.positions)
+    if(self.graphicsModel.positions)
     {
         glEnableVertexAttribArray(GLKVertexAttribPosition);
-        glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 0, self.model.positions);
+        glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 0, self.graphicsModel.positions);
     }
     
     // Normals
-    if(self.model.normals)
+    if(self.graphicsModel.normals)
     {
         glEnableVertexAttribArray(GLKVertexAttribNormal);
-        glVertexAttribPointer(GLKVertexAttribNormal, 3, GL_FLOAT, GL_FALSE, 0, self.model.normals);
+        glVertexAttribPointer(GLKVertexAttribNormal, 3, GL_FLOAT, GL_FALSE, 0, self.graphicsModel.normals);
     }
     
     // Texels
-    if(self.model.texels)
+    if(self.graphicsModel.texels)
     {
         glEnableVertexAttribArray(GLKVertexAttribTexCoord0);
-        glVertexAttribPointer(GLKVertexAttribTexCoord0, 2, GL_FLOAT, GL_FALSE, 0, self.model.texels);
+        glVertexAttribPointer(GLKVertexAttribTexCoord0, 2, GL_FLOAT, GL_FALSE, 0, self.graphicsModel.texels);
     }
     
     // Draw Model
-    glDrawArrays(GL_TRIANGLES, 0, self.model.count);
+    glDrawArrays(GL_TRIANGLES, 0, self.graphicsModel.count);
 }
 
 @end

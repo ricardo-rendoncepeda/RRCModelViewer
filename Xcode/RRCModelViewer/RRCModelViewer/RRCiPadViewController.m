@@ -7,6 +7,7 @@
 //
 
 #import "RRCiPadViewController.h"
+#import "RRCOpenglesView.h"
 #import "RRCColladaParser.h"
 #import "RRCOpenglesModel.h"
 #import "RRCShaderLines.h"
@@ -18,8 +19,11 @@ static NSString* const kRRCModel = @"mushroom";
 
 @interface RRCiPadViewController () <UIGestureRecognizerDelegate>
 
+// View
+@property (strong, nonatomic, readwrite) RRCOpenglesView* graphicsView;
+
 // Model
-@property (strong, nonatomic, readwrite) RRCOpenglesModel* model;
+@property (strong, nonatomic, readwrite) RRCOpenglesModel* graphicsModel;
 @property (strong, nonatomic, readwrite) GLKTextureInfo* texture;
 
 // Shaders
@@ -40,40 +44,46 @@ static NSString* const kRRCModel = @"mushroom";
 
 @implementation RRCiPadViewController
 
+#pragma mark - View
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
     NSLog(@"%@:- viewDidLoad", [self class]);
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
     
-    // Set up context
-    EAGLContext* context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
-    [EAGLContext setCurrentContext:context];
+    NSLog(@"%@:- viewDidAppear", [self class]);
     
-    // Set up view
-    GLKView* glkview = (GLKView *)self.view;
-    glkview.context = context;
+    // Load view
+    [self loadGraphicsView];
     
-    // OpenGL ES Settings
-    glClearColor(0.36, 0.67, 0.18, 1.00);
-    glEnable(GL_CULL_FACE);
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    
-    // Initialize Shaders
+    // Initialize shaders
     self.shaderLines = [RRCShaderLines new];
     self.shaderPoints = [RRCShaderPoints new];
     self.shaderBlinnPhong = [RRCShaderBlinnPhong new];
     
-    // Load Scene
+    // Load scene
     [self loadScene];
     
-    // Load Model
-    [self loadModel];
+    // Load model
+    [self loadGraphicsModel];
     
-    // Load Texture
+    // Load texture
     [self loadTexture];
+}
+
+#pragma mark - Load
+- (void)loadGraphicsView
+{
+    self.graphicsView = [[RRCOpenglesView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.height, self.view.frame.size.width)];
+    [self.view insertSubview:self.graphicsView atIndex:0];
+    
+    CADisplayLink* displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(updateWithDisplayLink:)];
+    [displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
 }
 
 - (void)loadScene
@@ -82,20 +92,20 @@ static NSString* const kRRCModel = @"mushroom";
                                               aspect:(float)(self.view.bounds.size.width / self.view.bounds.size.height)
                                                 near:0.10
                                                  far:10.00
-                                               scale:0.95
-                                            position:GLKVector2Make(0.00, 0.95)
-                                         orientation:GLKVector3Make(90.00, -90.00, 0.00)];
+                                               scale:1.00
+                                            position:GLKVector2Make(0.00, -1.50)
+                                         orientation:GLKVector3Make(90.00, 160.00, 0.00)];
 }
 
-- (void)loadModel
+- (void)loadGraphicsModel
 {
     RRCColladaParser* parser = [[RRCColladaParser alloc] initWithXML:[NSString stringWithFormat:@"Models/%@", kRRCModel]];
     
     if([parser didParseXML])
     {
         NSLog(@"%@:- Successfully parsed XML", [self class]);
-        self.model = [[RRCOpenglesModel alloc] initWithCollada:parser.collada];
-        if([self.model didConvertCollada])
+        self.graphicsModel = [[RRCOpenglesModel alloc] initWithCollada:parser.collada];
+        if([self.graphicsModel didConvertCollada])
         {
             NSLog(@"%@:- Successfully converted COLLADA", [self class]);
         }
@@ -124,20 +134,24 @@ static NSString* const kRRCModel = @"mushroom";
         NSLog(@"%@:- Error loading texture: %@", [self class], [error localizedDescription]);
 }
 
-- (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
+#pragma mark - Render
+- (void)updateWithDisplayLink:(CADisplayLink*)displayLink
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     // Lines
     if(self.switchLines.on)
-        [self.shaderLines renderModel:self.model inScene:self.scene];
+        [self.shaderLines renderModel:self.graphicsModel inScene:self.scene];
     
     // Points
     if(self.switchPoints.on)
-        [self.shaderPoints renderModel:self.model inScene:self.scene];
+        [self.shaderPoints renderModel:self.graphicsModel inScene:self.scene];
     
     // Blinn-Phong
-    [self.shaderBlinnPhong renderModel:self.model inScene:self.scene withTexture:self.texture boolTexture:self.switchTexture.on boolXRay:self.switchXRay.on];
+    [self.shaderBlinnPhong renderModel:self.graphicsModel inScene:self.scene withTexture:self.texture boolTexture:self.switchTexture.on boolXRay:self.switchXRay.on];
+    
+    // Graphics View
+    [self.graphicsView update];
 }
 
 #pragma mark - IBActions

@@ -6,6 +6,6 @@
 //  Copyright (c) 2014 RendonCepeda. All rights reserved.
 //
 
-@interface RRCiPadViewController : GLKViewController
+@interface RRCiPadViewController : UIViewController
 
 @end
