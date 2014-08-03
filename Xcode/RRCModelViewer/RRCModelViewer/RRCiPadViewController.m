@@ -15,15 +15,15 @@
 #import "RRCShaderBlinnPhong.h"
 #import "RRCSceneEngine.h"
 
-static NSString* const kRRCModel = @"mushroom";
+static NSString* const kRRCModelName = @"mushroom";
 
 @interface RRCiPadViewController () <UIGestureRecognizerDelegate>
 
 // View
-@property (strong, nonatomic, readwrite) RRCOpenglesView* graphicsView;
+@property (strong, nonatomic, readwrite) RRCOpenglesView* openglesView;
 
 // Model
-@property (strong, nonatomic, readwrite) RRCOpenglesModel* graphicsModel;
+@property (strong, nonatomic, readwrite) RRCOpenglesModel* openglesModel;
 @property (strong, nonatomic, readwrite) GLKTextureInfo* texture;
 
 // Shaders
@@ -32,7 +32,7 @@ static NSString* const kRRCModel = @"mushroom";
 @property (strong, nonatomic, readwrite) RRCShaderBlinnPhong* shaderBlinnPhong;
 
 // Scene
-@property (strong, nonatomic, readwrite) RRCSceneEngine* scene;
+@property (strong, nonatomic, readwrite) RRCSceneEngine* sceneEngine;
 
 // UI
 @property (weak, nonatomic) IBOutlet UISwitch* switchTexture;
@@ -63,7 +63,7 @@ static NSString* const kRRCModel = @"mushroom";
     self.labelHeader.text = @"Ricardo Rendon Cepeda\nSIGGRAPH 2014";
     
     // Load view
-    [self loadGraphicsView];
+    [self loadOpenglesView];
     
     // Initialize shaders
     self.shaderLines = [RRCShaderLines new];
@@ -71,45 +71,45 @@ static NSString* const kRRCModel = @"mushroom";
     self.shaderBlinnPhong = [RRCShaderBlinnPhong new];
     
     // Load scene
-    [self loadScene];
+    [self loadSceneEngine];
     
     // Load model
-    [self loadGraphicsModel];
+    [self loadOpenglesModel];
     
     // Load texture
     [self loadTexture];
 }
 
 #pragma mark - Load
-- (void)loadGraphicsView
+- (void)loadOpenglesView
 {
-    self.graphicsView = [[RRCOpenglesView alloc] initWithFrame:CGRectMake(0.00, 0.00, self.view.frame.size.height, self.view.frame.size.width)];
-    [self.view insertSubview:self.graphicsView atIndex:0];
+    self.openglesView = [[RRCOpenglesView alloc] initWithFrame:CGRectMake(0.00, 0.00, self.view.frame.size.height, self.view.frame.size.width)];
+    [self.view insertSubview:self.openglesView atIndex:0];
     
     CADisplayLink* displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(updateWithDisplayLink:)];
     [displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
 }
 
-- (void)loadScene
+- (void)loadSceneEngine
 {
-    self.scene = [[RRCSceneEngine alloc] initWithFOV:90.00
-                                              aspect:(self.view.bounds.size.width / self.view.bounds.size.height)
-                                                near:0.10
-                                                 far:10.00
-                                               scale:1.00
-                                            position:GLKVector2Make(0.00, -1.50)
-                                         orientation:GLKVector3Make(90.00, 160.00, 0.00)];
+    self.sceneEngine = [[RRCSceneEngine alloc] initWithFOV:90.00
+                                                    aspect:(self.view.bounds.size.width / self.view.bounds.size.height)
+                                                      near:0.10
+                                                       far:10.00
+                                                     scale:1.00
+                                                  position:GLKVector2Make(0.00, -2.00)
+                                               orientation:GLKVector3Make(90.00, 160.00, 0.00)];
 }
 
-- (void)loadGraphicsModel
+- (void)loadOpenglesModel
 {
-    RRCColladaParser* parser = [[RRCColladaParser alloc] initWithXML:[NSString stringWithFormat:@"Models/%@", kRRCModel]];
+    RRCColladaParser* parser = [[RRCColladaParser alloc] initWithXML:[NSString stringWithFormat:@"Models/%@", kRRCModelName]];
     
     if([parser didParseXML])
     {
         NSLog(@"%@:- Successfully parsed XML", [self class]);
-        self.graphicsModel = [[RRCOpenglesModel alloc] initWithCollada:parser.collada];
-        if([self.graphicsModel didConvertCollada])
+        self.openglesModel = [[RRCOpenglesModel alloc] initWithCollada:parser.collada];
+        if([self.openglesModel didConvertCollada])
         {
             NSLog(@"%@:- Successfully converted COLLADA", [self class]);
         }
@@ -131,7 +131,7 @@ static NSString* const kRRCModel = @"mushroom";
     // Texture
     NSDictionary* options = @{GLKTextureLoaderOriginBottomLeft:@YES};
     NSError* error;
-    NSString* path = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"Models/%@", kRRCModel] ofType:@".png"];
+    NSString* path = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"Models/%@", kRRCModelName] ofType:@".png"];
     self.texture = [GLKTextureLoader textureWithContentsOfFile:path options:options error:&error];
     
     if(self.texture == nil)
@@ -145,23 +145,23 @@ static NSString* const kRRCModel = @"mushroom";
     
     // Lines
     if(self.switchLines.on)
-        [self.shaderLines renderModel:self.graphicsModel inScene:self.scene];
+        [self.shaderLines renderModel:self.openglesModel inScene:self.sceneEngine];
     
     // Points
     if(self.switchPoints.on)
-        [self.shaderPoints renderModel:self.graphicsModel inScene:self.scene];
+        [self.shaderPoints renderModel:self.openglesModel inScene:self.sceneEngine];
     
     // Blinn-Phong
-    [self.shaderBlinnPhong renderModel:self.graphicsModel inScene:self.scene withTexture:self.texture boolTexture:self.switchTexture.on boolXRay:self.switchXRay.on];
+    [self.shaderBlinnPhong renderModel:self.openglesModel inScene:self.sceneEngine withTexture:self.texture boolTexture:self.switchTexture.on boolXRay:self.switchXRay.on];
     
     // Graphics View
-    [self.graphicsView update];
+    [self.openglesView update];
 }
 
 #pragma mark - IBActions
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
 {
-    [self.scene beginTransformations];
+    [self.sceneEngine beginTransformations];
     
     return YES;
 }
@@ -170,7 +170,7 @@ static NSString* const kRRCModel = @"mushroom";
 {
     // Pinch
     float scale = [sender scale];
-    [self.scene scale:scale];
+    [self.sceneEngine scale:scale];
 }
 
 - (IBAction)pan:(UIPanGestureRecognizer *)sender
@@ -181,14 +181,14 @@ static NSString* const kRRCModel = @"mushroom";
         CGPoint translation = [sender translationInView:sender.view];
         float x = translation.x/sender.view.frame.size.width;
         float y = translation.y/sender.view.frame.size.height;
-        [self.scene translate:GLKVector2Make(x, -y) withMultiplier:5.00];
+        [self.sceneEngine translate:GLKVector2Make(x, -y) withMultiplier:5.00];
     }
     
     // Pan (2 Fingers)
     else if(sender.numberOfTouches == 2)
     {
         CGPoint rotation = [sender translationInView:sender.view];
-        [self.scene rotate:GLKVector3Make(rotation.x, rotation.y, 0.00) withMultiplier:0.50];
+        [self.sceneEngine rotate:GLKVector3Make(rotation.x, rotation.y, 0.00) withMultiplier:0.50];
     }
 }
 
@@ -196,7 +196,7 @@ static NSString* const kRRCModel = @"mushroom";
 {
     // Rotation
     float rotation = [sender rotation];
-    [self.scene rotate:GLKVector3Make(0.00, 0.00, rotation) withMultiplier:GLKMathDegreesToRadians(1.00)];
+    [self.sceneEngine rotate:GLKVector3Make(0.00, 0.00, rotation) withMultiplier:GLKMathDegreesToRadians(1.00)];
 }
 
 @end

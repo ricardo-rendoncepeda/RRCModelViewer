@@ -10,12 +10,12 @@
 #import "RRCColladaParser.h"
 #import "RRCOpenglesModel.h"
 
-static NSString* const kRRCModel = @"mushroom";
+static NSString* const kRRCModelName = @"mushroom";
 
 @interface RRCiPhoneViewController ()
 
 // Model
-@property (strong, nonatomic, readwrite) RRCOpenglesModel* graphicsModel;
+@property (strong, nonatomic, readwrite) RRCOpenglesModel* openglesModel;
 
 // Effect
 @property (strong, nonatomic, readwrite) GLKBaseEffect* effect;
@@ -55,7 +55,7 @@ static NSString* const kRRCModel = @"mushroom";
     [self createEffect];
     
     // Load model
-    [self loadGraphicsModel];
+    [self loadOpenglesModel];
 }
 
 #pragma mark - Effect
@@ -67,7 +67,7 @@ static NSString* const kRRCModel = @"mushroom";
     // Texture
     NSDictionary* options = @{GLKTextureLoaderOriginBottomLeft:@YES};
     NSError* error;
-    NSString* path = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"Models/%@", kRRCModel] ofType:@".png"];
+    NSString* path = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"Models/%@", kRRCModelName] ofType:@".png"];
     GLKTextureInfo* texture = [GLKTextureLoader textureWithContentsOfFile:path options:options error:&error];
     
     if(!texture)
@@ -87,15 +87,15 @@ static NSString* const kRRCModel = @"mushroom";
 }
 
 #pragma mark - Model
-- (void)loadGraphicsModel
+- (void)loadOpenglesModel
 {
-    RRCColladaParser* parser = [[RRCColladaParser alloc] initWithXML:[NSString stringWithFormat:@"Models/%@", kRRCModel]];
+    RRCColladaParser* parser = [[RRCColladaParser alloc] initWithXML:[NSString stringWithFormat:@"Models/%@", kRRCModelName]];
     
     if([parser didParseXML])
     {
         NSLog(@"%@:- Successfully parsed XML", [self class]);
-        self.graphicsModel = [[RRCOpenglesModel alloc] initWithCollada:parser.collada];
-        if([self.graphicsModel didConvertCollada])
+        self.openglesModel = [[RRCOpenglesModel alloc] initWithCollada:parser.collada];
+        if([self.openglesModel didConvertCollada])
         {
             NSLog(@"%@:- Successfully converted COLLADA", [self class]);
         }
@@ -142,28 +142,28 @@ static NSString* const kRRCModel = @"mushroom";
     [self setMatrices];
     
     // Positions
-    if(self.graphicsModel.positions)
+    if(self.openglesModel.positions)
     {
         glEnableVertexAttribArray(GLKVertexAttribPosition);
-        glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 0, self.graphicsModel.positions);
+        glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 0, self.openglesModel.positions);
     }
     
     // Normals
-    if(self.graphicsModel.normals)
+    if(self.openglesModel.normals)
     {
         glEnableVertexAttribArray(GLKVertexAttribNormal);
-        glVertexAttribPointer(GLKVertexAttribNormal, 3, GL_FLOAT, GL_FALSE, 0, self.graphicsModel.normals);
+        glVertexAttribPointer(GLKVertexAttribNormal, 3, GL_FLOAT, GL_FALSE, 0, self.openglesModel.normals);
     }
     
     // Texels
-    if(self.graphicsModel.texels)
+    if(self.openglesModel.texels)
     {
         glEnableVertexAttribArray(GLKVertexAttribTexCoord0);
-        glVertexAttribPointer(GLKVertexAttribTexCoord0, 2, GL_FLOAT, GL_FALSE, 0, self.graphicsModel.texels);
+        glVertexAttribPointer(GLKVertexAttribTexCoord0, 2, GL_FLOAT, GL_FALSE, 0, self.openglesModel.texels);
     }
     
     // Draw Model
-    glDrawArrays(GL_TRIANGLES, 0, self.graphicsModel.count);
+    glDrawArrays(GL_TRIANGLES, 0, self.openglesModel.count);
 }
 
 @end
