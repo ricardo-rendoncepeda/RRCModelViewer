@@ -24,7 +24,7 @@ static NSString* const kRRCModelName = @"mushroom";
 
 // Model
 @property (strong, nonatomic, readwrite) RRCOpenglesModel* openglesModel;
-@property (strong, nonatomic, readwrite) GLKTextureInfo* texture;
+@property (assign, nonatomic, readwrite) GLuint texture;
 
 // Shaders
 @property (strong, nonatomic, readwrite) RRCShaderLines* shaderLines;
@@ -128,14 +128,16 @@ static NSString* const kRRCModelName = @"mushroom";
 
 - (void)loadTexture
 {
-    // Texture
-    NSDictionary* options = @{GLKTextureLoaderOriginBottomLeft:@YES};
-    NSError* error;
-    NSString* path = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"Models/%@", kRRCModelName] ofType:@".png"];
-    self.texture = [GLKTextureLoader textureWithContentsOfFile:path options:options error:&error];
+    UIImage* textureImage = [UIImage imageNamed:[NSString stringWithFormat:@"Models/%@", kRRCModelName]];
+    CGImageRef cgImage = textureImage.CGImage;
+    CFDataRef data = CGDataProviderCopyData(CGImageGetDataProvider(cgImage));
     
-    if(self.texture == nil)
-        NSLog(@"%@:- Error loading texture: %@", [self class], [error localizedDescription]);
+    glGenTextures(1, &_texture);
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, _texture);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, CGImageGetWidth(cgImage), CGImageGetHeight(cgImage), 0, GL_RGBA, GL_UNSIGNED_BYTE, CFDataGetBytePtr(data));
 }
 
 #pragma mark - Render
@@ -152,7 +154,7 @@ static NSString* const kRRCModelName = @"mushroom";
         [self.shaderPoints renderModel:self.openglesModel inScene:self.sceneEngine];
     
     // Blinn-Phong
-    [self.shaderBlinnPhong renderModel:self.openglesModel inScene:self.sceneEngine withTexture:self.texture boolTexture:self.switchTexture.on boolXRay:self.switchXRay.on];
+    [self.shaderBlinnPhong renderModel:self.openglesModel withScene:self.sceneEngine texture:self.switchTexture.on xRay:self.switchXRay.on];
     
     // Graphics View
     [self.openglesView update];

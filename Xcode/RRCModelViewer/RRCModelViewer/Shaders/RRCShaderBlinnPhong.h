@@ -20,6 +20,6 @@
 @property (assign, nonatomic, readonly) GLint uSwitchTexture;
 @property (assign, nonatomic, readonly) GLint uSwitchXRay;
 
-- (void)renderModel:(RRCOpenglesModel *)model inScene:(RRCSceneEngine *)scene withTexture:(GLKTextureInfo*)texture boolTexture:(BOOL)boolTexture boolXRay:(BOOL)boolXRay;
+- (void)renderModel:(RRCOpenglesModel *)model withScene:(RRCSceneEngine*)scene texture:(BOOL)texture xRay:(BOOL)xRay;
 
 @end
