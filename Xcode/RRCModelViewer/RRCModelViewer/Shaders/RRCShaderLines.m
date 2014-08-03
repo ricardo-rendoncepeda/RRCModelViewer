@@ -25,7 +25,7 @@
     [super renderModel:model inScene:scene];
     
     // Draw Model
-    glLineWidth(4.0f);
+    glLineWidth(4.00);
     for(int i=0; i<model.count; i+=3)
         glDrawArrays(GL_LINES, i, 2);
 }

@@ -31,21 +31,18 @@
 #pragma mark - Program
 - (GLuint)programWithVertexShader:(NSString*)vsh fragmentShader:(NSString*)fsh
 {
-    // Build shaders
+    // Program
+    GLuint programHandle = glCreateProgram();
+    
+    // Shaders
     GLuint vertexShader = [self shaderWithName:vsh type:GL_VERTEX_SHADER];
     GLuint fragmentShader = [self shaderWithName:fsh type:GL_FRAGMENT_SHADER];
     
-    // Create program
-    GLuint programHandle = glCreateProgram();
-    
-    // Attach shaders
+    // Attach & Link
     glAttachShader(programHandle, vertexShader);
     glAttachShader(programHandle, fragmentShader);
-    
-    // Link program
     glLinkProgram(programHandle);
     
-    // Check for errors
     GLint linkSuccess;
     glGetProgramiv(programHandle, GL_LINK_STATUS, &linkSuccess);
     if (linkSuccess == GL_FALSE)
@@ -55,7 +52,6 @@
         NSLog(@"%@:- GLSL Program Error: %s", [self class], messages);
     }
     
-    // Delete shaders
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
     
@@ -64,26 +60,21 @@
 
 - (GLuint)shaderWithName:(NSString*)name type:(GLenum)type
 {
-    // Load the shader file
+    // File
     NSString* file;
     if(type == GL_VERTEX_SHADER)
         file = [[NSBundle mainBundle] pathForResource:name ofType:@"vsh"];
     else if(type == GL_FRAGMENT_SHADER)
         file = [[NSBundle mainBundle] pathForResource:name ofType:@"fsh"];
     
-    // Create the shader source
+    // Source & Object
     const GLchar* source = (GLchar*)[[NSString stringWithContentsOfFile:file encoding:NSUTF8StringEncoding error:nil] UTF8String];
-    
-    // Create the shader object
     GLuint shaderHandle = glCreateShader(type);
-    
-    // Load the shader source
     glShaderSource(shaderHandle, 1, &source, 0);
     
-    // Compile the shader
+    // Compile
     glCompileShader(shaderHandle);
     
-    // Check for errors
     GLint compileSuccess;
     glGetShaderiv(shaderHandle, GL_COMPILE_STATUS, &compileSuccess);
     if (compileSuccess == GL_FALSE)

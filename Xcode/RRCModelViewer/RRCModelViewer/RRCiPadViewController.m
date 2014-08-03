@@ -79,7 +79,7 @@ static NSString* const kRRCModel = @"mushroom";
 #pragma mark - Load
 - (void)loadGraphicsView
 {
-    self.graphicsView = [[RRCOpenglesView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.height, self.view.frame.size.width)];
+    self.graphicsView = [[RRCOpenglesView alloc] initWithFrame:CGRectMake(0.00, 0.00, self.view.frame.size.height, self.view.frame.size.width)];
     [self.view insertSubview:self.graphicsView atIndex:0];
     
     CADisplayLink* displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(updateWithDisplayLink:)];
@@ -89,7 +89,7 @@ static NSString* const kRRCModel = @"mushroom";
 - (void)loadScene
 {
     self.scene = [[RRCSceneEngine alloc] initWithFOV:90.00
-                                              aspect:(float)(self.view.bounds.size.width / self.view.bounds.size.height)
+                                              aspect:(self.view.bounds.size.width / self.view.bounds.size.height)
                                                 near:0.10
                                                  far:10.00
                                                scale:1.00

@@ -82,8 +82,8 @@ static NSString* const kRRCModel = @"mushroom";
     self.effect.lightingType = GLKLightingTypePerPixel;
     
     // Material
-    self.effect.material.diffuseColor = GLKVector4Make(0.75, 0.75, 0.75, 1.0);
-    self.effect.material.specularColor = GLKVector4Make(0.25, 0.25, 0.25, 1.0);
+    self.effect.material.diffuseColor = GLKVector4Make(0.75, 0.75, 0.75, 1.00);
+    self.effect.material.specularColor = GLKVector4Make(0.25, 0.25, 0.25, 1.00);
 }
 
 #pragma mark - Model

@@ -14,18 +14,18 @@ uniform bool uSwitchXRay;
 
 void main(void)
 {
-    vec3 N = normalize(vNormal);
-    vec3 L = vec3(1.0, 1.0, 0.5);
-    vec3 E = vec3(0.0, 0.0, 1.0);
-    vec3 H = normalize(L+E);
+    vec3 normal = normalize(vNormal);
+    vec3 light = vec3(1.0, 1.0, 0.5);
+    vec3 eye = vec3(0.0, 0.0, 1.0);
+    vec3 halfway = normalize(light+eye);
     
     vec3 ambient = vec3(0.2);
     vec3 diffuse = vec3(0.7);
     vec3 specular = vec3(0.1);
-    float exponent = 1.0;
+    float exponent = 128.0;
     
-    float df = max(0.0, dot(N,L));
-    float sf = max(0.0, dot(N,H));
+    float df = max(0.0, dot(normal, light));
+    float sf = max(0.0, dot(normal, halfway));
     sf = pow(sf, exponent);
     
     vec3 surface = ambient + (df*diffuse) + (sf*specular);

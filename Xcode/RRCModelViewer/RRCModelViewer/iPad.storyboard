@@ -92,7 +92,13 @@
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
                         <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="kKl-Om-2oR" appends="YES" id="s6u-ma-8nd"/>
+                            <outletCollection property="gestureRecognizers" destination="IoF-Ub-MYc" appends="YES" id="1Mz-yb-2Am"/>
+                            <outletCollection property="gestureRecognizers" destination="0QB-Jg-HnN" appends="YES" id="JGV-gg-6BK"/>
+                        </connections>
                     </view>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <connections>
@@ -103,6 +109,24 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="h3X-4y-JFK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <pinchGestureRecognizer id="kKl-Om-2oR">
+                    <connections>
+                        <action selector="pinch:" destination="ezH-qT-zAh" id="nee-lh-AB1"/>
+                        <outlet property="delegate" destination="ezH-qT-zAh" id="4mz-AM-tmC"/>
+                    </connections>
+                </pinchGestureRecognizer>
+                <rotationGestureRecognizer id="IoF-Ub-MYc">
+                    <connections>
+                        <action selector="rotation:" destination="ezH-qT-zAh" id="viW-4L-EMk"/>
+                        <outlet property="delegate" destination="ezH-qT-zAh" id="cQY-g8-BCs"/>
+                    </connections>
+                </rotationGestureRecognizer>
+                <panGestureRecognizer minimumNumberOfTouches="1" maximumNumberOfTouches="2" id="0QB-Jg-HnN">
+                    <connections>
+                        <action selector="pan:" destination="ezH-qT-zAh" id="vUZ-DX-xaH"/>
+                        <outlet property="delegate" destination="ezH-qT-zAh" id="61G-BH-EdO"/>
+                    </connections>
+                </panGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="470" y="-31"/>
         </scene>

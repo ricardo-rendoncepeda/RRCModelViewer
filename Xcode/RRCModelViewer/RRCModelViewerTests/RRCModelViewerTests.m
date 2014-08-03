@@ -10,8 +10,6 @@
 #import "RRCColladaParser.h"
 #import "RRCOpenglesModel.h"
 
-static NSString* const kRRCModel = @"mushroom";
-
 @interface RRCModelViewerTests : XCTestCase
 
 @end
@@ -30,11 +28,16 @@ static NSString* const kRRCModel = @"mushroom";
     [super tearDown];
 }
 
+- (void)testCourse
+{
+    NSLog(@"Hello, World!");
+}
+
 - (void)testParser
 {
     NSLog(@"%@:- Parser", [self class]);
     
-    RRCColladaParser* parser = [[RRCColladaParser alloc] initWithXML:[NSString stringWithFormat:@"Models/%@", kRRCModel]];
+    RRCColladaParser* parser = [[RRCColladaParser alloc] initWithXML:@"Models/mushroom"];
     
     if([parser didParseXML])
     {
