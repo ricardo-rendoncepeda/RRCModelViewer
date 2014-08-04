@@ -12,15 +12,9 @@ import SceneKit
 
 class GameViewController: UIViewController {
     @IBOutlet weak var sceneView: SCNView!
-    
-    let model = "mushroom"
 
     override func viewDidLoad() {
         super.viewDidLoad()
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        sceneView.scene = SCNScene(named: "art.scnassets/"+model);
+        sceneView.scene = SCNScene(named: "art.scnassets/mushroom");
     }
 }
