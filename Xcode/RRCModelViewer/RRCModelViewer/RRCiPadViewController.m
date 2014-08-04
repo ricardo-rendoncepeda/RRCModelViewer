@@ -62,22 +62,12 @@ static NSString* const kRRCModelName = @"mushroom";
     // UI
     self.labelHeader.text = @"Ricardo Rendon Cepeda\nSIGGRAPH 2014";
     
-    // Load view
+    // Load
     [self loadOpenglesView];
-    
-    // Initialize shaders
-    self.shaderLines = [RRCShaderLines new];
-    self.shaderPoints = [RRCShaderPoints new];
-    self.shaderBlinnPhong = [RRCShaderBlinnPhong new];
-    
-    // Load scene
-    [self loadSceneEngine];
-    
-    // Load model
     [self loadOpenglesModel];
-    
-    // Load texture
+    [self loadShaders];
     [self loadTexture];
+    [self loadSceneEngine];
 }
 
 #pragma mark - Load
@@ -88,17 +78,6 @@ static NSString* const kRRCModelName = @"mushroom";
     
     CADisplayLink* displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(updateWithDisplayLink:)];
     [displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-}
-
-- (void)loadSceneEngine
-{
-    self.sceneEngine = [[RRCSceneEngine alloc] initWithFOV:90.00
-                                                    aspect:(self.view.bounds.size.width / self.view.bounds.size.height)
-                                                      near:0.10
-                                                       far:10.00
-                                                     scale:1.00
-                                                  position:GLKVector2Make(0.00, -2.00)
-                                               orientation:GLKVector3Make(90.00, 160.00, 0.00)];
 }
 
 - (void)loadOpenglesModel
@@ -126,6 +105,13 @@ static NSString* const kRRCModelName = @"mushroom";
     }
 }
 
+- (void)loadShaders
+{
+    self.shaderLines = [RRCShaderLines new];
+    self.shaderPoints = [RRCShaderPoints new];
+    self.shaderBlinnPhong = [RRCShaderBlinnPhong new];
+}
+
 - (void)loadTexture
 {
     UIImage* textureImage = [UIImage imageNamed:[NSString stringWithFormat:@"Models/%@", kRRCModelName]];
@@ -139,6 +125,17 @@ static NSString* const kRRCModelName = @"mushroom";
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, CGImageGetWidth(cgImage), CGImageGetHeight(cgImage), 0, GL_RGBA, GL_UNSIGNED_BYTE, CFDataGetBytePtr(data));
     
     CFRelease(data);
+}
+
+- (void)loadSceneEngine
+{
+    self.sceneEngine = [[RRCSceneEngine alloc] initWithFOV:90.00
+                                                    aspect:(self.view.bounds.size.width/self.view.bounds.size.height)
+                                                      near:0.10
+                                                       far:10.00
+                                                     scale:1.00
+                                                  position:GLKVector2Make(0.00, -2.00)
+                                               orientation:GLKVector3Make(90.00, 160.00, 0.00)];
 }
 
 #pragma mark - Render
@@ -155,9 +152,9 @@ static NSString* const kRRCModelName = @"mushroom";
         [self.shaderPoints renderModel:self.openglesModel inScene:self.sceneEngine];
     
     // Blinn-Phong
-    [self.shaderBlinnPhong renderModel:self.openglesModel withScene:self.sceneEngine texture:self.switchTexture.on xRay:self.switchXRay.on];
+    [self.shaderBlinnPhong renderModel:self.openglesModel inScene:self.sceneEngine withTexture:self.switchTexture.on xRay:self.switchXRay.on];
     
-    // Graphics View
+    // Graphics view
     [self.openglesView update];
 }
 

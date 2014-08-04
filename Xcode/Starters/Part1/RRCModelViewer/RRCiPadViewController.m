@@ -15,7 +15,7 @@
 #import "RRCShaderBlinnPhong.h"
 #import "RRCSceneEngine.h"
 
-static NSString* const kRRCModel = @"mushroom";
+static NSString* const kRRCModelName = @"mushroom";
 
 @interface RRCiPadViewController () <UIGestureRecognizerDelegate>
 

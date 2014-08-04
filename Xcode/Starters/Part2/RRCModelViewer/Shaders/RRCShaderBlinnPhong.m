@@ -29,7 +29,7 @@
 }
 
 #pragma mark - Render
-- (void)renderModel:(RRCOpenglesModel *)model withScene:(RRCSceneEngine *)scene texture:(BOOL)texture xRay:(BOOL)xRay
+- (void)renderModel:(RRCOpenglesModel *)model inScene:(RRCSceneEngine *)scene withTexture:(BOOL)texture xRay:(BOOL)xRay
 {
     [super renderModel:model inScene:scene];
     
