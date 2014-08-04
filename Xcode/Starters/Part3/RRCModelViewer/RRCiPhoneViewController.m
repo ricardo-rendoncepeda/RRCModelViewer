@@ -43,11 +43,11 @@ static NSString* const kRRCModelName = @"mushroom";
     [EAGLContext setCurrentContext:context];
     
     // Set up view
-    GLKView* glkview = (GLKView *)self.view;
-    glkview.context = context;
+    GLKView* glkView = (GLKView*)self.view;
+    glkView.context = context;
     
     // OpenGL ES settings
-    glClearColor(0.36, 0.67, 0.18, 1.00);
+    glClearColor(92.0/255.0, 171.0/255.0, 46.0/255.0, 1.0);
     glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
     
@@ -65,26 +65,17 @@ static NSString* const kRRCModelName = @"mushroom";
 - (void)loadOpenglesModel
 {
     RRCColladaParser* parser = [[RRCColladaParser alloc] initWithXML:[NSString stringWithFormat:@"Models/%@", kRRCModelName]];
-    
     if([parser didParseXML])
     {
         NSLog(@"%@:- Successfully parsed XML", [self class]);
         self.openglesModel = [[RRCOpenglesModel alloc] initWithCollada:parser.collada];
         if([self.openglesModel didConvertCollada])
-        {
             NSLog(@"%@:- Successfully converted COLLADA", [self class]);
-        }
         else
-        {
-            NSLog(@"%@:- Error converting COLLADA", [self class]);
-            exit(1);
-        }
+            [NSException raise:@"Error converting COLLADA" format:nil];
     }
     else
-    {
-        NSLog(@"%@:- Error parsing XML", [self class]);
-        exit(1);
-    }
+        [NSException raise:@"Error parsing XML" format:nil];
 }
 
 #pragma mark - Effect
@@ -95,12 +86,12 @@ static NSString* const kRRCModelName = @"mushroom";
     
     // Light
     self.effect.light0.enabled = GL_TRUE;
-    self.effect.light0.position = GLKVector4Make(10.00, 10.00, 5.00, 1.00);
+    self.effect.light0.position = GLKVector4Make(10.0, 10.0, 5.0, 1.0);
     self.effect.lightingType = GLKLightingTypePerPixel;
     
     // Material
-    self.effect.material.diffuseColor = GLKVector4Make(0.80, 0.80, 0.80, 1.00);
-    self.effect.material.specularColor = GLKVector4Make(0.20, 0.20, 0.20, 1.00);
+    self.effect.material.diffuseColor = GLKVector4Make(0.8, 0.8, 0.8, 1.0);
+    self.effect.material.specularColor = GLKVector4Make(0.2, 0.2, 0.2, 1.0);
     
     // Texture
     NSDictionary* options = @{GLKTextureLoaderOriginBottomLeft: @YES};
@@ -119,15 +110,15 @@ static NSString* const kRRCModelName = @"mushroom";
 {
     // Projection matrix
     GLfloat aspectRatio = self.view.bounds.size.width/self.view.bounds.size.height;
-    GLfloat fieldOfView = GLKMathDegreesToRadians(90.00);
-    GLKMatrix4 projectionMatrix = GLKMatrix4MakePerspective(fieldOfView, aspectRatio, 0.10, 10.00);
+    GLfloat fieldOfView = GLKMathDegreesToRadians(90.0);
+    GLKMatrix4 projectionMatrix = GLKMatrix4MakePerspective(fieldOfView, aspectRatio, 0.1, 10.0);
     self.effect.transform.projectionMatrix = projectionMatrix;
     
     // ModelView matrix
     GLKMatrix4 modelViewMatrix = GLKMatrix4Identity;
-    modelViewMatrix = GLKMatrix4Translate(modelViewMatrix, 0.00, -1.50, -4.00);
-    modelViewMatrix = GLKMatrix4RotateY(modelViewMatrix, GLKMathDegreesToRadians(200.00));
-    modelViewMatrix = GLKMatrix4RotateX(modelViewMatrix, GLKMathDegreesToRadians(-90.00));
+    modelViewMatrix = GLKMatrix4Translate(modelViewMatrix, 0.0, -1.5, -5.0);
+    modelViewMatrix = GLKMatrix4RotateY(modelViewMatrix, GLKMathDegreesToRadians(200.0));
+    modelViewMatrix = GLKMatrix4RotateX(modelViewMatrix, GLKMathDegreesToRadians(-90.0));
     modelViewMatrix = GLKMatrix4Scale(modelViewMatrix, 0.67, 0.67, 0.67);
     self.effect.transform.modelviewMatrix = modelViewMatrix;
 }
