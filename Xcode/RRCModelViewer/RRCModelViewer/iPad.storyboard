@@ -105,6 +105,7 @@
                             <outletCollection property="gestureRecognizers" destination="kKl-Om-2oR" appends="YES" id="s6u-ma-8nd"/>
                             <outletCollection property="gestureRecognizers" destination="IoF-Ub-MYc" appends="YES" id="1Mz-yb-2Am"/>
                             <outletCollection property="gestureRecognizers" destination="0QB-Jg-HnN" appends="YES" id="JGV-gg-6BK"/>
+                            <outletCollection property="gestureRecognizers" destination="bAB-TK-sGC" appends="YES" id="Y6U-3b-Yik"/>
                         </connections>
                     </view>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
@@ -135,6 +136,11 @@
                         <outlet property="delegate" destination="ezH-qT-zAh" id="61G-BH-EdO"/>
                     </connections>
                 </panGestureRecognizer>
+                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.99999999999999989" id="bAB-TK-sGC">
+                    <connections>
+                        <action selector="longPress:" destination="ezH-qT-zAh" id="Ji2-Cc-VQG"/>
+                    </connections>
+                </pongPressGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="470" y="-31"/>
         </scene>

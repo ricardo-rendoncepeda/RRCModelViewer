@@ -194,4 +194,20 @@ static NSString* const kRRCModelName = @"mushroom";
     [self.sceneEngine rotate:GLKVector3Make(0.00, 0.00, rotation) withMultiplier:GLKMathDegreesToRadians(1.00)];
 }
 
+- (IBAction)longPress:(UILongPressGestureRecognizer *)sender
+{
+    self.switchTexture.on = YES;
+    self.switchXRay.on = NO;
+    self.switchLines.on = NO;
+    self.switchPoints.on = NO;
+    
+    self.sceneEngine = [[RRCSceneEngine alloc] initWithFOV:90.00
+                                                    aspect:(self.view.bounds.size.width/self.view.bounds.size.height)
+                                                      near:0.10
+                                                       far:10.00
+                                                     scale:1.00
+                                                  position:GLKVector2Make(0.00, -2.00)
+                                               orientation:GLKVector3Make(90.00, 160.00, 0.00)];
+}
+
 @end

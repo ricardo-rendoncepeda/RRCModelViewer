@@ -15,8 +15,6 @@
 #import "RRCShaderBlinnPhong.h"
 #import "RRCSceneEngine.h"
 
-static NSString* const kRRCModelName = @"mushroom";
-
 @interface RRCiPadViewController () <UIGestureRecognizerDelegate>
 
 // View
@@ -49,14 +47,12 @@ static NSString* const kRRCModelName = @"mushroom";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     NSLog(@"%@:- viewDidLoad", [self class]);
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
     NSLog(@"%@:- viewDidAppear", [self class]);
     
     // UI
@@ -82,18 +78,17 @@ static NSString* const kRRCModelName = @"mushroom";
 
 - (void)loadOpenglesModel
 {
-    RRCColladaParser* parser = [[RRCColladaParser alloc] initWithXML:[NSString stringWithFormat:@"Models/%@", kRRCModelName]];
-    if([parser didParseXML])
+    RRCColladaParser* colladaParser = [[RRCColladaParser alloc] initWithXML:@"Models/mushroom"];
+    if([colladaParser didParseXML])
     {
-        NSLog(@"%@:- Successfully parsed XML", [self class]);
-        self.openglesModel = [[RRCOpenglesModel alloc] initWithCollada:parser.collada];
+        NSLog(@"Model parsed!");
+        
+        self.openglesModel = [[RRCOpenglesModel alloc] initWithCollada:colladaParser.collada];
         if([self.openglesModel didConvertCollada])
-            NSLog(@"%@:- Successfully converted COLLADA", [self class]);
-        else
-            [NSException raise:@"Error converting COLLADA" format:nil];
+        {
+            NSLog(@"Model converted!");
+        }
     }
-    else
-        [NSException raise:@"Error parsing XML" format:nil];
 }
 
 - (void)loadShaders
@@ -105,7 +100,7 @@ static NSString* const kRRCModelName = @"mushroom";
 
 - (void)loadTexture
 {
-    UIImage* textureImage = [UIImage imageNamed:[NSString stringWithFormat:@"Models/%@", kRRCModelName]];
+    UIImage* textureImage = [UIImage imageNamed:@"Models/mushroom"];
     CGImageRef textureCGImage = textureImage.CGImage;
     CFDataRef textureData = CGDataProviderCopyData(CGImageGetDataProvider(textureCGImage));
     
@@ -182,6 +177,22 @@ static NSString* const kRRCModelName = @"mushroom";
 {
     float rotation = [sender rotation];
     [self.sceneEngine rotate:GLKVector3Make(0.0, 0.0, rotation) withMultiplier:1.0];
+}
+
+- (IBAction)longPress:(UILongPressGestureRecognizer *)sender
+{
+    self.switchTexture.on = YES;
+    self.switchXRay.on = NO;
+    self.switchLines.on = NO;
+    self.switchPoints.on = NO;
+    
+    self.sceneEngine = [[RRCSceneEngine alloc] initWithFOV:90.00
+                                                    aspect:(self.view.bounds.size.width/self.view.bounds.size.height)
+                                                      near:0.10
+                                                       far:10.00
+                                                     scale:1.00
+                                                  position:GLKVector2Make(0.00, -2.00)
+                                               orientation:GLKVector3Make(90.00, 160.00, 0.00)];
 }
 
 @end

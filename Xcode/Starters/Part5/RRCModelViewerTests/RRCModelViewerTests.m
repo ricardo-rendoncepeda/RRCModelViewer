@@ -34,7 +34,7 @@
     NSLog(@"Hello, World!");
 }
 
-- (void)testParser
+- (void)testModel
 {
     RRCColladaParser* colladaParser = [[RRCColladaParser alloc] initWithXML:@"Models/mushroom"];
     if([colladaParser didParseXML])

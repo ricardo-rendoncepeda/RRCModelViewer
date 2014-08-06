@@ -32,4 +32,8 @@
     NSLog(@"Hello, World!");
 }
 
+- (void)testModel
+{
+}
+
 @end

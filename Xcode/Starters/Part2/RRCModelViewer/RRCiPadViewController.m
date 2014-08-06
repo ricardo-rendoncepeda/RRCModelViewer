@@ -15,8 +15,6 @@
 #import "RRCShaderBlinnPhong.h"
 #import "RRCSceneEngine.h"
 
-static NSString* const kRRCModelName = @"mushroom";
-
 @interface RRCiPadViewController () <UIGestureRecognizerDelegate>
 
 // View
@@ -48,20 +46,55 @@ static NSString* const kRRCModelName = @"mushroom";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     NSLog(@"%@:- viewDidLoad", [self class]);
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
     NSLog(@"%@:- viewDidAppear", [self class]);
+    
+    // Load
+    [self loadOpenglesView];
+    [self loadOpenglesModel];
+    [self loadShaders];
+    [self loadTexture];
+    [self loadSceneEngine];
+}
+
+#pragma mark - Load
+- (void)loadOpenglesView
+{
+}
+
+- (void)loadOpenglesModel
+{
+}
+
+- (void)loadShaders
+{
+    self.shaderBlinnPhong = [[RRCShaderBlinnPhong alloc] init];
+    self.shaderLines = [[RRCShaderLines alloc] init];
+    self.shaderPoints = [[RRCShaderPoints alloc] init];
+}
+
+- (void)loadTexture
+{
+}
+
+- (void)loadSceneEngine
+{
+}
+
+#pragma mark - Render
+- (void)updateWithDisplayLink:(CADisplayLink*)displayLink
+{
 }
 
 #pragma mark - IBActions
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
 {
+    [self.sceneEngine beginTransformations];
     return YES;
 }
 

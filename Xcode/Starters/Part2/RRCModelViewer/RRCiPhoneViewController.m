@@ -43,7 +43,6 @@
 #pragma mark - Load
 - (void)loadOpenglesModel
 {
-    
 }
 
 - (void)loadEffect

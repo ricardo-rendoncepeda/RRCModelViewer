@@ -26,4 +26,12 @@
     [super tearDown];
 }
 
+- (void)testCourse
+{
+}
+
+- (void)testModel
+{
+}
+
 @end

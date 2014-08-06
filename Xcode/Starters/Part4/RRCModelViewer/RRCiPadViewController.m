@@ -15,8 +15,6 @@
 #import "RRCShaderBlinnPhong.h"
 #import "RRCSceneEngine.h"
 
-static NSString* const kRRCModelName = @"mushroom";
-
 @interface RRCiPadViewController () <UIGestureRecognizerDelegate>
 
 // View
@@ -48,14 +46,12 @@ static NSString* const kRRCModelName = @"mushroom";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     NSLog(@"%@:- viewDidLoad", [self class]);
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
     NSLog(@"%@:- viewDidAppear", [self class]);
     
     // Load
@@ -78,28 +74,29 @@ static NSString* const kRRCModelName = @"mushroom";
 
 - (void)loadOpenglesModel
 {
-    RRCColladaParser* parser = [[RRCColladaParser alloc] initWithXML:[NSString stringWithFormat:@"Models/%@", kRRCModelName]];
-    if([parser didParseXML])
+    RRCColladaParser* colladaParser = [[RRCColladaParser alloc] initWithXML:@"Models/mushroom"];
+    if([colladaParser didParseXML])
     {
-        NSLog(@"%@:- Successfully parsed XML", [self class]);
-        self.openglesModel = [[RRCOpenglesModel alloc] initWithCollada:parser.collada];
+        NSLog(@"Model parsed!");
+        
+        self.openglesModel = [[RRCOpenglesModel alloc] initWithCollada:colladaParser.collada];
         if([self.openglesModel didConvertCollada])
-            NSLog(@"%@:- Successfully converted COLLADA", [self class]);
-        else
-            [NSException raise:@"Error converting COLLADA" format:nil];
+        {
+            NSLog(@"Model converted!");
+        }
     }
-    else
-        [NSException raise:@"Error parsing XML" format:nil];
 }
 
 - (void)loadShaders
 {
     self.shaderBlinnPhong = [[RRCShaderBlinnPhong alloc] init];
+    self.shaderLines = [[RRCShaderLines alloc] init];
+    self.shaderPoints = [[RRCShaderPoints alloc] init];
 }
 
 - (void)loadTexture
 {
-    UIImage* textureImage = [UIImage imageNamed:[NSString stringWithFormat:@"Models/%@", kRRCModelName]];
+    UIImage* textureImage = [UIImage imageNamed:@"Models/mushroom"];
     CGImageRef textureCGImage = textureImage.CGImage;
     CFDataRef textureData = CGDataProviderCopyData(CGImageGetDataProvider(textureCGImage));
     
@@ -138,6 +135,7 @@ static NSString* const kRRCModelName = @"mushroom";
 #pragma mark - IBActions
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
 {
+    [self.sceneEngine beginTransformations];
     return YES;
 }
 
