@@ -36,19 +36,16 @@
 
 - (void)testParser
 {
-    NSLog(@"Parser");
-    
     RRCColladaParser* colladaParser = [[RRCColladaParser alloc] initWithXML:@"Models/mushroom"];
-    
     if([colladaParser didParseXML])
     {
-        NSLog(@"Successfully parsed XML");
+        NSLog(@"Model parsed!");
         [colladaParser logCOLLADA];
         
         RRCOpenglesModel* openglesModel = [[RRCOpenglesModel alloc] initWithCollada:colladaParser.collada];
         if([openglesModel didConvertCollada])
         {
-            NSLog(@"Successfully converted COLLADA");
+            NSLog(@"Model converted!");
             [openglesModel logOpenGLES];
         }
     }
