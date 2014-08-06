@@ -10,8 +10,6 @@
 #import "RRCColladaParser.h"
 #import "RRCOpenglesModel.h"
 
-static NSString* const kRRCModelName = @"mushroom";
-
 @interface RRCiPhoneViewController ()
 
 // Model
@@ -28,14 +26,12 @@ static NSString* const kRRCModelName = @"mushroom";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     NSLog(@"%@:- viewDidLoad", [self class]);
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
     NSLog(@"%@:- viewDidAppear", [self class]);
     
     // Set up context
@@ -51,35 +47,30 @@ static NSString* const kRRCModelName = @"mushroom";
     glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
     
-    // Load model
+    // Load
     [self loadOpenglesModel];
-    
-    // Create effect
-    [self createEffect];
-    
-    // Set matrices
-    [self setMatrices];
+    [self loadEffect];
+    [self loadMatrices];
 }
 
-#pragma mark - Model
+#pragma mark - Load
 - (void)loadOpenglesModel
 {
-    RRCColladaParser* parser = [[RRCColladaParser alloc] initWithXML:[NSString stringWithFormat:@"Models/%@", kRRCModelName]];
-    if([parser didParseXML])
+    RRCColladaParser* colladaParser = [[RRCColladaParser alloc] initWithXML:@"Models/mushroom"];
+    
+    if([colladaParser didParseXML])
     {
-        NSLog(@"%@:- Successfully parsed XML", [self class]);
-        self.openglesModel = [[RRCOpenglesModel alloc] initWithCollada:parser.collada];
+        NSLog(@"Successfully parsed XML");
+        
+        self.openglesModel = [[RRCOpenglesModel alloc] initWithCollada:colladaParser.collada];
         if([self.openglesModel didConvertCollada])
-            NSLog(@"%@:- Successfully converted COLLADA", [self class]);
-        else
-            [NSException raise:@"Error converting COLLADA" format:nil];
+        {
+            NSLog(@"Successfully converted COLLADA");
+        }
     }
-    else
-        [NSException raise:@"Error parsing XML" format:nil];
 }
 
-#pragma mark - Effect
-- (void)createEffect
+- (void)loadEffect
 {
     // Initialize
     self.effect = [[GLKBaseEffect alloc] init];
@@ -87,7 +78,6 @@ static NSString* const kRRCModelName = @"mushroom";
     // Light
     self.effect.light0.enabled = GL_TRUE;
     self.effect.light0.position = GLKVector4Make(10.0, 10.0, 5.0, 1.0);
-    self.effect.lightingType = GLKLightingTypePerPixel;
     
     // Material
     self.effect.material.diffuseColor = GLKVector4Make(0.8, 0.8, 0.8, 1.0);
@@ -95,18 +85,14 @@ static NSString* const kRRCModelName = @"mushroom";
     
     // Texture
     NSDictionary* options = @{GLKTextureLoaderOriginBottomLeft: @YES};
-    NSError* error;
-    NSString* path = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"Models/%@", kRRCModelName] ofType:@".png"];
-    GLKTextureInfo* texture = [GLKTextureLoader textureWithContentsOfFile:path options:options error:&error];
-    if(!texture)
-        NSLog(@"%@:- Error loading texture: %@", [self class], [error localizedDescription]);
+    UIImage* image = [UIImage imageNamed:@"Models/mushroom"];
+    GLKTextureInfo* texture = [GLKTextureLoader textureWithCGImage:image.CGImage options:options error:nil];
     
     self.effect.texture2d0.name = texture.name;
-    self.effect.texture2d0.enabled = true;
+    self.effect.texture2d0.enabled = GL_TRUE;
 }
 
-#pragma mark - Matrices
-- (void)setMatrices
+- (void)loadMatrices
 {
     // Projection matrix
     GLfloat aspectRatio = self.view.bounds.size.width/self.view.bounds.size.height;
@@ -132,27 +118,18 @@ static NSString* const kRRCModelName = @"mushroom";
     [self.effect prepareToDraw];
     
     // Positions
-    if(self.openglesModel.positions)
-    {
-        glEnableVertexAttribArray(GLKVertexAttribPosition);
-        glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 0, self.openglesModel.positions);
-    }
+    glEnableVertexAttribArray(GLKVertexAttribPosition);
+    glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 0, self.openglesModel.positions);
     
     // Normals
-    if(self.openglesModel.normals)
-    {
-        glEnableVertexAttribArray(GLKVertexAttribNormal);
-        glVertexAttribPointer(GLKVertexAttribNormal, 3, GL_FLOAT, GL_FALSE, 0, self.openglesModel.normals);
-    }
+    glEnableVertexAttribArray(GLKVertexAttribNormal);
+    glVertexAttribPointer(GLKVertexAttribNormal, 3, GL_FLOAT, GL_FALSE, 0, self.openglesModel.normals);
     
     // Texels
-    if(self.openglesModel.texels)
-    {
-        glEnableVertexAttribArray(GLKVertexAttribTexCoord0);
-        glVertexAttribPointer(GLKVertexAttribTexCoord0, 2, GL_FLOAT, GL_FALSE, 0, self.openglesModel.texels);
-    }
+    glEnableVertexAttribArray(GLKVertexAttribTexCoord0);
+    glVertexAttribPointer(GLKVertexAttribTexCoord0, 2, GL_FLOAT, GL_FALSE, 0, self.openglesModel.texels);
     
-    // Draw Model
+    // Draw model
     glDrawArrays(GL_TRIANGLES, 0, self.openglesModel.count);
 }
 
