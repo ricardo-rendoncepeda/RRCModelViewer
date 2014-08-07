@@ -79,8 +79,9 @@
     self.effect.light0.position = GLKVector4Make(10.0, 10.0, 5.0, 1.0);
     
     // Material
+    self.effect.material.ambientColor = GLKVector4Make(0.2, 0.2, 0.2, 1.0);
     self.effect.material.diffuseColor = GLKVector4Make(0.8, 0.8, 0.8, 1.0);
-    self.effect.material.specularColor = GLKVector4Make(0.2, 0.2, 0.2, 1.0);
+    self.effect.material.specularColor = GLKVector4Make(0.4, 0.4, 0.4, 1.0);
     
     // Texture
     NSDictionary* options = @{GLKTextureLoaderOriginBottomLeft: @YES};

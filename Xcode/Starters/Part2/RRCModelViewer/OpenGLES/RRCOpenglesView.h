@@ -8,6 +8,7 @@
 
 @interface RRCOpenglesView : UIView
 
+- (instancetype)initWithFrame:(CGRect)frame;
 - (void)update;
 
 @end

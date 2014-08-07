@@ -7,21 +7,12 @@
 //
 
 #import "RRCOpenglesModel.h"
-#import "RRCSceneEngine.h"
 
 @interface RRCShader : NSObject
 
 // Program Handle
 @property (assign, nonatomic, readwrite) GLuint program;
 
-// Attribute Handles
-@property (assign, nonatomic, readonly) GLint aPosition;
-
-// Uniform Handles
-@property (assign, nonatomic, readonly) GLint uProjectionMatrix;
-@property (assign, nonatomic, readonly) GLint uModelViewMatrix;
-
 - (instancetype)initWithVertexShader:(NSString*)vsh fragmentShader:(NSString*)fsh;
-- (void)renderModel:(RRCOpenglesModel*)model inScene:(RRCSceneEngine*)scene;
 
 @end

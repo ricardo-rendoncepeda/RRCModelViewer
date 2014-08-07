@@ -17,13 +17,6 @@
     {
         // Program
         _program = [self programWithVertexShader:vsh fragmentShader:fsh];
-        
-        // Attributes
-        _aPosition = glGetAttribLocation(self.program, "aPosition");
-        
-        // Uniforms
-        _uProjectionMatrix = glGetUniformLocation(self.program, "uProjectionMatrix");
-        _uModelViewMatrix = glGetUniformLocation(self.program, "uModelViewMatrix");
     }
     return self;
 }
@@ -45,7 +38,7 @@
     
     GLint linkSuccess;
     glGetProgramiv(programHandle, GL_LINK_STATUS, &linkSuccess);
-    if (linkSuccess == GL_FALSE)
+    if(linkSuccess == GL_FALSE)
     {
         GLchar messages[1024];
         glGetProgramInfoLog(programHandle, sizeof(messages), 0, &messages[0]);
@@ -77,7 +70,7 @@
     
     GLint compileSuccess;
     glGetShaderiv(shaderHandle, GL_COMPILE_STATUS, &compileSuccess);
-    if (compileSuccess == GL_FALSE)
+    if(compileSuccess == GL_FALSE)
     {
         GLchar messages[1024];
         glGetShaderInfoLog(shaderHandle, sizeof(messages), 0, &messages[0]);
@@ -85,26 +78,6 @@
     }
     
     return shaderHandle;
-}
-
-#pragma mark - Render
-- (void)renderModel:(RRCOpenglesModel *)model inScene:(RRCSceneEngine *)scene
-{
-    // Program
-    glUseProgram(self.program);
-    
-    // Projection Matrix
-    glUniformMatrix4fv(self.uProjectionMatrix, 1, 0, scene.projectionMatrix.m);
-    
-    // ModelView Matrix
-    glUniformMatrix4fv(self.uModelViewMatrix, 1, 0, scene.modelViewMatrix.m);
-    
-    // Positions
-    if(model.positions)
-    {
-        glEnableVertexAttribArray(self.aPosition);
-        glVertexAttribPointer(self.aPosition, 3, GL_FLOAT, GL_FALSE, 0, model.positions);
-    }
 }
 
 @end

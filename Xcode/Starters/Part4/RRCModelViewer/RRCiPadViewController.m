@@ -125,8 +125,14 @@
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
+    // Lines
+    [self.shaderLines renderModel:self.openglesModel inScene:self.sceneEngine];
+    
+    // Points
+    [self.shaderPoints renderModel:self.openglesModel inScene:self.sceneEngine];
+    
     // Blinn-Phong
-    [self.shaderBlinnPhong renderModel:self.openglesModel inScene:self.sceneEngine withTexture:YES xRay:NO];
+    [self.shaderBlinnPhong renderModel:self.openglesModel inScene:self.sceneEngine withTexture:YES xRay:YES];
     
     // Graphics view
     [self.openglesView update];

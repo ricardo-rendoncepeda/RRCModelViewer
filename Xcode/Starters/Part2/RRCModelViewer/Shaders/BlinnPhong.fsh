@@ -19,9 +19,9 @@ void main(void)
     vec3 eye = vec3(0.0, 0.0, 1.0);
     vec3 halfway = normalize(light+eye);
     
-    vec3 ambient = vec3(0.2);
-    vec3 diffuse = vec3(0.7);
-    vec3 specular = vec3(0.1);
+    vec3 ambient = vec3(0.2, 0.2, 0.2);
+    vec3 diffuse = vec3(0.8, 0.8, 0.8);
+    vec3 specular = vec3(0.4, 0.4, 0.4);
     float exponent = 128.0;
     
     float df = max(0.0, dot(normal, light));
