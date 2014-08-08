@@ -1,5 +1,5 @@
 //
-//  RRCShader.h
+//  RRCOpenglesShader.h
 //  RRCModelViewer
 //
 //  Created by RRC on 1/25/14.
@@ -8,7 +8,7 @@
 
 #import "RRCOpenglesModel.h"
 
-@interface RRCShader : NSObject
+@interface RRCOpenglesShader : NSObject
 
 // Program Handle
 @property (assign, nonatomic, readwrite) GLuint program;

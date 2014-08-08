@@ -12,10 +12,7 @@
 
 @interface RRCiPhoneViewController ()
 
-// Model
 @property (strong, nonatomic, readwrite) RRCOpenglesModel* openglesModel;
-
-// Effect
 @property (strong, nonatomic, readwrite) GLKBaseEffect* effect;
 
 @end
@@ -34,26 +31,31 @@
     [super viewDidAppear:animated];
     NSLog(@"%@:- viewDidAppear", [self class]);
     
+    // Load
+    [self loadGlkitView];
+    [self loadOpenglesModel];
+    [self loadGlkitEffect];
+    [self loadGlkitTexture];
+    [self loadSceneMatrices];
+}
+
+#pragma mark - Load
+- (void)loadGlkitView
+{
     // Set up context
     EAGLContext* context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
     [EAGLContext setCurrentContext:context];
     
     // Set up view
-    GLKView* glkView = (GLKView*)self.view;
-    glkView.context = context;
+    GLKView* glkitView = (GLKView*)self.view;
+    glkitView.context = context;
     
     // OpenGL ES settings
-    glClearColor(92.0/255.0, 171.0/255.0, 46.0/255.0, 1.0);
+    glClearColor(0.36, 0.67, 0.18, 1.0);
     glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
-    
-    // Load
-    [self loadOpenglesModel];
-    [self loadEffect];
-    [self loadMatrices];
 }
 
-#pragma mark - Load
 - (void)loadOpenglesModel
 {
     RRCColladaParser* colladaParser = [[RRCColladaParser alloc] initWithXML:@"Models/mushroom"];
@@ -69,30 +71,32 @@
     }
 }
 
-- (void)loadEffect
+- (void)loadGlkitEffect
 {
     // Initialize
     self.effect = [[GLKBaseEffect alloc] init];
     
     // Light
-    self.effect.light0.enabled = GL_TRUE;
+    self.effect.light0.enabled = YES;
     self.effect.light0.position = GLKVector4Make(10.0, 10.0, 5.0, 1.0);
     
     // Material
     self.effect.material.ambientColor = GLKVector4Make(0.2, 0.2, 0.2, 1.0);
     self.effect.material.diffuseColor = GLKVector4Make(0.8, 0.8, 0.8, 1.0);
     self.effect.material.specularColor = GLKVector4Make(0.4, 0.4, 0.4, 1.0);
-    
-    // Texture
+}
+
+- (void)loadGlkitTexture
+{
     NSDictionary* options = @{GLKTextureLoaderOriginBottomLeft: @YES};
     UIImage* image = [UIImage imageNamed:@"Models/mushroom"];
     GLKTextureInfo* texture = [GLKTextureLoader textureWithCGImage:image.CGImage options:options error:nil];
     
+    self.effect.texture2d0.enabled = YES;
     self.effect.texture2d0.name = texture.name;
-    self.effect.texture2d0.enabled = GL_TRUE;
 }
 
-- (void)loadMatrices
+- (void)loadSceneMatrices
 {
     // Projection matrix
     GLfloat aspectRatio = self.view.bounds.size.width/self.view.bounds.size.height;
@@ -112,6 +116,7 @@
 #pragma mark - Render
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
 {
+    // Clear view
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     // Prepare effect

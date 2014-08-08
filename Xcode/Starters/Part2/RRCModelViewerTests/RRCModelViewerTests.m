@@ -28,12 +28,6 @@
     [super tearDown];
 }
 
-- (void)testCourse
-{
-    // "Hello, World!"
-    NSLog(@"Hello, World!");
-}
-
 - (void)testModel
 {
     RRCColladaParser* colladaParser = [[RRCColladaParser alloc] initWithXML:@"Models/mushroom"];
@@ -49,6 +43,12 @@
             [openglesModel logOpenGLES];
         }
     }
+}
+
+- (void)testCourse
+{
+    // "Hello, World!"
+    NSLog(@"Hello, World!");
 }
 
 @end

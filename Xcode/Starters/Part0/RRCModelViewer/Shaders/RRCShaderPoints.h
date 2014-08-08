@@ -6,10 +6,10 @@
 //  Copyright (c) 2014 RendonCepeda. All rights reserved.
 //
 
-#import "RRCShader.h"
+#import "RRCOpenglesShader.h"
 #import "RRCSceneEngine.h"
 
-@interface RRCShaderPoints : RRCShader
+@interface RRCShaderPoints : RRCOpenglesShader
 
 // Attribute Handles
 @property (assign, nonatomic, readonly) GLint aPosition;

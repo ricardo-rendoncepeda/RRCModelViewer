@@ -1,14 +1,14 @@
 //
-//  RRCShader.m
+//  RRCOpenglesShader.m
 //  RRCModelViewer
 //
 //  Created by RRC on 1/25/14.
 //  Copyright (c) 2014 RendonCepeda. All rights reserved.
 //
 
-#import "RRCShader.h"
+#import "RRCOpenglesShader.h"
 
-@implementation RRCShader
+@implementation RRCOpenglesShader
 
 #pragma mark - init
 - (instancetype)initWithVertexShader:(NSString*)vsh fragmentShader:(NSString*)fsh

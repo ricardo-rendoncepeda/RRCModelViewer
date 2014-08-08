@@ -26,7 +26,7 @@
     GLKVector3  _vectorRight;
     GLKVector3  _vectorUp;
     GLKVector3  _vectorFront;
-
+    
     // Depth
     float       _depth;
 }
@@ -95,9 +95,9 @@
     self.endScale = s*self.beginScale;
 }
 
-- (void)translate:(GLKVector2)t withMultiplier:(float)m
+- (void)translate:(GLKVector2)t
 {
-    t = GLKVector2MultiplyScalar(t, m);
+    t = GLKVector2MultiplyScalar(t, _depth);
     float dx = self.endTranslation.x + (t.x-self.beginTranslation.x);
     float dy = self.endTranslation.y + (t.y-self.beginTranslation.y);
     
@@ -105,16 +105,18 @@
     self.endTranslation = GLKVector2Make(dx, dy);
 }
 
-- (void)rotate:(GLKVector3)r withMultiplier:(float)m
+- (void)rotate:(GLKVector3)r
 {
-    m = GLKMathDegreesToRadians(m);
     float dx = r.x - self.beginRotation.x;
     float dy = r.y - self.beginRotation.y;
     float dz = r.z - self.beginRotation.z;
     
+    dx = GLKMathDegreesToRadians(dx*0.50);
+    dy = GLKMathDegreesToRadians(dy*0.50);
+    
     self.beginRotation = GLKVector3Make(r.x, r.y, r.z);
-    self.endRotation = GLKQuaternionMultiply(GLKQuaternionMakeWithAngleAndVector3Axis(dx*m, _vectorUp), self.endRotation);
-    self.endRotation = GLKQuaternionMultiply(GLKQuaternionMakeWithAngleAndVector3Axis(dy*m, _vectorRight), self.endRotation);
+    self.endRotation = GLKQuaternionMultiply(GLKQuaternionMakeWithAngleAndVector3Axis(dx, _vectorUp), self.endRotation);
+    self.endRotation = GLKQuaternionMultiply(GLKQuaternionMakeWithAngleAndVector3Axis(dy, _vectorRight), self.endRotation);
     self.endRotation = GLKQuaternionMultiply(GLKQuaternionMakeWithAngleAndVector3Axis(-dz, _vectorFront), self.endRotation);
 }
 

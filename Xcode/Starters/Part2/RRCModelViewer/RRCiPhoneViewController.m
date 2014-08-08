@@ -12,10 +12,7 @@
 
 @interface RRCiPhoneViewController ()
 
-// Model
 @property (strong, nonatomic, readwrite) RRCOpenglesModel* openglesModel;
-
-// Effect
 @property (strong, nonatomic, readwrite) GLKBaseEffect* effect;
 
 @end
@@ -35,23 +32,44 @@
     NSLog(@"%@:- viewDidAppear", [self class]);
     
     // Load
+    [self loadGlkitView];
     [self loadOpenglesModel];
-    [self loadEffect];
-    [self loadMatrices];
+    [self loadGlkitEffect];
+    [self loadGlkitTexture];
+    [self loadSceneMatrices];
 }
 
 #pragma mark - Load
-- (void)loadOpenglesModel
+- (void)loadGlkitView
 {
 }
 
-- (void)loadEffect
+- (void)loadOpenglesModel
+{
+    RRCColladaParser* colladaParser = [[RRCColladaParser alloc] initWithXML:@"Models/mushroom"];
+    if([colladaParser didParseXML])
+    {
+        NSLog(@"Model parsed!");
+        
+        self.openglesModel = [[RRCOpenglesModel alloc] initWithCollada:colladaParser.collada];
+        if([self.openglesModel didConvertCollada])
+        {
+            NSLog(@"Model converted!");
+        }
+    }
+}
+
+- (void)loadGlkitEffect
 {
     // Initialize
     self.effect = [[GLKBaseEffect alloc] init];
 }
 
-- (void)loadMatrices
+- (void)loadGlkitTexture
+{
+}
+
+- (void)loadSceneMatrices
 {
     // Projection matrix
     GLfloat aspectRatio = self.view.bounds.size.width/self.view.bounds.size.height;
@@ -71,6 +89,8 @@
 #pragma mark - Render
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
 {
+    // Clear view
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 @end

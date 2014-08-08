@@ -90,8 +90,8 @@
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="984" translatesAutoresizingMaskIntoConstraints="NO" id="p7y-M8-lZg">
-                                <rect key="frame" x="20" y="40" width="984" height="50"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="em1-0Q-Hic">
+                                <rect key="frame" x="383" y="20" width="257" height="43"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
@@ -105,12 +105,12 @@
                             <outletCollection property="gestureRecognizers" destination="kKl-Om-2oR" appends="YES" id="s6u-ma-8nd"/>
                             <outletCollection property="gestureRecognizers" destination="IoF-Ub-MYc" appends="YES" id="1Mz-yb-2Am"/>
                             <outletCollection property="gestureRecognizers" destination="0QB-Jg-HnN" appends="YES" id="JGV-gg-6BK"/>
-                            <outletCollection property="gestureRecognizers" destination="a4v-dC-sUR" appends="YES" id="fJC-IV-bmP"/>
+                            <outletCollection property="gestureRecognizers" destination="iUn-q9-zFS" appends="YES" id="Jh5-YE-4YH"/>
                         </connections>
                     </view>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <connections>
-                        <outlet property="labelHeader" destination="p7y-M8-lZg" id="vxu-Zq-bjE"/>
+                        <outlet property="labelHeader" destination="em1-0Q-Hic" id="Wm9-JK-dpc"/>
                         <outlet property="switchLines" destination="fqH-vq-e84" id="4Nh-tL-A7G"/>
                         <outlet property="switchPoints" destination="IpM-12-Myw" id="ulA-NT-Kzs"/>
                         <outlet property="switchTexture" destination="ELU-gH-dVn" id="d1m-X6-m7y"/>
@@ -136,9 +136,9 @@
                         <outlet property="delegate" destination="ezH-qT-zAh" id="61G-BH-EdO"/>
                     </connections>
                 </panGestureRecognizer>
-                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.99999999999999989" id="a4v-dC-sUR">
+                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="1" id="iUn-q9-zFS">
                     <connections>
-                        <action selector="longPress:" destination="ezH-qT-zAh" id="tEW-eJ-OCT"/>
+                        <action selector="longPress:" destination="ezH-qT-zAh" id="TxO-wE-ZBY"/>
                     </connections>
                 </pongPressGestureRecognizer>
             </objects>

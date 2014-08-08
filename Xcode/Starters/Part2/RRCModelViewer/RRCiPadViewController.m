@@ -10,6 +10,7 @@
 #import "RRCOpenglesView.h"
 #import "RRCColladaParser.h"
 #import "RRCOpenglesModel.h"
+#import "RRCOpenglesTexture.h"
 #import "RRCShaderLines.h"
 #import "RRCShaderPoints.h"
 #import "RRCShaderBlinnPhong.h"
@@ -17,22 +18,15 @@
 
 @interface RRCiPadViewController () <UIGestureRecognizerDelegate>
 
-// View
 @property (strong, nonatomic, readwrite) RRCOpenglesView* openglesView;
-
-// Model
 @property (strong, nonatomic, readwrite) RRCOpenglesModel* openglesModel;
-@property (assign, nonatomic, readwrite) GLuint texture;
-
-// Shaders
+@property (strong, nonatomic, readwrite) RRCOpenglesTexture* openglesTexture;
 @property (strong, nonatomic, readwrite) RRCShaderLines* shaderLines;
 @property (strong, nonatomic, readwrite) RRCShaderPoints* shaderPoints;
 @property (strong, nonatomic, readwrite) RRCShaderBlinnPhong* shaderBlinnPhong;
-
-// Scene
 @property (strong, nonatomic, readwrite) RRCSceneEngine* sceneEngine;
 
-// UI
+#pragma mark - IBOutlets
 @property (weak, nonatomic) IBOutlet UISwitch* switchTexture;
 @property (weak, nonatomic) IBOutlet UISwitch* switchXRay;
 @property (weak, nonatomic) IBOutlet UISwitch* switchLines;
@@ -57,38 +51,76 @@
     // Load
     [self loadOpenglesView];
     [self loadOpenglesModel];
-    [self loadShaders];
-    [self loadTexture];
+    [self loadOpenglesShaders];
+    [self loadOpenglesTexture];
     [self loadSceneEngine];
 }
 
 #pragma mark - Load
 - (void)loadOpenglesView
 {
+    self.openglesView = [[RRCOpenglesView alloc] initWithFrame:CGRectMake(0, 0, 1024, 768)];
+    [self.view insertSubview:self.openglesView atIndex:0];
+    
+    CADisplayLink* displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(updateWithDisplayLink:)];
+    [displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
 }
 
 - (void)loadOpenglesModel
 {
+    RRCColladaParser* colladaParser = [[RRCColladaParser alloc] initWithXML:@"Models/mushroom"];
+    if([colladaParser didParseXML])
+    {
+        NSLog(@"Model parsed!");
+        
+        self.openglesModel = [[RRCOpenglesModel alloc] initWithCollada:colladaParser.collada];
+        if([self.openglesModel didConvertCollada])
+        {
+            NSLog(@"Model converted!");
+        }
+    }
 }
 
-- (void)loadShaders
+- (void)loadOpenglesShaders
 {
     self.shaderBlinnPhong = [[RRCShaderBlinnPhong alloc] init];
     self.shaderLines = [[RRCShaderLines alloc] init];
     self.shaderPoints = [[RRCShaderPoints alloc] init];
 }
 
-- (void)loadTexture
+- (void)loadOpenglesTexture
 {
+    self.openglesTexture = [[RRCOpenglesTexture alloc] initWithName:@"Models/mushroom"];
 }
 
 - (void)loadSceneEngine
 {
+    self.sceneEngine = [[RRCSceneEngine alloc] initWithFOV:90.0
+                                                    aspect:(self.view.bounds.size.width/self.view.bounds.size.height)
+                                                      near:0.1
+                                                       far:10.0
+                                                     scale:1.0
+                                                  position:GLKVector2Make(0.0, -2.0)
+                                               orientation:GLKVector3Make(90.0, 160.0, 0.0)];
 }
 
 #pragma mark - Render
 - (void)updateWithDisplayLink:(CADisplayLink*)displayLink
 {
+    // Clear view
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    
+    // Blinn-Phong
+    //[self.shaderBlinnPhong renderModel:self.openglesModel inScene:self.sceneEngine withTexture:YES xRay:NO];
+    
+    // Lines
+    //[self.shaderLines renderModel:self.openglesModel inScene:self.sceneEngine];
+    
+    // Points
+    //[self.shaderPoints renderModel:self.openglesModel inScene:self.sceneEngine];
+    
+    // Update view
+    //[self.openglesView update];
 }
 
 #pragma mark - IBActions

@@ -10,6 +10,7 @@
 #import "RRCOpenglesView.h"
 #import "RRCColladaParser.h"
 #import "RRCOpenglesModel.h"
+#import "RRCOpenglesTexture.h"
 #import "RRCShaderLines.h"
 #import "RRCShaderPoints.h"
 #import "RRCShaderBlinnPhong.h"
@@ -17,27 +18,21 @@
 
 @interface RRCiPadViewController () <UIGestureRecognizerDelegate>
 
-// View
 @property (strong, nonatomic, readwrite) RRCOpenglesView* openglesView;
-
-// Model
 @property (strong, nonatomic, readwrite) RRCOpenglesModel* openglesModel;
-@property (assign, nonatomic, readwrite) GLuint texture;
-
-// Shaders
+@property (strong, nonatomic, readwrite) RRCOpenglesTexture* openglesTexture;
 @property (strong, nonatomic, readwrite) RRCShaderLines* shaderLines;
 @property (strong, nonatomic, readwrite) RRCShaderPoints* shaderPoints;
 @property (strong, nonatomic, readwrite) RRCShaderBlinnPhong* shaderBlinnPhong;
-
-// Scene
 @property (strong, nonatomic, readwrite) RRCSceneEngine* sceneEngine;
 
-// UI
+#pragma mark - IBOutlets
 @property (weak, nonatomic) IBOutlet UISwitch* switchTexture;
 @property (weak, nonatomic) IBOutlet UISwitch* switchXRay;
 @property (weak, nonatomic) IBOutlet UISwitch* switchLines;
 @property (weak, nonatomic) IBOutlet UISwitch* switchPoints;
 @property (weak, nonatomic) IBOutlet UILabel* labelHeader;
+
 
 @end
 
@@ -56,20 +51,20 @@
     NSLog(@"%@:- viewDidAppear", [self class]);
     
     // UI
-    self.labelHeader.text = @"Ricardo Rendon Cepeda\nSIGGRAPH 2014";
+    self.labelHeader.text = @"Mushroom";
     
     // Load
     [self loadOpenglesView];
     [self loadOpenglesModel];
-    [self loadShaders];
-    [self loadTexture];
+    [self loadOpenglesShaders];
+    [self loadOpenglesTexture];
     [self loadSceneEngine];
 }
 
 #pragma mark - Load
 - (void)loadOpenglesView
 {
-    self.openglesView = [[RRCOpenglesView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.view.frame.size.height, self.view.frame.size.width)];
+    self.openglesView = [[RRCOpenglesView alloc] initWithFrame:CGRectMake(0, 0, 1024, 768)];
     [self.view insertSubview:self.openglesView atIndex:0];
     
     CADisplayLink* displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(updateWithDisplayLink:)];
@@ -91,26 +86,16 @@
     }
 }
 
-- (void)loadShaders
+- (void)loadOpenglesShaders
 {
     self.shaderBlinnPhong = [[RRCShaderBlinnPhong alloc] init];
     self.shaderLines = [[RRCShaderLines alloc] init];
     self.shaderPoints = [[RRCShaderPoints alloc] init];
 }
 
-- (void)loadTexture
+- (void)loadOpenglesTexture
 {
-    UIImage* textureImage = [UIImage imageNamed:@"Models/mushroom"];
-    CGImageRef textureCGImage = textureImage.CGImage;
-    CFDataRef textureData = CGDataProviderCopyData(CGImageGetDataProvider(textureCGImage));
-    
-    glGenTextures(1, &_texture);
-    glBindTexture(GL_TEXTURE_2D, _texture);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, CGImageGetWidth(textureCGImage), CGImageGetHeight(textureCGImage), 0, GL_RGBA, GL_UNSIGNED_BYTE, CFDataGetBytePtr(textureData));
-    
-    CFRelease(textureData);
+    self.openglesTexture = [[RRCOpenglesTexture alloc] initWithName:@"Models/mushroom"];
 }
 
 - (void)loadSceneEngine
@@ -127,20 +112,25 @@
 #pragma mark - Render
 - (void)updateWithDisplayLink:(CADisplayLink*)displayLink
 {
+    // Clear view
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    
-    // Lines
-    if(self.switchLines.on)
-        [self.shaderLines renderModel:self.openglesModel inScene:self.sceneEngine];
-    
-    // Points
-    if(self.switchPoints.on)
-        [self.shaderPoints renderModel:self.openglesModel inScene:self.sceneEngine];
     
     // Blinn-Phong
     [self.shaderBlinnPhong renderModel:self.openglesModel inScene:self.sceneEngine withTexture:self.switchTexture.on xRay:self.switchXRay.on];
     
-    // Graphics view
+    // Lines
+    if(self.switchLines.on)
+    {
+        [self.shaderLines renderModel:self.openglesModel inScene:self.sceneEngine];
+    }
+    
+    // Points
+    if(self.switchPoints.on)
+    {
+        [self.shaderPoints renderModel:self.openglesModel inScene:self.sceneEngine];
+    }
+    
+    // Update view
     [self.openglesView update];
 }
 
@@ -153,30 +143,28 @@
 
 - (IBAction)pinch:(UIPinchGestureRecognizer *)sender
 {
-    float scale = [sender scale];
-    [self.sceneEngine scale:scale];
+    [self.sceneEngine scale:sender.scale];
 }
 
 - (IBAction)pan:(UIPanGestureRecognizer *)sender
 {
     if(sender.numberOfTouches == 1)
     {
-        CGPoint rotation = [sender translationInView:sender.view];
-        [self.sceneEngine rotate:GLKVector3Make(rotation.x, rotation.y, 0.0) withMultiplier:0.5];
+        CGPoint translation = [sender translationInView:sender.view];
+        [self.sceneEngine rotate:GLKVector3Make(translation.x, translation.y, 0.0)];
     }
     else if(sender.numberOfTouches == 2)
     {
         CGPoint translation = [sender translationInView:sender.view];
         float x = translation.x/sender.view.frame.size.width;
         float y = translation.y/sender.view.frame.size.height;
-        [self.sceneEngine translate:GLKVector2Make(x, -y) withMultiplier:4.0];
+        [self.sceneEngine translate:GLKVector2Make(x, -y)];
     }
 }
 
 - (IBAction)rotation:(UIRotationGestureRecognizer *)sender
 {
-    float rotation = [sender rotation];
-    [self.sceneEngine rotate:GLKVector3Make(0.0, 0.0, rotation) withMultiplier:1.0];
+    [self.sceneEngine rotate:GLKVector3Make(0.0, 0.0, sender.rotation)];
 }
 
 - (IBAction)longPress:(UILongPressGestureRecognizer *)sender
@@ -185,14 +173,7 @@
     self.switchXRay.on = NO;
     self.switchLines.on = NO;
     self.switchPoints.on = NO;
-    
-    self.sceneEngine = [[RRCSceneEngine alloc] initWithFOV:90.00
-                                                    aspect:(self.view.bounds.size.width/self.view.bounds.size.height)
-                                                      near:0.10
-                                                       far:10.00
-                                                     scale:1.00
-                                                  position:GLKVector2Make(0.00, -2.00)
-                                               orientation:GLKVector3Make(90.00, 160.00, 0.00)];
+    [self loadSceneEngine];
 }
 
 @end

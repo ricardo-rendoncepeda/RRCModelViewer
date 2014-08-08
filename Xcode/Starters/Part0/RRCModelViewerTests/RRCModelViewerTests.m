@@ -7,6 +7,8 @@
 //
 
 #import <XCTest/XCTest.h>
+#import "RRCColladaParser.h"
+#import "RRCOpenglesModel.h"
 
 @interface RRCModelViewerTests : XCTestCase
 
@@ -26,11 +28,22 @@
     [super tearDown];
 }
 
-- (void)testCourse
+- (void)testModel
 {
+    RRCColladaParser* colladaParser = [[RRCColladaParser alloc] initWithXML:@"Models/mushroom"];
+    if([colladaParser didParseXML])
+    {
+        // Log details here...
+        
+        RRCOpenglesModel* openglesModel = [[RRCOpenglesModel alloc] initWithCollada:colladaParser.collada];
+        if([openglesModel didConvertCollada])
+        {
+            // Log details here...
+        }
+    }
 }
 
-- (void)testModel
+- (void)testCourse
 {
 }
 

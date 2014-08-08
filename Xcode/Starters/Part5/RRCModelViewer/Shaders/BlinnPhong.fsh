@@ -12,7 +12,7 @@ uniform sampler2D uTexture;
 uniform bool uSwitchTexture;
 uniform bool uSwitchXRay;
 
-void main(void)
+vec4 calculateSurface(void)
 {
     vec3 normal = normalize(vNormal);
     vec3 light = vec3(1.0, 1.0, 0.5);
@@ -28,16 +28,21 @@ void main(void)
     float sf = max(0.0, dot(normal, halfway));
     sf = pow(sf, exponent);
     
-    vec3 surface = ambient + (df*diffuse) + (sf*specular);
-    vec3 texture = vec3(texture2D(uTexture, vTexel));
+    vec3 shading = ambient + (df*diffuse) + (sf*specular);
     
-    vec3 color = surface;
+    return vec4(shading, 1.0);
+}
+
+void main(void)
+{
+    vec4 surface = calculateSurface();
+    vec4 texture = texture2D(uTexture, vTexel);
+    
+    vec4 color = surface;
     if(uSwitchTexture)
         color *= texture;
-    
-    float alpha = 1.0;
     if(uSwitchXRay)
-        alpha = 0.5;
+        color.a = 0.5;
     
-    gl_FragColor = vec4(color, alpha);
+    gl_FragColor = color;
 }
